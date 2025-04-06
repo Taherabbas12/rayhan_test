@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.cupertino,
       theme: ThemeData(
         useMaterial3: true,
-        textTheme: GoogleFonts.notoKufiArabicTextTheme(),
+        textTheme: GoogleFonts.cairoTextTheme(),
         // textTheme: GoogleFonts.readexProTextTheme(),
         fontFamily: 'Noto Kufi Arabic',
         scaffoldBackgroundColor: ColorApp.backgroundColor,
@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
 
         return MediaQuery(
           data: mediaQuery.copyWith(
-            textScaler: TextScaler.linear(textScaleFactor.clamp(1, 1)),
+            textScaler: TextScaler.linear(textScaleFactor.clamp(0.8, 0.9)),
           ),
           child: Directionality(
             textDirection: TextDirection.rtl,

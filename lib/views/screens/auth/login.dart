@@ -45,15 +45,19 @@ class Login extends StatelessWidget {
                           style: StringStyle.headLineStyle,
                         ),
                       ),
+                      SizedBox(height: Values.spacerV * .4),
+
                       Center(
                         child: Text(
                           'العديد من الخدمات والمنتجات بخصومات كبيرة في إنتظارك.',
                           textAlign: TextAlign.center,
-                          style: StringStyle.textTitle,
+                          style: StringStyle.textTitle.copyWith(
+                            color: ColorApp.textSecondryColor,
+                          ),
                         ),
                       ),
                       SizedBox(height: Values.spacerV * 2),
-                      Text('رقم الهاتف', style: StringStyle.textTitle),
+                      Text('رقم الهاتف', style: StringStyle.headerStyle),
                       SizedBox(height: Values.circle),
                       Form(
                         key: authController.formKeyLogin,
@@ -65,7 +69,7 @@ class Login extends StatelessWidget {
                             ),
 
                             borderRadius: BorderRadius.circular(
-                              Values.circle * 0.5,
+                              Values.circle * 0.6,
                             ),
                           ),
                           child: Row(
@@ -106,6 +110,7 @@ class Login extends StatelessWidget {
                               ),
                               SizedBox(
                                 width: 120,
+
                                 child: CountryCodePicker(
                                   mode: CountryCodePickerMode.bottomSheet,
                                   onChanged: (country) {
@@ -217,7 +222,7 @@ class Login extends StatelessWidget {
                               padding: EdgeInsets.only(top: Values.circle),
                               child: RichText(
                                 text: TextSpan(
-                                  text: 'من خلال إنشاء حساب, فإنك توافق على ',
+                                  text: 'من خلال إنشاء حساب , فإنك توافق على ',
                                   style: StringStyle.textLabil,
                                   children: [
                                     TextSpan(
@@ -250,8 +255,8 @@ class Login extends StatelessWidget {
                 ),
               ),
 
-              Divider(thickness: 1, color: ColorApp.borderColor),
-              SizedBox(height: Values.spacerV * 1),
+              Divider(thickness: .5, color: ColorApp.borderColor),
+              SizedBox(height: Values.spacerV * .5),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: Values.spacerV),
                 child: Obx(

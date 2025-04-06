@@ -229,7 +229,7 @@ void showImagePicker({
         ],
         cancelButton: CupertinoActionSheetAction(
           isDefaultAction: true,
-          onPressed: () => Get.backLegacy(),
+          onPressed: () => Get.back(),
           child: const Text("إلغاء"),
         ),
       );

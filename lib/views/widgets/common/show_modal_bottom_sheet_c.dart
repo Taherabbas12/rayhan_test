@@ -25,7 +25,7 @@ class ShowModalBottomSheetC {
                     (item) => CupertinoActionSheetAction(
                       onPressed: () {
                         onTap(item.toString());
-                        Get.backLegacy();
+                        Get.back();
                       },
                       child: Text(
                         item.toString(),
@@ -68,7 +68,7 @@ class ShowModalBottomSheetC {
                   h: 40,
                   color: ColorApp.backgroundColorContent,
                   "إلغاء",
-                  () => Get.backLegacy(),
+                  () => Get.back(),
                 ),
               ),
             ),
