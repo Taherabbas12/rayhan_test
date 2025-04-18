@@ -8,5 +8,5 @@ class ApiConstants {
   static const String customer = 'customer';
   // Mart
   static const String tbCatagorys = 'TbCatagorys';
-  
+  static const String shopMainCategories = 'ShopMainCategories';
 }

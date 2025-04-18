@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../utils/constants/color_app.dart';
+import '../../utils/constants/values_constant.dart';
 
 String calculateTimeDifference(String storedDateString) {
   try {
@@ -100,25 +102,25 @@ String getFormattedDateProdect(String value) {
   return formattedDate;
 }
 
-// Widget imageCached(String urlImage, {double? circle}) {
-//   return ClipRRect(
-//     borderRadius: BorderRadius.circular(circle ?? Values.circle),
-//     child:
-//         urlImage.isNotEmpty
-//             ? CachedNetworkImage(
-//               imageUrl: urlImage,
-//               fit: BoxFit.cover,
-//               progressIndicatorBuilder:
-//                   (context, url, downloadProgress) => Center(
-//                     child: CircularProgressIndicator(
-//                       value: downloadProgress.progress,
-//                     ),
-//                   ),
-//               errorWidget: (context, url, error) => const Icon(Icons.error),
-//             )
-//             : const SizedBox(child: Text('لا يوجد صورة ')),
-//   );
-// }
+Widget imageCached(String urlImage, {double? circle}) {
+  return ClipRRect(
+    borderRadius: BorderRadius.circular(circle ?? Values.circle),
+    child:
+        urlImage.isNotEmpty
+            ? CachedNetworkImage(
+              imageUrl: urlImage,
+              fit: BoxFit.cover,
+              progressIndicatorBuilder:
+                  (context, url, downloadProgress) => Center(
+                    child: CircularProgressIndicator(
+                      value: downloadProgress.progress,
+                    ),
+                  ),
+              errorWidget: (context, url, error) => const Icon(Icons.error),
+            )
+            : const SizedBox(child: Text('لا يوجد صورة ')),
+  );
+}
 
 String calculateDaysRemainingWithText(String targetDate) {
   DateTime now = DateTime.now(); // الحصول على التاريخ والوقت الحالي

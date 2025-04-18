@@ -18,7 +18,7 @@ class StringStyle {
   static TextStyle textLabil = TextStyle(
     fontSize: (16 * fontSize),
     fontWeight: FontWeight.bold,
-    color: ColorApp.textSecondryColor,
+    color: ColorApp.blackColor,
   );
   static TextStyle textTitle = TextStyle(
     fontSize: (18 * fontSize),

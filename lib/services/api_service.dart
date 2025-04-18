@@ -16,8 +16,8 @@ class ApiService {
         'Accept': 'application/json',
         // if (StorageController.checkLoginStatus())
         //   'Authorization': 'Bearer ${StorageController.getToken()}',
-        'Authorization':
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21lZGlhcmVnaXN0cmF0aW9uLmFsa2FmZWVsLm5ldC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTczOTkwMTc5NSwiZXhwIjozNjMyMDYxNzk1LCJuYmYiOjE3Mzk5MDE3OTUsImp0aSI6IlRQbEdjd3ZJaWxvR2pwa1MiLCJzdWIiOiI3NTMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.hDp7JOpFbp02whySb2uOdn1pFbM5MooP9pxHYIELwz8',
+        // 'Authorization':
+        //     'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL21lZGlhcmVnaXN0cmF0aW9uLmFsa2FmZWVsLm5ldC9hcGkvYXV0aC9sb2dpbiIsImlhdCI6MTczOTkwMTc5NSwiZXhwIjozNjMyMDYxNzk1LCJuYmYiOjE3Mzk5MDE3OTUsImp0aSI6IlRQbEdjd3ZJaWxvR2pwa1MiLCJzdWIiOiI3NTMiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.hDp7JOpFbp02whySb2uOdn1pFbM5MooP9pxHYIELwz8',
         // 'Content-Type': 'multipart/form-data',
         'Content-Type': 'application/json',
       },
@@ -37,7 +37,7 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data); // إرجاع البيانات كـ Map
       }
-      return StateReturnData(2, response.data as Map<String, dynamic>);
+      return StateReturnData(2, response.data);
     } catch (e) {
       logger.i('Error in Post request: $e');
       return StateReturnData(3, {}); // إرجاع خريطة فارغة في حال الخطأ
@@ -54,7 +54,7 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data);
       }
-      return StateReturnData(3, response.data as Map<String, dynamic>);
+      return StateReturnData(3, response.data);
     } catch (e) {
       if (e is DioException) {
         logger.i('DioError: ${e.response?.data}');
@@ -76,7 +76,7 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data); // إرجاع البيانات كـ Map
       }
-      return StateReturnData(2, response.data as Map<String, dynamic>);
+      return StateReturnData(2, response.data);
     } catch (e) {
       logger.i('Error in Update request: $e');
       return StateReturnData(3, {}); // إرجاع خريطة فارغة في حال الخطأ
@@ -90,7 +90,7 @@ class ApiService {
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data); // إرجاع البيانات كـ Map
       }
-      return StateReturnData(2, response.data as Map<String, dynamic>);
+      return StateReturnData(2, response.data);
     } catch (e) {
       logger.i('Error in DELETE request: $e');
       return StateReturnData(3, {}); // إرجاع خريطة فارغة في حال الخطأ
@@ -100,6 +100,6 @@ class ApiService {
 
 class StateReturnData {
   int isStateSucess;
-  Map<String, dynamic> data;
+  dynamic data;
   StateReturnData(this.isStateSucess, this.data);
 }

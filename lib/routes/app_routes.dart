@@ -2,26 +2,17 @@ import 'package:get/get.dart';
 
 import '../bindings/auth_binding.dart';
 
+import '../bindings/restaurant_category_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
-import '../views/screens/auth/re_password.dart';
+import '../views/screens/restaurants/resturants_screen.dart';
 
 class AppRoutes {
   static const login = '/login';
   static const register = '/Register';
   static const otp = '/otp';
-  static const rePassword = '/rePassword';
-  static const home = '/home';
-  static const badgeScreen = '/badge-screen';
-  static const visitProfile = '/Visit-Profile-Screen';
-  static const myProfile = '/My-Profile-Screen';
-  static const shakwa = '/Shakwa';
-  static const contact = '/Contact';
-  static const galleryScreen = '/Gallery-screen';
-  static const imageScreenSelect = '/Select-Images-screen';
-  static const videosScreen = '/Videos-screen';
-  static const videoScreenSelect = '/Select-video-screen';
-  static const postsScreen = '/Posts-screen';
+  static const resturantsScreen = '/Resturants-Screen';
+  static const home = '/Home-Screen';
 
   static final routes = [
     GetPage(name: login, page: () => Login(), binding: LoginBinding()),
@@ -32,7 +23,10 @@ class AppRoutes {
     //   page: () => RePassword(),
     //   binding: LoginBinding(),
     // ),
-
-    //
+    GetPage(
+      name: resturantsScreen,
+      page: () => ResturantsScreen(),
+      binding: RestaurantCategoryBinding(),
+    ),
   ];
 }

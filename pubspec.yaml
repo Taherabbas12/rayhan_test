@@ -44,7 +44,7 @@ dependencies:
   intl:
   flutter_svg:
   country_code_picker_plus: ^0.1.0+1
-
+  cached_network_image: ^3.4.1
 
 dev_dependencies:
   flutter_test:
