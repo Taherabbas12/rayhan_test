@@ -9,6 +9,7 @@ import '../utils/constants/values_constant.dart';
 
 class ShopController extends GetxController {
   RxBool isLoading = false.obs;
+  RxBool isGridView = true.obs;
   RxBool isLoadingProduct = false.obs;
   RxBool isLoadingStart = true.obs;
   RxList<Product> productsShop = RxList([]);

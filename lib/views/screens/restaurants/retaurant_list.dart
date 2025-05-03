@@ -99,108 +99,102 @@ class RetaurantList extends StatelessWidget {
   }
 
   Widget viewRetaurant(Restaurant restaurant) {
-    return InkWell(
-      onTap: () => restaurantController.selectRestorent(restaurant),
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: Values.circle),
-        padding: EdgeInsets.only(bottom: Values.circle),
-        decoration: BoxDecoration(
-          boxShadow: ShadowValues.shadowValuesBlur,
-          color: ColorApp.backgroundColor,
-          borderRadius: BorderRadius.circular(Values.circle),
-          border: Border.all(color: ColorApp.borderColor), // إطار أبيض
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Stack(
-              clipBehavior:
-                  Clip.none, // يسمح بخروج الصورة الصغيرة عن حدود Stack
-              children: [
-                SizedBox(
-                  height: 170,
-                  width: double.infinity, // لو حابب تمتد بعرض الشاشة
-                  child: imageCached(restaurant.cover, top: true),
-                ),
-                Positioned(
-                  bottom: -30, // ينزل الصورة 30 بكسل خارج الصورة الرئيسية
-                  left: 10, // مسافة من اليسار
-                  child: Container(
-                    width: 70,
-                    height: 70,
-                    padding: EdgeInsets.all(Values.circle),
-                    decoration: BoxDecoration(
-                      color: ColorApp.backgroundColor,
-                      borderRadius: BorderRadius.circular(Values.circle),
-                      border: Border.all(
-                        color: ColorApp.borderColor,
-                      ), // إطار أبيض
-                    ),
-                    child: imageCached(restaurant.logo, top: true),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: Values.circle),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: Values.circle),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+    return Padding(
+      padding: EdgeInsets.symmetric(vertical: Values.circle),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(Values.circle),
+
+        onTap: () => restaurantController.selectRestorent(restaurant),
+        child: Container(
+          margin: EdgeInsets.all(1),
+          padding: EdgeInsets.only(bottom: Values.circle),
+          decoration: BoxDecoration(
+            boxShadow: ShadowValues.shadowValuesBlur,
+            color: ColorApp.backgroundColor,
+            borderRadius: BorderRadius.circular(Values.circle),
+            border: Border.all(color: ColorApp.borderColor), // إطار أبيض
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Stack(
+                clipBehavior:
+                    Clip.none, // يسمح بخروج الصورة الصغيرة عن حدود Stack
                 children: [
-                  Text(
-                    restaurant.name,
-                    style: StringStyle.headerStyle,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
+                  SizedBox(
+                    height: 170,
+                    width: double.infinity, // لو حابب تمتد بعرض الشاشة
+                    child: imageCached(restaurant.cover, top: true),
                   ),
-                  SizedBox(height: Values.circle * .5),
-                  Text(
-                    restaurant.subName,
-                    style: StringStyle.textTable.copyWith(
-                      color: ColorApp.textSecondryColor,
-                    ),
-                  ),
-                  SizedBox(height: Values.circle),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                    children: [
-                      if (restaurant.starAvg > 0)
-                        viewE(
-                          CupertinoIcons.star_fill,
-                          restaurant.starAvg.toString(),
-                        ),
-                      if (restaurant.discount > 0)
-                        viewE(
-                          FontAwesomeIcons.percent,
-                          'خصم ${restaurant.discount} %',
-                        ),
-                      if (restaurant.freeDelivery)
-                        viewE(FontAwesomeIcons.carRear, 'توصيل مجاني'),
-                      viewE(
-                        Icons.store_mall_directory_rounded,
-                        'حتى ${restaurant.closeTime}',
+                  Positioned(
+                    bottom: -30, // ينزل الصورة 30 بكسل خارج الصورة الرئيسية
+                    left: 10, // مسافة من اليسار
+                    child: Container(
+                      width: 70,
+                      height: 70,
+                      padding: EdgeInsets.all(Values.circle),
+                      decoration: BoxDecoration(
+                        color: ColorApp.backgroundColor,
+                        borderRadius: BorderRadius.circular(Values.circle),
+                        border: Border.all(
+                          color: ColorApp.borderColor,
+                        ), // إطار أبيض
                       ),
-                    ],
+                      child: imageCached(restaurant.logo, top: true),
+                    ),
                   ),
                 ],
               ),
-            ),
-          ],
+              SizedBox(height: Values.circle),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: Values.circle),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      restaurant.name,
+                      style: StringStyle.headerStyle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    SizedBox(height: Values.circle * .5),
+                    Text(
+                      restaurant.subName,
+                      style: StringStyle.textTable.copyWith(
+                        color: ColorApp.textSecondryColor,
+                      ),
+                    ),
+                    SizedBox(height: Values.circle),
+
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                      children: [
+                        if (restaurant.starAvg > 0)
+                          viewE(
+                            CupertinoIcons.star_fill,
+                            restaurant.starAvg.toString(),
+                          ),
+                        if (restaurant.discount > 0)
+                          viewE(
+                            FontAwesomeIcons.percent,
+                            'خصم ${restaurant.discount} %',
+                          ),
+                        if (restaurant.freeDelivery)
+                          viewE(FontAwesomeIcons.carRear, 'توصيل مجاني'),
+                        viewE(
+                          Icons.store_mall_directory_rounded,
+                          'حتى ${restaurant.closeTime}',
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
-    );
-  }
-
-  Widget viewE(IconData icon, String value) {
-    return Row(
-      children: [
-        Icon(icon, color: ColorApp.primaryColor, size: 17),
-        SizedBox(width: Values.circle * .5),
-        Text(value, style: StringStyle.textLabilBold),
-        SizedBox(width: Values.circle * .5),
-      ],
     );
   }
 
@@ -252,4 +246,15 @@ class RetaurantList extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget viewE(IconData icon, String value) {
+  return Row(
+    children: [
+      Icon(icon, color: ColorApp.primaryColor, size: 17),
+      SizedBox(width: Values.circle * .5),
+      Text(value, style: StringStyle.textLabilBold),
+      SizedBox(width: Values.circle * .5),
+    ],
+  );
 }

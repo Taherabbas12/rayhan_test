@@ -160,6 +160,7 @@ class BottonsC {
     void Function()? onPressed, {
     Color color = ColorApp.primaryColor,
     double size = 30,
+    double circle = 4,
     Key? key,
     EdgeInsets? padding,
   }) {
@@ -170,7 +171,7 @@ class BottonsC {
       margin: padding ?? EdgeInsets.symmetric(horizontal: Values.circle * 0.2),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(Values.circle * 0.4),
+        borderRadius: BorderRadius.circular(circle),
       ),
       child: IconButton(
         padding: const EdgeInsets.all(0),
@@ -230,8 +231,8 @@ class BottonsC {
   }) {
     return Container(
       key: key,
-      width: (size + 6),
-      height: (size + 6),
+      width: (size + 20),
+      height: (size + 20),
       // margin: EdgeInsets.symmetric(horizontal: Values.circle * 0.2),
       alignment: Alignment.center,
       decoration: BoxDecoration(
@@ -242,7 +243,7 @@ class BottonsC {
       child: IconButton(
         padding: const EdgeInsets.all(0),
         onPressed: onPressed,
-        icon: Icon(icon, size: (size), color: color),
+        icon: Icon(icon, size: size, color: color),
         tooltip: name,
         color: ColorApp.whiteColor,
       ),

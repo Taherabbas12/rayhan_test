@@ -108,14 +108,16 @@ Widget imageCached(
   double? circle,
   bool top = false,
   bool down = false,
+  bool left = false,
+  bool right = false,
   BoxFit boxFit = BoxFit.cover,
 }) {
   return ClipRRect(
     borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(top ? circle ?? Values.circle : 0),
-      topRight: Radius.circular(top ? circle ?? Values.circle : 0),
-      bottomLeft: Radius.circular(down ? circle ?? Values.circle : 0),
-      bottomRight: Radius.circular(down ? circle ?? Values.circle : 0),
+      topLeft: Radius.circular(top || left ? circle ?? Values.circle : 0),
+      topRight: Radius.circular(top || right ? circle ?? Values.circle : 0),
+      bottomLeft: Radius.circular(down || left ? circle ?? Values.circle : 0),
+      bottomRight: Radius.circular(down || right ? circle ?? Values.circle : 0),
     ),
     child:
         urlImage.isNotEmpty

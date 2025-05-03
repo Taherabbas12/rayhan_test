@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
@@ -12,7 +14,9 @@ import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
 import '../../../widgets/more_widgets.dart';
+import '../retaurant_list.dart';
 import 'product_widget_grid.dart';
+import 'product_widget_horizontal.dart';
 import 'view_shop_categorey.dart';
 
 class ShopScreen extends StatelessWidget {
@@ -31,17 +35,14 @@ class ShopScreen extends StatelessWidget {
           SliverAppBar(
             expandedHeight: 250,
             pinned: true,
-            leading: Padding(
-              padding: const EdgeInsets.only(left: 10),
-              child: Center(
-                child: BottonsC.actionIconWithOutColor(
-                  size: 25,
-                  circle: 50,
-                  Icons.arrow_back,
-                  'رجوع',
-                  color: const Color.fromARGB(255, 7, 44, 30),
-                  Get.back,
-                ),
+            leading: Center(
+              child: BottonsC.actionIconWithOutColor(
+                size: 30,
+                circle: 50,
+                Icons.arrow_back_rounded,
+                'رجوع',
+                color: ColorApp.primaryColor,
+                Get.back,
               ),
             ),
             flexibleSpace: LayoutBuilder(
@@ -56,16 +57,6 @@ class ShopScreen extends StatelessWidget {
                   clipBehavior: Clip.none,
                   children: [
                     FlexibleSpaceBar(
-                      titlePadding: EdgeInsets.only(left: 56, bottom: 16),
-                      title: Text(
-                        restaurant.name,
-                        style: TextStyle(
-                          color: Colors.black.withAlpha(
-                            percent < 0.3 ? 250 : 0,
-                          ),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
                       background: imageCached(restaurant.cover, top: true),
                     ),
 
@@ -76,62 +67,89 @@ class ShopScreen extends StatelessWidget {
                       bottom: -55,
                       left: 16,
                       right: 16,
-                      child: Opacity(
-                        opacity: 1,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ColorApp.backgroundColor,
-                            borderRadius: BorderRadius.circular(Values.circle),
-                            border: Border.all(
-                              color: ColorApp.borderColor,
-                              width: .5,
-                            ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: ColorApp.backgroundColor,
+                          borderRadius: BorderRadius.circular(Values.circle),
+                          border: Border.all(
+                            color: ColorApp.borderColor,
+                            width: .5,
                           ),
+                        ),
 
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Row(
-                              children: [
-                                Container(
-                                  width: 80,
-                                  height: 80,
-                                  padding: EdgeInsets.all(Values.circle),
-                                  decoration: BoxDecoration(
-                                    color: ColorApp.backgroundColor,
-                                    borderRadius: BorderRadius.circular(
-                                      Values.circle,
+                        child: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                width: 80,
+                                height: 80,
+                                padding: EdgeInsets.all(Values.circle),
+                                decoration: BoxDecoration(
+                                  color: ColorApp.backgroundColor,
+                                  borderRadius: BorderRadius.circular(
+                                    Values.circle,
+                                  ),
+                                  border: Border.all(
+                                    color: ColorApp.borderColor,
+                                  ),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black12,
+                                      blurRadius: 8,
+                                      offset: Offset(0, 2),
                                     ),
-                                    border: Border.all(
-                                      color: ColorApp.borderColor,
+                                  ],
+                                ),
+                                child: imageCached(restaurant.logo, top: true),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      restaurant.name,
+                                      style: StringStyle.titleApp,
                                     ),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Colors.black12,
-                                        blurRadius: 8,
-                                        offset: Offset(0, 2),
-                                      ),
-                                    ],
-                                  ),
-                                  child: imageCached(
-                                    restaurant.logo,
-                                    top: true,
-                                  ),
+                                    Text(
+                                      restaurant.subName,
+                                      style: StringStyle.textLabilBold,
+                                    ),
+                                    SizedBox(height: Values.circle),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+
+                                      children: [
+                                        if (restaurant.starAvg > 0)
+                                          viewE(
+                                            CupertinoIcons.star_fill,
+                                            restaurant.starAvg.toString(),
+                                          ),
+                                        if (restaurant.discount > 0)
+                                          viewE(
+                                            FontAwesomeIcons.percent,
+                                            'خصم ${restaurant.discount} %',
+                                          ),
+                                        if (restaurant.freeDelivery)
+                                          viewE(
+                                            FontAwesomeIcons.carRear,
+                                            'توصيل مجاني',
+                                          ),
+                                        viewE(
+                                          Icons.store_mall_directory_rounded,
+                                          'حتى ${restaurant.closeTime}',
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 12),
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.stretch,
-                                    children: [
-                                      Text(
-                                        restaurant.name,
-                                        style: StringStyle.titleApp,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -174,21 +192,34 @@ class ShopScreen extends StatelessWidget {
                                 )
                                 : OrientationBuilder(
                                   builder: (context, orientation) {
-                                    return MasonryGridView.count(
-                                      crossAxisCount:
-                                          shopController.countView().value,
+                                    return Obx(
+                                      () => MasonryGridView.count(
+                                        crossAxisCount:
+                                            shopController.isGridView.value
+                                                ? shopController
+                                                    .countView()
+                                                    .value
+                                                : 1,
 
-                                      crossAxisSpacing: 10,
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemBuilder:
-                                          (context, index) => ProductWidgetGrid(
-                                            product:
-                                                shopController
-                                                    .productsShop[index],
-                                          ),
-                                      itemCount:
-                                          shopController.productsShop.length,
+                                        crossAxisSpacing: 10,
+                                        shrinkWrap: true,
+                                        physics: NeverScrollableScrollPhysics(),
+                                        itemBuilder:
+                                            (context, index) =>
+                                                shopController.isGridView.value
+                                                    ? ProductWidgetGrid(
+                                                      product:
+                                                          shopController
+                                                              .productsShop[index],
+                                                    )
+                                                    : ProductWidgetHorizontal(
+                                                      product:
+                                                          shopController
+                                                              .productsShop[index],
+                                                    ),
+                                        itemCount:
+                                            shopController.productsShop.length,
+                                      ),
                                     );
                                   },
                                 ),
