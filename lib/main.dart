@@ -85,7 +85,7 @@ class MyApp extends StatelessWidget {
       // initialRoute: StorageController.checkLoginStatus()
       //     ? AppRoutes.home
       //     : AppRoutes.login,
-      initialRoute: AppRoutes.resturantsScreen,
+      initialRoute: AppRoutes.home,
       getPages: AppRoutes.routes,
     );
   }

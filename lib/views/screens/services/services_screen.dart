@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:rayhan_test/utils/constants/style_app.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:get/get.dart';
 
+import '../../../controllers/services_controller.dart';
 import '../../../utils/constants/color_app.dart';
+import 'product_widget_services.dart';
 import 'view_services_categores.dart';
 
 class ServicesScreen extends StatelessWidget {
-  const ServicesScreen({super.key});
-
+  ServicesScreen({super.key});
+  ServicesController servicesController = Get.find<ServicesController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,7 +19,31 @@ class ServicesScreen extends StatelessWidget {
         elevation: 0,
         title: Text('الخدمات'),
       ),
-      body: ListView(children: [ViewListCategores()]),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          ViewListCategores(),
+          Expanded(
+            child: OrientationBuilder(
+              builder: (context, orientation) {
+                return Obx(
+                  () => MasonryGridView.count(
+                    crossAxisCount: servicesController.countView().value,
+
+                    crossAxisSpacing: 10,
+
+                    itemCount: servicesController.products.length,
+                    itemBuilder:
+                        (context, index) => ProductWidgetServices(
+                          product: servicesController.products[index],
+                        ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

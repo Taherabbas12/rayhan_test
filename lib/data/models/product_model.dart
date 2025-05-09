@@ -11,15 +11,15 @@ class Product {
   final String shopType;
 
   Product({
-    required this.id,
-    required this.name,
-    required this.descc,
-    required this.active,
-    required this.count,
-    required this.image,
-    required this.price1,
-    required this.price2,
-    required this.shopType,
+    this.id = 0,
+    this.name = '',
+    this.descc = '',
+    this.active = true,
+    this.count = '',
+    this.image = '',
+    this.price1 = 0,
+    this.price2 = 0,
+    this.shopType = '',
   });
 
   // https://rayhan.shop/api/Shop/$shopId
@@ -27,15 +27,15 @@ class Product {
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      name: json['name'],
-      descc: json['descc'],
-      active: json['active'],
-      count: json['count'],
-      image: json['image'],
-      price1: json['price1'].toDouble(),
-      price2: json['price2'] != null ? json['price2'].toDouble() : 0.0,
-      shopType: json['shopType'],
+      id: json['id'] ?? 0,
+      name: json['name'] ?? '',
+      descc: json['descc'] ?? '',
+      active: json['active'] ?? false,
+      count: json['count'] ?? '0',
+      image: json['image'] ?? '',
+      price1: (json['price1'] ?? 0).toDouble(),
+      price2: (json['price2'] ?? 0).toDouble(),
+      shopType: json['shopType'] ?? '',
     );
   }
 

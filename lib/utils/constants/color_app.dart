@@ -15,7 +15,7 @@ class ColorApp {
   static const borderColor = Color.fromARGB(255, 211, 211, 211);
   static const hintColor = Color.fromARGB(255, 238, 238, 238);
   static const headerColor = Color(0xffF9F9F9);
-  static const iconColor = Color(0xffDAB214);
+  static const iconHomeColor = Color.fromARGB(255, 255, 250, 245);
   static const stapperColor = Color(0xff578ba6);
   static const contactColor = Color(0xffe3edf4);
   //

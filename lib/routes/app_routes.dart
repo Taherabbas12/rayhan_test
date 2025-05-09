@@ -2,11 +2,13 @@ import 'package:get/get.dart';
 
 import '../bindings/auth_binding.dart';
 
+import '../bindings/home_binding.dart';
 import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
+import '../views/screens/home/home_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/shop/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
@@ -24,11 +26,8 @@ class AppRoutes {
     GetPage(name: login, page: () => Login(), binding: LoginBinding()),
     // GetPage(name: register, page: () => Register(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
-    GetPage(
-      name: shopScreen,
-      page: () => ShopScreen(),
-      binding: ShopBinding(),
-    ),
+    GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
+    GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),
     // GetPage(
     //   name: rePassword,
     //   page: () => RePassword(),

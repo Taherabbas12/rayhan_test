@@ -39,9 +39,8 @@ class RestaurantController extends GetxController {
     selectFilterOption(filter);
     if (selectCategories.value == null) {
       await fetchRestaurant();
-    }else {
-
-    await fetchRestaurant(categoryId: selectCategories.value!.id);
+    } else {
+      await fetchRestaurant(categoryId: selectCategories.value!.id);
     }
   }
 
@@ -142,7 +141,12 @@ class RestaurantController extends GetxController {
         );
         restaurantCategories.clear();
         restaurantCategories.add(
-          Category(image: 'https://iili.io/3hzRl7s.png', id: 0, name: "الكل"),
+          Category(
+            image: 'https://iili.io/3hzRl7s.png',
+            id: 0,
+            name: "الكل",
+            type: '',
+          ),
         );
         restaurantCategories.addAll(newRestaurantCategory);
         selectCategories(restaurantCategories[0]);
