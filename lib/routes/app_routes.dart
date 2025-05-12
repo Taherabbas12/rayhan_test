@@ -23,7 +23,7 @@ class AppRoutes {
   static const shopScreen = '/Shop-Screen';
 
   static final routes = [
-    GetPage(name: login, page: () => Login(), binding: LoginBinding()),
+    // GetPage(name: login, page: () => Login(), binding: LoginBinding()),
     // GetPage(name: register, page: () => Register(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
@@ -45,3 +45,25 @@ class AppRoutes {
     ),
   ];
 }
+
+// Get banners 
+// https://rayhan.shop/api/TbShows
+
+// Get categories
+// https://rayhan.shop/api/TbCatagorys
+
+// Product search 
+// Post https://rayhan.shop/api/Search
+// Body : {“name”: value}
+
+// Get subCategories 
+// Post https://rayhan.shop/api/Subcategories/category
+// query: {"id": catehoryId}
+
+
+// Get products has discount as category and subcategory 
+// https://rayhan.shop/api/TbProducts/FilterByCategoryAndSubHaveDiscount?page=$page&pageSize=$pageSize&category=$category&subCategory=$sub
+
+
+// Get all products as category and subcategory
+// https://rayhan.shop/api/TbProducts/FilterByCategoryAndSub?page=$page&pageSize=$pageSize&category=$category&subCategory=$sub
