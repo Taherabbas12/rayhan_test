@@ -6,10 +6,11 @@ class ApiConstants {
   static const String register = 'register';
   static const String updateProfile = 'customer/update';
   static const String customer = 'customer';
-  // Mart
-  static const String tbCatagorys = 'TbCatagorys';
-  // Resturents (Shop)
+  // Market
+  static const String marketCatagorys = 'TbCatagorys';
+  static const String marketShowBanners = 'TbShows';
 
+  // Resturents (Shop)
   static const String shopMainCategories = 'ShopMainCategories';
   static String shopCategories(int id) =>
       'ShopCategory/ShopCategoriesFilter?shopId=$id';

@@ -19,6 +19,14 @@ class Category {
       type: json['type'] ?? '',
     );
   }
+  factory Category.fromJson2(Map<String, dynamic> json) {
+    return Category(
+      id: json['id'],
+      name: json['name'],
+      image: json['img'],
+      type: json['type'] ?? '',
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {'id': id, 'name': name, 'image': image, 'type': type};
@@ -26,5 +34,9 @@ class Category {
 
   static List<Category> fromJsonList(List<dynamic> jsonList) {
     return jsonList.map((json) => Category.fromJson(json)).toList();
+  }
+
+  static List<Category> fromJsonList2(List<dynamic> jsonList) {
+    return jsonList.map((json) => Category.fromJson2(json)).toList();
   }
 }

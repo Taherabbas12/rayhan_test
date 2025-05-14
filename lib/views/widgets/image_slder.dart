@@ -4,11 +4,12 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import '../../data/models/slider_image_model.dart';
 import '../../utils/constants/color_app.dart';
+import '../../utils/constants/values_constant.dart';
 
 class ImageSlider extends StatelessWidget {
   final List<SliderImageModel> imageList;
 
-  ImageSlider({Key? key, required this.imageList}) : super(key: key) {
+  ImageSlider({super.key, required this.imageList}) {
     Get.put(SliderController());
   }
 
@@ -21,7 +22,7 @@ class ImageSlider extends StatelessWidget {
         CarouselSlider(
           carouselController: controller.carouselController,
           options: CarouselOptions(
-            height: 137,
+            height: Values.width * .4,
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 0.9,

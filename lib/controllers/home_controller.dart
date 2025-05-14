@@ -6,7 +6,7 @@ import '../utils/constants/images_url.dart';
 class HomeController extends GetxController {
   List<WidgetHome> widgetHomes = [
     WidgetHome('الطعام', ImagesUrl.imageResturant, AppRoutes.resturantsScreen),
-    WidgetHome('الماركت', ImagesUrl.imageMarket, AppRoutes.resturantsScreen),
+    WidgetHome('الماركت', ImagesUrl.imageMarket, AppRoutes.marketScreen),
     WidgetHome('المتاجر', ImagesUrl.imageMatajer, AppRoutes.resturantsScreen),
     WidgetHome('الخدمات', ImagesUrl.imageServices, AppRoutes.servicesScreen),
   ];
