@@ -31,8 +31,35 @@ class MarketList extends StatelessWidget {
         SizedBox(height: Values.spacerV),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Values.spacerV * 1.5),
+          child: Text('الشركات', style: StringStyle.titleApp),
+        ),
+        SizedBox(height: Values.spacerV),
+        SizedBox(
+          height: 145,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemBuilder:
+                (context, index) =>
+                    index == 0
+                        ? SizedBox(width: 10)
+                        : SizedBox(
+                          width: 100,
+                          height: 100,
+                          child: viewCategory(
+                            marketController.marketCategories[index - 1],
+                            marketController,
+                          ),
+                        ),
+            itemCount: marketController.marketCategories.length + 1,
+          ),
+        ),
+        SizedBox(height: Values.spacerV * .2),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: Values.spacerV * 1.5),
           child: Text('الاقسام', style: StringStyle.titleApp),
         ),
+        SizedBox(height: Values.spacerV),
+
         Expanded(child: MarketListCategores()),
 
         SizedBox(height: Values.spacerV),

@@ -24,26 +24,6 @@ class MarketController extends GetxController {
 
   //Filter
 
-  static List<FilterOption> filterOptions = [
-    FilterOption(label: 'الكل'),
-    FilterOption(label: 'توصيل مجاني'),
-    // FilterOption(label: 'خصم'),
-    FilterOption(label: 'مفتوح'),
-  ];
-  Rx<FilterOption> selectFilterOption = Rx(filterOptions[0]);
-  void selectFilter(FilterOption filter) async {
-    for (var element in filterOptions) {
-      element.isSelect = false;
-    }
-    filter.isSelect = true;
-    selectFilterOption(filter);
-    if (selectCategories.value == null) {
-      await fetchRestaurant();
-    } else {
-      await fetchRestaurant(categoryId: selectCategories.value!.id);
-    }
-  }
-
   RxBool isLoading = false.obs;
   RxBool isLoadingStart = true.obs;
   RxBool isLoadingRestaurant = true.obs;
@@ -142,7 +122,7 @@ class MarketController extends GetxController {
         marketCategories.clear();
         marketCategories.add(
           Category(
-            image: 'https://i.imgur.com/0Jo8UAh.png',
+            image: 'https://iili.io/3gQmEEN.png',
             id: 0,
             name: "العروض",
             type: '',
@@ -164,11 +144,7 @@ class MarketController extends GetxController {
 
     try {
       final StateReturnData response = await ApiService.postData(
-        ApiConstants.resturens(
-          pageRestaurant,
-          freeDelevry: filterOptions[1].isSelect,
-          categoryId: categoryId,
-        ),
+        ApiConstants.resturens(pageRestaurant, categoryId: categoryId),
         {},
       );
       if (response.isStateSucess < 3) {
