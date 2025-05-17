@@ -2,7 +2,7 @@ class ImagesUrl {
   //SVG
   static const baseAssetSvg = 'assets/svg/';
   static const baseAssetPNG = 'assets/images/';
-  static const logoSVG = '${baseAssetSvg}logo_alame.svg';
+  static const logoPNG = '${baseAssetPNG}logo.png';
 
   // PNG
   static const imageHome = '${baseAssetPNG}image_home.png';

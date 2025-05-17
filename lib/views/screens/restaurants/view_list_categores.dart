@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../controllers/restaurant_controller.dart';
-import '../../../data/models/restaurant_category.dart';
+import '../../../data/models/category.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/more_widgets.dart';

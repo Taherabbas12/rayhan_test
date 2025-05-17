@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
 
 import '../data/models/restaurant.dart';
-import '../data/models/restaurant_category.dart';
+import '../data/models/category.dart';
 import '../data/models/slider_image_model.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';

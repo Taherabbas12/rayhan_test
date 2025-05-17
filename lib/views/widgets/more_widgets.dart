@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../utils/constants/color_app.dart';
+import '../../utils/constants/images_url.dart';
 import '../../utils/constants/values_constant.dart';
 
 String calculateTimeDifference(String storedDateString) {
@@ -127,7 +128,14 @@ Widget imageCached(
               progressIndicatorBuilder:
                   (context, url, downloadProgress) =>
                       Center(child: LoadingIndicator()),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+              errorWidget:
+                  (context, url, error) => Center(
+                    child: Image.asset(
+                      ImagesUrl.logoPNG,
+                      width: 80,
+                      height: 80,
+                    ),
+                  ),
             )
             : const SizedBox(child: Text('لا يوجد صورة ')),
   );

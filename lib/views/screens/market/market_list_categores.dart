@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../controllers/market_controller.dart';
-import '../../../data/models/restaurant_category.dart';
+import '../../../data/models/category.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/more_widgets.dart';
 
@@ -28,21 +28,23 @@ class MarketListCategores extends StatelessWidget {
       // decoration: BoxDecoration(color: ColorApp.greenColor),
       child: OrientationBuilder(
         builder: (context, orientation) {
-          return MasonryGridView.count(
-            crossAxisCount: marketController.countView().value,
-            mainAxisSpacing: 10,
+          return Obx(
+            () => MasonryGridView.count(
+              crossAxisCount: marketController.countView().value,
+              mainAxisSpacing: 10,
 
-            physics: PageScrollPhysics(),
-            crossAxisSpacing: 10,
+              physics: PageScrollPhysics(),
 
-            shrinkWrap: true,
+              // crossAxisSpacing: 10,
+              shrinkWrap: true,
 
-            itemBuilder:
-                (context, index) => viewCategory(
-                  marketController.marketCategories[index],
-                  marketController,
-                ),
-            itemCount: marketController.marketCategories.length,
+              itemBuilder:
+                  (context, index) => viewCategory(
+                    marketController.marketCategories[index],
+                    marketController,
+                  ),
+              itemCount: marketController.marketCategories.length,
+            ),
           );
         },
       ),
@@ -50,7 +52,7 @@ class MarketListCategores extends StatelessWidget {
   }
 }
 
-Widget viewCategory(Category category, marketController) {
+Widget viewCategory(Category category, MarketController marketController) {
   return Padding(
     padding: EdgeInsets.all(Values.circle * .2),
     child: InkWell(

@@ -4,12 +4,14 @@ import '../bindings/auth_binding.dart';
 
 import '../bindings/home_binding.dart';
 import '../bindings/market_binding.dart';
+import '../bindings/market_product_binding.dart';
 import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
 import '../views/screens/auth/otp.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
+import '../views/screens/market/view_category_details/category_details_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/shop/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
@@ -23,6 +25,7 @@ class AppRoutes {
   static const home = '/Home-Screen';
   static const shopScreen = '/Shop-Screen';
   static const marketScreen = '/Market-Screen';
+  static const categoryDetailsScreen = '/Category-Details-Screen';
 
   static final routes = [
     // GetPage(name: login, page: () => Login(), binding: LoginBinding()),
@@ -30,6 +33,11 @@ class AppRoutes {
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),
+    GetPage(
+      name: categoryDetailsScreen,
+      page: () => CategoryDetailsScreen(),
+      binding: MarketProductBinding(),
+    ),
     GetPage(
       name: marketScreen,
       page: () => MarketScreen(),

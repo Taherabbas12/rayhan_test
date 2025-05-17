@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
+import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../../controllers/market_controller.dart';
 import '../../../utils/constants/color_app.dart';
@@ -17,8 +18,7 @@ class MarketList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    return ListView(
       children: [
         SizedBox(height: Values.spacerV),
 
@@ -36,21 +36,27 @@ class MarketList extends StatelessWidget {
         SizedBox(height: Values.spacerV),
         SizedBox(
           height: 145,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemBuilder:
-                (context, index) =>
-                    index == 0
-                        ? SizedBox(width: 10)
-                        : SizedBox(
-                          width: 100,
-                          height: 100,
-                          child: viewCategory(
-                            marketController.marketCategories[index - 1],
-                            marketController,
-                          ),
-                        ),
-            itemCount: marketController.marketCategories.length + 1,
+          child: Obx(
+            () =>
+                marketController.isLoading.value
+                    ? LoadingIndicator()
+                    : ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder:
+                          (context, index) =>
+                              index == 0
+                                  ? SizedBox(width: 10)
+                                  : SizedBox(
+                                    width: 100,
+                                    height: 100,
+                                    child: viewCategory(
+                                      marketController.marketCategories[index -
+                                          1],
+                                      marketController,
+                                    ),
+                                  ),
+                      itemCount: marketController.marketCategories.length + 1,
+                    ),
           ),
         ),
         SizedBox(height: Values.spacerV * .2),
@@ -60,7 +66,7 @@ class MarketList extends StatelessWidget {
         ),
         SizedBox(height: Values.spacerV),
 
-        Expanded(child: MarketListCategores()),
+        MarketListCategores(),
 
         SizedBox(height: Values.spacerV),
         // Container(

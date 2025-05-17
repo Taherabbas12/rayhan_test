@@ -8,6 +8,11 @@ class ApiConstants {
   static const String customer = 'customer';
   // Market
   static const String marketCatagorys = 'TbCatagorys';
+  static String marketSubCatagorys(int id) => 'Subcategories/category?id=$id';
+  static String marketProduct(int category, {int subCategory = 0}) =>
+      'TbProducts/FilterByCategoryAndSub?page=1&pageSize=100&category=$category&subCategory=$subCategory';
+  static String marketDiscountProduct(int category, {int subCategory = 0}) =>
+      'TbProducts/FilterByCategoryAndSubHaveDiscount?page=1&pageSize=1000&category=$category&subCategory=$subCategory';
   static const String marketShowBanners = 'TbShows';
 
   // Resturents (Shop)

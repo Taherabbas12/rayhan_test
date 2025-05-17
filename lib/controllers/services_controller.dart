@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/images_url.dart';
 
 import '../data/models/product_model.dart';
-import '../data/models/restaurant_category.dart';
+import '../data/models/category.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
