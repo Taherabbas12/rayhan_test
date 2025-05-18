@@ -14,10 +14,16 @@ class NavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => BottomNavigationBar(
+        elevation: 5,
         items:
             homeController.homeViews.map((view) {
               return BottomNavigationBarItem(
-                icon: svgImage(view.image, color: ColorApp.subColor),
+                icon: svgImage(
+                  view.image,
+                  color: ColorApp.subColor,
+                  hi: 22,
+                  wi: 22,
+                ),
                 label: view.name,
                 activeIcon: svgImage(view.image, color: ColorApp.primaryColor),
               );
