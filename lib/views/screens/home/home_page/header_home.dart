@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-import '../../../utils/constants/color_app.dart';
-import '../../../utils/constants/images_url.dart';
-import '../../../utils/constants/values_constant.dart';
-import '../../widgets/actions_button.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../utils/constants/color_app.dart';
+import '../../../../utils/constants/images_url.dart';
+import '../../../../utils/constants/values_constant.dart';
+import '../../../widgets/actions_button.dart';
 
 class HeaderHome extends StatelessWidget {
   const HeaderHome({super.key});
@@ -40,7 +42,7 @@ class HeaderHome extends StatelessWidget {
                 circle: Values.circle,
                 color: ColorApp.primaryColor,
                 'الاشعارات',
-                () {},
+                () => Get.toNamed(AppRoutes.notificationScreen),
               ),
 
               SizedBox(width: Values.spacerV),

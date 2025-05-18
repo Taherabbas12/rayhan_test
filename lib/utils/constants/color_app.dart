@@ -12,7 +12,7 @@ class ColorApp {
   static const whiteColor = Color(0xffFFFFFF);
   static const blackColor = Color.fromARGB(255, 0, 0, 0);
   static const subColor = Color(0xffb5ada7);
-  static const borderColor = Color.fromARGB(255, 211, 211, 211);
+  static const borderColor = Color(0xffE0E0E0);
   static const hintColor = Color.fromARGB(255, 238, 238, 238);
   static const headerColor = Color(0xffF9F9F9);
   static const iconHomeColor = Color.fromARGB(255, 255, 250, 245);

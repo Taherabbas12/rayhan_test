@@ -16,4 +16,8 @@ class ImagesUrl {
 
   static const photoDiscountIcon = '${baseAssetSvg}Discount.svg';
   static const photoNotificationIcon = '${baseAssetSvg}Notification.svg';
+  static const homeIcon = '${baseAssetSvg}Home.svg';
+  static const paperIcon = '${baseAssetSvg}Paper.svg';
+  static const profileIcon = '${baseAssetSvg}Profile.svg';
+  static const searchIcon = '${baseAssetSvg}Search.svg';
 }

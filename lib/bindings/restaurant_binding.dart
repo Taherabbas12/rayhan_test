@@ -4,9 +4,9 @@ import '../controllers/restaurant_controller.dart';
 class RestaurantBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<RestaurantController>(
-      () => RestaurantController(),
-      fenix: true,
-    );
+    // Get.lazyPut<RestaurantController>(
+    //   () => RestaurantController(),
+    //   fenix: true,
+    // );
   }
 }

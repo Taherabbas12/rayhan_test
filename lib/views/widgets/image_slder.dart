@@ -18,6 +18,7 @@ class ImageSlider extends StatelessWidget {
     final controller = Get.find<SliderController>();
 
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CarouselSlider(
           carouselController: controller.carouselController,
@@ -39,7 +40,7 @@ class ImageSlider extends StatelessWidget {
                   child: Stack(
                     fit: StackFit.expand,
                     children: [
-                      Image.network(model.img, fit: BoxFit.cover),
+                      Image.network(model.img, fit: BoxFit.fitWidth),
                       Container(
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
