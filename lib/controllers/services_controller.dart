@@ -4,6 +4,7 @@ import 'package:rayhan_test/utils/constants/images_url.dart';
 
 import '../data/models/product_model.dart';
 import '../data/models/category.dart';
+import '../routes/app_routes.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
@@ -21,6 +22,15 @@ class ServicesController extends GetxController {
       (Values.width ~/ 200 == 0 ? 2 : (Values.width / 200).round()).obs;
 
   //
+  void selectProduct(Product product) {
+    // Handle product selection
+    if (product.name == 'التكسي') {
+      Get.toNamed(AppRoutes.taxiScreen);
+    } else {
+      Get.toNamed('/product', arguments: product);
+    }
+    logger.e(product.toJson());
+  }
 
   RxList<Category> servicesCategories = RxList([]);
   RxList<Product> products = RxList([]);
@@ -37,11 +47,14 @@ class ServicesController extends GetxController {
 
   void selectSection(Category category) {
     servicesCategorie.value = category;
-    if (category.type == 'taxi') {
+    logger.e(servicesCategorie.value!.toJson());
+    if (category.type == 'taxi' ||
+        servicesCategorie.value!.type == 'all' ||
+        servicesCategorie.value!.type == 'iron') {
       //
       products.clear();
       products.add(Product(name: 'التكسي', image: ImagesUrl.imageTaxi));
-      logger.e(category.toJson());
+      logger.e(servicesCategorie.value!.toJson());
     } else {
       products.clear();
     }
@@ -61,10 +74,43 @@ class ServicesController extends GetxController {
         List<Category> newRestaurantCategory = Category.fromJsonList(
           newVideosJson,
         );
-
+        servicesCategories.clear();
+        servicesCategories.add(
+          Category(id: 0, name: 'الكل', image: '', type: 'all'),
+        );
         servicesCategories.addAll(newRestaurantCategory);
         if (servicesCategories.isNotEmpty) {
-          servicesCategorie.value = servicesCategories[0];
+          selectSection(servicesCategories[0]);
+        }
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
+    }
+    isLoadingStart(false);
+    isLoading.value = false;
+  }
+
+  Future<void> fetchSubCategores() async {
+    isLoading.value = true;
+
+    try {
+      final StateReturnData response = await ApiService.getData(
+        ApiConstants.serviceMainCategory,
+      );
+      logger.e(response.data);
+      if (response.isStateSucess < 3) {
+        List<dynamic> newVideosJson = response.data;
+
+        List<Category> newRestaurantCategory = Category.fromJsonList(
+          newVideosJson,
+        );
+        servicesCategories.clear();
+        servicesCategories.add(
+          Category(id: 0, name: 'الكل', image: '', type: 'all'),
+        );
+        servicesCategories.addAll(newRestaurantCategory);
+        if (servicesCategories.isNotEmpty) {
+          selectSection(servicesCategories[0]);
         }
       }
     } catch (e) {

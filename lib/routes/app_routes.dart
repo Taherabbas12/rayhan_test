@@ -16,6 +16,7 @@ import '../views/screens/notification/notification_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/shop/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
+import '../views/screens/services/taxi/taxi_screen.dart';
 
 class AppRoutes {
   static const login = '/login';
@@ -27,7 +28,8 @@ class AppRoutes {
   static const shopScreen = '/Shop-Screen';
   static const marketScreen = '/Market-Screen';
   static const categoryDetailsScreen = '/Category-Details-Screen';
-  static const notificationScreen = '/NotificationScreen';
+  static const notificationScreen = '/Notification-Screen';
+  static const taxiScreen = '/Taxi-Screen';
 
   static final routes = [
     // GetPage(name: login, page: () => Login(), binding: LoginBinding()),
@@ -36,6 +38,7 @@ class AppRoutes {
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
+    GetPage(name: taxiScreen, page: () => TaxiScreen()),
     GetPage(
       name: categoryDetailsScreen,
       page: () => CategoryDetailsScreen(),

@@ -15,7 +15,7 @@ class ResturantsScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: ColorApp.backgroundColor,
         elevation: 0,
-        title: Text('المطاعم', style: StringStyle.textTitle),
+        title: Text('المطاعم' ),
       ),
       body: ListView(children: [ViewListCategores(), RetaurantList()]),
     );

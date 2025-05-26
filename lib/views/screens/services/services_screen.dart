@@ -1,7 +1,8 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
-
 import '../../../controllers/services_controller.dart';
 import '../../../utils/constants/color_app.dart';
 import 'product_widget_services.dart';
@@ -14,11 +15,7 @@ class ServicesScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorApp.backgroundColor,
-      appBar: AppBar(
-        backgroundColor: ColorApp.backgroundColor,
-        elevation: 0,
-        title: Text('الخدمات'),
-      ),
+      appBar: AppBar(title: Text('الخدمات')),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

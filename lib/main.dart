@@ -90,3 +90,120 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+
+
+
+// Service 
+
+// Method : get 
+// https://rayhan.shop/api/ServiceMainCategory
+// Get main categories like : تكسي ، مكوى غسل .. 
+// ———————————————
+// Create taxi order 
+// Method : post
+// https://rayhan.shop/api/TaxiOrders
+// Body : {
+//   "from": "${addressModel!.buildingNo}|${addressModel!.blockNo}",
+//   "to": toPosition.text,
+//   "status": "new",
+//   "fromLat": value.lat.toString(),
+//   "toLat": '0',
+//   "fromLong": value.lang.toString(),
+//   "toLong": '0',
+//   "userId": value.user!.id.toString(),
+//   "userPhone": value.user!.phone.toString(),
+//   "userNote": "string",
+//   "driverNote": "string",
+//   "publicNote": "string",
+//   "type": "taxi",
+// }
+ 
+// ——————————————
+
+// Method: get
+// https://rayhan.shop/api/ServiceProvider/ByMainCategory?id=categoryId
+// Get service provider details
+
+// ——————————————
+
+// Method: get
+// https://rayhan.shop/api/ServiceSubCategory/ByMainCategory?id=categoryId
+// Get subCategory of main category for service
+
+
+// ——————————————
+// Method: post 
+// https://rayhan.shop/api/ServiceProduct/BySubCategory?pageSize=$pageSize&page=$page&categoryId=$category&userType=customer
+// $category equal subcategory id not category id
+// Get product by sub category 
+
+// ————————————————
+// Create service order with selected product 
+// Method : post
+// https://rayhan.shop/api/ServiceOrder/CreateServiceOrder
+// Header : "content-type": "application/json"
+// Body : 
+// {
+//   "branch": controller.cartsService.first['shop'].id.toString(),
+//   "tax": taxPrice.toString(),
+//   "orderPrice": orderPrice.toString(),
+//   "userId": controller.user!.id.toString(),
+//   "addressId": addressId.toString(),
+//   "totalPrice": totalPrice.toString(),
+//   "deliveryPrice": newDeliveryPrice.toString(),
+//   "mainCategoryId": controller.cartsService.first['shop'].mainCategoryId.toString(),
+//   "orderType": "Found",
+//   "deliveryDays": setDayFormat(deliveryDaySelected.toString()).toString(),
+//   "receiveDays": setDayFormat(receiveDaySelected.toString()).toString(),
+//   // "seenDays": setDayFormat(seenDaySelected.toString()).toString(),
+//   "deliveryTime": formatTimeRange(deliveryTimeSelected!).toString(),
+//   "receiveTimes": formatTimeRange(receiveTimeSelected!).toString(),
+//   "seenTimes": seenTimeSelected == null ? "" : formatTimeRange(seenTimeSelected!).toString(),
+//   "orderNote": orderNote.text,
+
+//   "items": items.map((item) {
+//     return {
+//     "price": item['price'].toString(),
+//     "count": item['count'].toString(),
+//     "productId": item['productId'].toString(),
+//     "note": item['note'].toString(),
+//     };
+//   }).toList()
+// }
+
+
+// ————————————————
+// Create service order with out selected product 
+// Method : post
+// https://rayhan.shop/api/ServiceOrder/CreateServiceOrder
+// Header : "content-type": "application/json"
+// {
+//   "branch": provider.id.toString(),
+//   "tax": taxPrice.toString(),
+//   "orderPrice": orderPrice.toString(),
+//   "userId": controller.user!.id.toString(),
+//   "addressId": addressId.toString(),
+//   "totalPrice": totalPrice.toString(),
+//   "deliveryPrice": newDeliveryPrice.toString(),
+//   "mainCategoryId": provider.mainCategoryId.toString(),
+//   "orderType": "NotFound",
+//   "deliveryDays": "",
+//   "receiveDays": "",
+//   "seenDays": setDayFormat(seenDaySelected.toString()).toString(),
+//   "deliveryTime": "",
+//   "receiveTimes": "",
+//   "seenTimes": formatTimeRange(seenTimeSelected!).toString(),
+//   "orderNote": orderNote.text,
+//   "images": images.map((item) {
+//     return {
+//       "image": item.toString(),
+//     };
+//   }).toList(),
+//   "items": []
+// }
+
+
+// عند انشاء طلب خدمه يجب توفر اوقات و ايام التواجد و الاستلام و تحديد الاسعار 
+// يرجى مراجعه كل من setDaysAndTimes  & setTotalPrice في => getFolder/ServiceCheckOutController
+// لتحديد الاوقات و الايام و السعر

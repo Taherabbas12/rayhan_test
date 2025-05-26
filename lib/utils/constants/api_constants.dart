@@ -31,6 +31,6 @@ class ApiConstants {
     int categoryId = 0,
   }) =>
       'Shop/ForUser?pageSize=10&page=$page&sort=${sort ? 'Ascending' : 'Descending'}&grantThan4Star=$star4&freeDelivery=$freeDelevry&type=restaurant&categoryId=$categoryId';
-
+  // Services
   static const String serviceMainCategory = 'ServiceMainCategory';
 }

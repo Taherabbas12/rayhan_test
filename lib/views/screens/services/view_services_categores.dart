@@ -17,7 +17,12 @@ class ViewListCategores extends StatelessWidget {
     return Container(
       width: Values.width,
       height: 35,
-      margin: EdgeInsets.only(top: Values.circle),
+      margin: EdgeInsets.only(
+        top: Values.circle,
+        left: Values.spacerV,
+
+        right: Values.spacerV,
+      ),
 
       // decoration: BoxDecoration(color: ColorApp.greenColor),
       child: Obx(
