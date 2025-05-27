@@ -4,6 +4,7 @@ import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
+import 'inside_bismayah.dart';
 
 class TaxiScreen extends StatelessWidget {
   const TaxiScreen({super.key});
@@ -25,11 +26,7 @@ class TaxiScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: TabBarView(
-                children: [
-                  buildTaxiContent('داخل بسماية'),
-
-                  buildTaxiContent('خارج بسماية'),
-                ],
+                children: [InsideBismayah(), buildTaxiContent('خارج بسماية')],
               ),
             ),
           ],
@@ -72,25 +69,43 @@ class TaxiScreen extends StatelessWidget {
   }
 
   Widget buildTaxiTabs() {
-    return TabBar(
-
-      indicator:
-      
-      
-       UnderlineTabIndicator(
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(Values.spacerV * 5),
-          topRight: Radius.circular(Values.spacerV * 5),
+    return Stack(
+      clipBehavior: Clip.none,
+      alignment: Alignment.bottomCenter,
+      children: [
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: -1,
+          child: Divider(color: ColorApp.borderColor, height: 0, thickness: 2),
         ),
-        borderSide: BorderSide(width: 4, color: ColorApp.primaryColor),
-      ),
+        TabBar(
+          indicator: UnderlineTabIndicator(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(Values.spacerV * 5),
+              topRight: Radius.circular(Values.spacerV * 5),
+            ),
+            borderSide: BorderSide(width: 4, color: ColorApp.primaryColor),
+          ),
+          dividerColor: ColorApp.borderColor,
+          indicatorSize: TabBarIndicatorSize.tab,
+          indicatorPadding: EdgeInsets.symmetric(
+            horizontal: Values.spacerV * 2,
+          ),
+          labelColor: ColorApp.primaryColor,
+          unselectedLabelColor: Colors.black,
+          indicatorColor: ColorApp.primaryColor,
+          labelStyle: StringStyle.headerStyle,
+          unselectedLabelStyle: StringStyle.headerStyle.copyWith(
+            color: ColorApp.subColor,
+            fontSize: 16,
+          ),
 
-      labelColor: ColorApp.primaryColor,
-      unselectedLabelColor: Colors.black,
-      indicatorColor: ColorApp.primaryColor,
-      labelStyle: StringStyle.headerStyle,
-
-      tabs: [Tab(text: 'داخل بسماية'), Tab(text: 'خارج بسماية')],
+          indicatorAnimation: TabIndicatorAnimation.elastic,
+          splashBorderRadius: BorderRadius.circular(Values.circle),
+          tabs: [Tab(text: 'داخل بسماية'), Tab(text: 'خارج بسماية')],
+        ),
+      ],
     );
   }
 

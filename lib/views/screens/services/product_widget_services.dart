@@ -18,6 +18,7 @@ class ProductWidgetServices extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      borderRadius: BorderRadius.circular(Values.circle),
       onTap: () => servicesController.selectProduct(product),
       child: Container(
         margin: EdgeInsets.symmetric(vertical: Values.circle * .5),
