@@ -19,7 +19,7 @@ class NavBar extends StatelessWidget {
             BoxShadow(
               color: ColorApp.borderColor,
               blurRadius: 0.3,
-              offset: Offset(0, -0.3), // changes position of shadow
+              offset: Offset(0, -0.3),
             ),
           ],
         ),
