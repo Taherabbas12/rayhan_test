@@ -57,6 +57,7 @@ class HomePage extends StatelessWidget {
               splashColor: ColorApp.iconHomeColor,
               onTap: home.toPage,
               child: Container(
+                
                 margin: EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   color: ColorApp.iconHomeColor,
