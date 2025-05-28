@@ -8,6 +8,7 @@ import '../bindings/market_product_binding.dart';
 import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
+import '../bindings/taxi_binding.dart';
 import '../views/screens/auth/otp.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
@@ -38,7 +39,7 @@ class AppRoutes {
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),
     GetPage(name: notificationScreen, page: () => NotificationScreen()),
-    GetPage(name: taxiScreen, page: () => TaxiScreen()),
+    GetPage(name: taxiScreen, page: () => TaxiScreen(), binding: TaxiBinding()),
     GetPage(
       name: categoryDetailsScreen,
       page: () => CategoryDetailsScreen(),
@@ -66,25 +67,3 @@ class AppRoutes {
     ),
   ];
 }
-
-// Get banners 
-// https://rayhan.shop/api/TbShows
-
-// Get categories
-// https://rayhan.shop/api/TbCatagorys
-
-// Product search 
-// Post https://rayhan.shop/api/Search
-// Body : {“name”: value}
-
-// Get subCategories 
-// Post https://rayhan.shop/api/Subcategories/category
-// query: {"id": catehoryId}
-
-
-// Get products has discount as category and subcategory 
-// https://rayhan.shop/api/TbProducts/FilterByCategoryAndSubHaveDiscount?page=$page&pageSize=$pageSize&category=$category&subCategory=$sub
-
-
-// Get all products as category and subcategory
-// https://rayhan.shop/api/TbProducts/FilterByCategoryAndSub?page=$page&pageSize=$pageSize&category=$category&subCategory=$sub
