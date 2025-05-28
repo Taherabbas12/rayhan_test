@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/home_controller.dart';
+import '../../../utils/constants/color_app.dart';
 import 'nav_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -12,6 +13,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ColorApp.whiteColor,
       body: PageView(
         controller: homeController.pageController,
 

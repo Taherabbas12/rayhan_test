@@ -134,7 +134,7 @@ class InsideBismayah extends StatelessWidget {
               color:
                   taxiController.selectedAddressType.value == title
                       ? ColorApp.primaryColor
-                      : ColorApp.backgroundColor,
+                      : Colors.transparent,
               borderRadius: BorderRadius.circular(Values.circle),
             ),
 
@@ -146,7 +146,7 @@ class InsideBismayah extends StatelessWidget {
                         ? ColorApp.backgroundColorContent
                         : ColorApp.whiteColor,
               ),
-              textAlign: TextAlign.center
+              textAlign: TextAlign.center,
             ),
           ),
         ),
