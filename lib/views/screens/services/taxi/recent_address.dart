@@ -39,12 +39,18 @@ class RecentAddress extends StatelessWidget {
           color: ColorApp.primaryColor.withAlpha(50),
         ),
         child: Container(
-          padding: EdgeInsets.all(Values.circle),
+          padding: EdgeInsets.all(Values.circle * 1.3),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: ColorApp.primaryColor,
           ),
-          child: Icon(Icons.location_on, color: ColorApp.whiteColor),
+          child: svgImage(
+            ImagesUrl.locationIcon,
+            padingValue: 0,
+            color: ColorApp.backgroundColor,
+            hi: 20,
+            wi: 20,
+          ),
         ),
       ),
       trailing: svgImage(ImagesUrl.heartIcon, padingValue: 0),
