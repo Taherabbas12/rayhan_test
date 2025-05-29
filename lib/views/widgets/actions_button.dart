@@ -13,12 +13,14 @@ class BottonsC {
     Color colorText = ColorApp.whiteColor,
     double h = 50,
     IconData? icon,
+    double? elevation,
   }) {
     return Padding(
       padding: EdgeInsets.symmetric(vertical: Values.circle * 0.2),
       child: MaterialButton(
         color: color,
         height: h,
+        elevation: elevation,
         onPressed: onPressed,
         padding: EdgeInsets.symmetric(horizontal: Values.circle * 4),
         hoverElevation: Values.circle,

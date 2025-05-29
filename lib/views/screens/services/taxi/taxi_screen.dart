@@ -14,6 +14,7 @@ class TaxiScreen extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+        backgroundColor: ColorApp.whiteColor,
         appBar: AppBar(
           title: const Text('حدد نقطة الانطلاق'),
           centerTitle: false,

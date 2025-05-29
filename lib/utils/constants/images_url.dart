@@ -20,4 +20,5 @@ class ImagesUrl {
   static const paperIcon = '${baseAssetSvg}Paper.svg';
   static const profileIcon = '${baseAssetSvg}Profile.svg';
   static const searchIcon = '${baseAssetSvg}Search.svg';
+  static const heartIcon = '${baseAssetSvg}Heart.svg';
 }

@@ -11,6 +11,14 @@ class TaxiController extends GetxController {
     selectedAddressType.value = value;
   }
 
+  void selectLocation(Taxi location, String address) {
+    selectTaxi(location);
+    selectTaxiAddress(address);
+    print('Selected Location: ${location.name}, Address: $address');
+    print('Selected Location: ${selectedTaxi.value!.name} ');
+    print('Selected Location: ${selectedTaxiAddress.value} ');
+  }
+
   void selectTaxi(taxi) {
     selectedTaxi.value = taxi;
     selectedTaxiAddress.value = null;
