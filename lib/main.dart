@@ -85,15 +85,22 @@ class MyApp extends StatelessWidget {
       // initialRoute: StorageController.checkLoginStatus()
       //     ? AppRoutes.home
       //     : AppRoutes.login,
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
     );
   }
 }
 
 
-
-
+// https://gateway.standingtech.com/api/v4/sms/send
+// {
+// "recipient":"964$phoneNumber",
+// "sender
+// _id":"Rayhan",
+// "type":"whatsapp",
+// "message": randomSixDigitNumber.toString(),
+// "lang":"ar"
+// }
 // Service 
 
 // Method : get 

@@ -11,6 +11,7 @@ class ImagesUrl {
   static const imageResturant = '${baseAssetPNG}resturant.png';
   static const imageServices = '${baseAssetPNG}services.png';
   static const imageTaxi = '${baseAssetPNG}taxi.png';
+  static const imageIraq = '${baseAssetPNG}Flag_of_Iraq.png';
 
   //Icons SVG
 
@@ -20,6 +21,8 @@ class ImagesUrl {
   static const paperIcon = '${baseAssetSvg}Paper.svg';
   static const profileIcon = '${baseAssetSvg}Profile.svg';
   static const searchIcon = '${baseAssetSvg}Search.svg';
+  // static const iraqIcon = '${baseAssetSvg}Flag_of_Iraq.svg';
+  static const iraqIcon = '${baseAssetSvg}iraq.svg';
   static const heartIcon = '${baseAssetSvg}Heart.svg';
   static const locationIcon = '${baseAssetSvg}Location.svg';
 }

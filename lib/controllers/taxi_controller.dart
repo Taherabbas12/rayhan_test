@@ -30,34 +30,19 @@ class TaxiController extends GetxController {
 
   // -----
   List<Taxi> taxiAddresses = [
-    Taxi(
-      name: 'داخل بسماية',
-      addresses: ['البناية 1', 'البناية 2', 'البناية 3'],
-    ),
-    Taxi(
-      name: 'خارج بسماية',
-      addresses: ['شارع بغداد', 'شارع فلسطين', 'شارع اليرموك'],
-    ),
-    Taxi(
-      name: 'المنطقة الخضراء',
-      addresses: ['شارع الرشيد', 'شارع الجمهورية', 'شارع السعدون'],
-    ),
-    Taxi(
-      name: 'المنطقة الدولية',
-      addresses: ['شارع المطار', 'شارع القادسية', 'شارع النصر'],
-    ),
-    Taxi(
-      name: 'المنطقة الصناعية',
-      addresses: ['شارع الصناعة', 'شارع الميكانيك', 'شارع الكهرباء'],
-    ),
-    Taxi(
-      name: 'المنطقة التجارية',
-      addresses: ['شارع التجارة', 'شارع السوق', 'شارع البنوك'],
-    ),
-    Taxi(
-      name: 'المنطقة السكنية',
-      addresses: ['شارع السكن', 'شارع الأحياء', 'شارع الحدائق'],
-    ),
+    Taxi(name: 'A1', addresses: List.generate(12, (index) => '${index + 1}')),
+    Taxi(name: 'A2', addresses: List.generate(14, (index) => '${index + 1}')),
+    Taxi(name: 'A3', addresses: List.generate(14, (index) => '${index + 1}')),
+    Taxi(name: 'A4', addresses: List.generate(12, (index) => '${index + 1}')),
+    Taxi(name: 'A5', addresses: List.generate(12, (index) => '${index + 1}')),
+    Taxi(name: 'A6', addresses: List.generate(12, (index) => '${index + 1}')),
+    Taxi(name: 'A7', addresses: List.generate(13, (index) => '${index + 1}')),
+    Taxi(name: 'A8', addresses: List.generate(15, (index) => '${index + 1}')),
+    Taxi(name: 'A9', addresses: List.generate(15, (index) => '${index + 1}')),
+    Taxi(name: 'B1', addresses: List.generate(12, (index) => '${index + 1}')),
+    Taxi(name: 'B2', addresses: List.generate(18, (index) => '${index + 1}')),
+    Taxi(name: 'B3', addresses: List.generate(18, (index) => '${index + 1}')),
+    Taxi(name: 'B8', addresses: List.generate(12, (index) => '${index + 1}')),
   ];
 }
 

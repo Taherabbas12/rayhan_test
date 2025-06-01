@@ -9,6 +9,7 @@ import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
 import '../bindings/taxi_binding.dart';
+import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
@@ -33,7 +34,7 @@ class AppRoutes {
   static const taxiScreen = '/Taxi-Screen';
 
   static final routes = [
-    // GetPage(name: login, page: () => Login(), binding: LoginBinding()),
+    GetPage(name: login, page: () => Login(), binding: LoginBinding()),
     // GetPage(name: register, page: () => Register(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
