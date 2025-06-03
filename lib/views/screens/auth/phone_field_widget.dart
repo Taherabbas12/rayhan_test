@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../utils/constants/images_url.dart';
-import '../../../utils/constants/values_constant.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
   final TextEditingController controller;
@@ -42,14 +42,10 @@ class PhoneFieldWidget extends StatelessWidget {
           const SizedBox(width: 5),
 
           // كود الدولة
-          const Text(
+          Text(
             '+964',
             textDirection: TextDirection.ltr,
-            style: TextStyle(
-              fontSize: 16,
-              color: Colors.black,
-              fontWeight: FontWeight.w600,
-            ),
+            style: StringStyle.headerStyle,
           ),
         ],
       ),
@@ -104,17 +100,17 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: inputWidth.clamp(80.0, 250.0),
+      width: inputWidth.clamp(100.0, 270.0),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: TextFormField(
           controller: widget.controller,
           keyboardType: TextInputType.phone,
           inputFormatters: [
-            FilteringTextInputFormatter.digitsOnly,
-            LengthLimitingTextInputFormatter(10),
+            LengthLimitingTextInputFormatter(16),
+            PhoneNumberFormatter(),
           ],
-          style: const TextStyle(fontSize: 16, color: Colors.black),
+          style: StringStyle.headerStyle,
           decoration: const InputDecoration(
             isDense: true,
             border: InputBorder.none,
@@ -123,6 +119,34 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PhoneNumberFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
+    final digitsOnly = newValue.text.replaceAll(RegExp(r'\D'), '');
+
+    String formatted = '';
+    if (digitsOnly.length <= 3) {
+      formatted = digitsOnly;
+    } else if (digitsOnly.length <= 6) {
+      formatted = '${digitsOnly.substring(0, 3)}  ${digitsOnly.substring(3)}';
+    } else if (digitsOnly.length <= 10) {
+      formatted =
+          '${digitsOnly.substring(0, 3)}  ${digitsOnly.substring(3, 6)}  ${digitsOnly.substring(6)}';
+    } else {
+      formatted =
+          '${digitsOnly.substring(0, 3)}  ${digitsOnly.substring(3, 6)}  ${digitsOnly.substring(6, 10)}';
+    }
+
+    return TextEditingValue(
+      text: formatted,
+      selection: TextSelection.collapsed(offset: formatted.length),
     );
   }
 }
