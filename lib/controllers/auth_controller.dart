@@ -4,19 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../routes/app_routes.dart';
+import '../services/api_service.dart';
+import '../services/error_message.dart';
+import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 
 class AuthController extends GetxController {
   // خصائص
   RxBool isLoading = false.obs;
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController confirmPassword = TextEditingController();
-  final TextEditingController fullName = TextEditingController();
-  final TextEditingController phoneNumber = TextEditingController();
-  final TextEditingController jobTitle = TextEditingController();
-  final TextEditingController nationality = TextEditingController();
+
+  final Rx<TextEditingController> phoneNumber = Rx<TextEditingController>(
+    TextEditingController(),
+  );
+
   RxString numberInput = RxString('');
   // OTP
   final TextEditingController otpController = TextEditingController();
@@ -48,6 +49,7 @@ class AuthController extends GetxController {
     });
   }
 
+  String otpCode = '';
   Rx<String?> selectedCountry = Rx('');
   void changeContry(String? newValue) {
     selectedCountry.value = newValue;
@@ -64,20 +66,44 @@ class AuthController extends GetxController {
   final formKeyRegister = GlobalKey<FormState>();
   final formKeyRePassword = GlobalKey<FormState>();
   void submitFormLogin() async {
-    if (formKeyLogin.currentState!.validate()) {
-      isLoading(true);
+    isLoading(true);
 
-      MessageSnak.message(
-        'تم إرسال البيانات بنجاح',
-        color: ColorApp.greenColor,
+    MessageSnak.message('تم إرسال البيانات بنجاح', color: ColorApp.greenColor);
+
+    try {
+      otpCode =
+          '${DateTime.now().millisecondsSinceEpoch % 1000000}'; // رقم عشوائي مكون من 6 أرقام
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.smsSendWhats,
+        {
+          "recipient": "964${phoneNumber.value.text}",
+          "sender_id": "Rayhan",
+          "type": "whatsapp",
+          "message": otpCode, // رقم عشوائي مكون من 6 أرقام
+          "lang": "ar",
+        },
       );
-    } else {
-      MessageSnak.message('يرجى ملاء كل الحقول ');
+
+      logger.e("response $otpCode  ");
+      if (response.isStateSucess < 3) {
+        if (response.data['status'] == 'success') {
+          otpCode = response.data['data']['message'];
+          MessageSnak.message('تم إرسال OTP بنجاح', color: ColorApp.greenColor);
+          await Future.delayed(Duration(seconds: 2));
+          startTimer();
+          Get.toNamed(AppRoutes.otp);
+          isLoading(false);
+
+          MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
+        } else {
+          otpCode = '';
+        }
+      } else {
+        MessageSnak.message('فشل في إرسال OTP', color: ColorApp.redColor);
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
     }
-    await Future.delayed(Duration(seconds: 2));
-    startTimer();
-    Get.toNamed(AppRoutes.otp);
-    MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
 
     isLoading(false);
   }
@@ -115,13 +141,9 @@ class AuthController extends GetxController {
   @override
   void onClose() {
     // تحرير الموارد عند إغلاق الـ Controller
-    email.dispose();
-    password.dispose();
-    confirmPassword.dispose();
-    fullName.dispose();
-    phoneNumber.dispose();
-    jobTitle.dispose();
-    nationality.dispose();
+
+    phoneNumber.value.dispose();
+
     super.onClose();
   }
 }

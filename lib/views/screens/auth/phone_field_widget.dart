@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../utils/constants/images_url.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
-  final TextEditingController controller;
+  final Rx<TextEditingController> controller;
 
   const PhoneFieldWidget({super.key, required this.controller});
 
@@ -54,7 +55,7 @@ class PhoneFieldWidget extends StatelessWidget {
 }
 
 class AutoWidthPhoneInput extends StatefulWidget {
-  final TextEditingController controller;
+  final Rx<TextEditingController> controller;
 
   const AutoWidthPhoneInput({super.key, required this.controller});
 
@@ -63,17 +64,17 @@ class AutoWidthPhoneInput extends StatefulWidget {
 }
 
 class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
-  double inputWidth = 40;
+  double inputWidth = 45;
 
   @override
   void initState() {
     super.initState();
-    widget.controller.addListener(_updateWidth);
+    widget.controller.value.addListener(_updateWidth);
     _updateWidth(); // لحساب العرض الابتدائي
   }
 
   void _updateWidth() {
-    final text = widget.controller.text;
+    final text = widget.controller.value.text;
     final span = TextSpan(
       text: text.isEmpty ? 'اكتب رقمك هنا' : text,
       style: const TextStyle(fontSize: 16),
@@ -92,7 +93,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
 
   @override
   void dispose() {
-    widget.controller.removeListener(_updateWidth);
+    widget.controller.value.removeListener(_updateWidth);
     super.dispose();
   }
 
@@ -104,7 +105,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: TextFormField(
-          controller: widget.controller,
+          controller: widget.controller.value,
           keyboardType: TextInputType.phone,
           inputFormatters: [
             LengthLimitingTextInputFormatter(16),

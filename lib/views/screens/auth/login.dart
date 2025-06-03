@@ -136,16 +136,23 @@ class Login extends StatelessWidget {
                     elevation: 0,
                     'تأكيد',
                     () {
-                      if (authController.rememberMe.value) {
-                        // authController.submitFormLogin();
+                      if (authController.rememberMe.value &&
+                          authController.phoneNumber.value.text.length >= 14) {
+                        {
+                          authController.submitFormLogin();
+                        }
                       }
                     },
                     color:
-                        authController.rememberMe.value
+                        authController.rememberMe.value &&
+                                authController.phoneNumber.value.text.length >=
+                                    14
                             ? ColorApp.primaryColor
                             : ColorApp.borderColor,
                     colorText:
-                        authController.rememberMe.value
+                        authController.rememberMe.value &&
+                                authController.phoneNumber.value.text.length >=
+                                    14
                             ? ColorApp.whiteColor
                             : ColorApp.subColor,
                   ),

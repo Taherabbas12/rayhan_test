@@ -2,10 +2,10 @@ class ApiConstants {
   static String baseUrl = 'https://rayhan.shop/api/';
   static String baseUrlImage = 'https://rayhan.shop/api/storage/';
   // Auth User
-  static const String login = 'login';
-  static const String register = 'register';
-  static const String updateProfile = 'customer/update';
-  static const String customer = 'customer';
+  
+  static String smsSendWhats =
+      'https://gateway.standingtech.com/api/v4/sms/send';
+
   // Market
   static const String marketCatagorys = 'TbCatagorys';
   static String marketSubCatagorys(int id) => 'Subcategories/category?id=$id';
