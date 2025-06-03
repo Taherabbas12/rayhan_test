@@ -15,31 +15,31 @@ class PhoneFieldWidget extends StatelessWidget {
       height: 60,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF9F9F9),
-        borderRadius: BorderRadius.circular(12),
+        color: const Color.fromARGB(255, 244, 244, 244),
+        borderRadius: BorderRadius.circular(6),
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Row(
         textDirection: TextDirection.rtl,
         children: [
           // العلم والسهم
-          Row(
-            children: [
-              Image.asset(
-                ImagesUrl.imageIraq,
-                width: 28,
-                height: 20,
+          const SizedBox(width: 10),
+          Container(
+            width: 28,
+            height: 20,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(4),
+              image: DecorationImage(
+                image: AssetImage(ImagesUrl.imageIraq),
                 fit: BoxFit.cover,
               ),
-              const SizedBox(width: 4),
-            ],
+            ),
           ),
-          const SizedBox(width: 10),
 
           // TextField
           AutoWidthPhoneInput(controller: controller),
 
-          const SizedBox(width: 10),
+          const SizedBox(width: 5),
 
           // كود الدولة
           const Text(

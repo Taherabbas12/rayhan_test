@@ -91,7 +91,9 @@ class Login extends StatelessWidget {
                               child: RichText(
                                 text: TextSpan(
                                   text: 'من خلال إنشاء حساب , فإنك توافق على ',
-                                  style: StringStyle.textLabil,
+                                  style: StringStyle.textLabil.copyWith(
+                                    color: ColorApp.textSecondryColor,
+                                  ),
                                   children: [
                                     TextSpan(
                                       text: 'الشروط والاحكام ',
@@ -108,7 +110,9 @@ class Login extends StatelessWidget {
                                     ),
                                     TextSpan(
                                       text: 'الخاصة بنا',
-                                      style: StringStyle.textLabil,
+                                      style: StringStyle.textLabil.copyWith(
+                                        color: ColorApp.textSecondryColor,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -129,6 +133,7 @@ class Login extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: Values.spacerV),
                 child: Obx(
                   () => BottonsC.action1(
+                    elevation: 0,
                     'تأكيد',
                     () {
                       if (authController.rememberMe.value) {
@@ -147,7 +152,7 @@ class Login extends StatelessWidget {
                 ),
               ),
               //
-              SizedBox(height: Values.spacerV),
+              SizedBox(height: Values.spacerV * 1.5),
             ],
           ),
           Obx(
