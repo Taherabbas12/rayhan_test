@@ -4,10 +4,7 @@ import 'dart:ui';
 
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
-import 'package:rayhan_test/views/widgets/common/svg_show.dart';
 import 'package:rayhan_test/views/widgets/message_snak.dart';
 import '../../../controllers/auth_controller.dart';
 import '../../../utils/constants/color_app.dart';
@@ -136,23 +133,16 @@ class Login extends StatelessWidget {
                     elevation: 0,
                     'تأكيد',
                     () {
-                      if (authController.rememberMe.value &&
-                          authController.phoneNumber.value.text.length >= 14) {
-                        {
-                          authController.submitFormLogin();
-                        }
+                      if (authController.isCompleteForm.value) {
+                        authController.submitFormLogin();
                       }
                     },
                     color:
-                        authController.rememberMe.value &&
-                                authController.phoneNumber.value.text.length >=
-                                    14
+                        authController.isCompleteForm.value
                             ? ColorApp.primaryColor
                             : ColorApp.borderColor,
                     colorText:
-                        authController.rememberMe.value &&
-                                authController.phoneNumber.value.text.length >=
-                                    14
+                        authController.isCompleteForm.value
                             ? ColorApp.whiteColor
                             : ColorApp.subColor,
                   ),

@@ -6,7 +6,7 @@ import 'package:rayhan_test/utils/constants/style_app.dart';
 import '../../../utils/constants/images_url.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
-  final Rx<TextEditingController> controller;
+  final TextEditingController controller;
 
   const PhoneFieldWidget({super.key, required this.controller});
 
@@ -55,7 +55,7 @@ class PhoneFieldWidget extends StatelessWidget {
 }
 
 class AutoWidthPhoneInput extends StatefulWidget {
-  final Rx<TextEditingController> controller;
+  final TextEditingController controller;
 
   const AutoWidthPhoneInput({super.key, required this.controller});
 
@@ -69,7 +69,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
   @override
   void initState() {
     super.initState();
-    widget.controller.value.addListener(_updateWidth);
+    widget.controller.addListener(_updateWidth);
     _updateWidth(); // لحساب العرض الابتدائي
   }
 
@@ -93,7 +93,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
 
   @override
   void dispose() {
-    widget.controller.value.removeListener(_updateWidth);
+    widget.controller.removeListener(_updateWidth);
     super.dispose();
   }
 
@@ -101,11 +101,11 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
   Widget build(BuildContext context) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
-      width: inputWidth.clamp(100.0, 270.0),
+      width: inputWidth.clamp(120.0, 270.0),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: TextFormField(
-          controller: widget.controller.value,
+          controller: widget.controller,
           keyboardType: TextInputType.phone,
           inputFormatters: [
             LengthLimitingTextInputFormatter(16),

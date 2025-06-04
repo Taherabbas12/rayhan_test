@@ -13,15 +13,21 @@ import '../views/widgets/message_snak.dart';
 class AuthController extends GetxController {
   // خصائص
   RxBool isLoading = false.obs;
-
-  final Rx<TextEditingController> phoneNumber = Rx<TextEditingController>(
-    TextEditingController(),
-  );
+  RxBool isCompleteForm = false.obs;
+  final TextEditingController phoneNumber = TextEditingController();
 
   RxString numberInput = RxString('');
   // OTP
   final TextEditingController otpController = TextEditingController();
   // اعادة ارسال ال OTP
+
+  @override
+  void onInit() {
+    super.onInit();
+    phoneNumber.addListener(() {
+      isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
+    });
+  }
 
   void reSendOTPMessage() {
     remainingTime(30);
@@ -31,9 +37,16 @@ class AuthController extends GetxController {
 
   void submitFormOTP() async {
     isLoading(true);
-    MessageSnak.message('تم التحقق من ال OTP', color: ColorApp.greenColor);
     await Future.delayed(Duration(seconds: 1));
-
+    if (otpController.text == otpCode) {
+      Get.toNamed(AppRoutes.home);
+      MessageSnak.message(
+        'تم التحقق من ال OTP بنجاح',
+        color: ColorApp.greenColor,
+      );
+    } else {
+      MessageSnak.message('رمز OTP غير صحيح', color: ColorApp.redColor);
+    }
     isLoading(false);
   }
 
@@ -59,6 +72,7 @@ class AuthController extends GetxController {
   RxBool rememberMe = false.obs;
   void changeRememberMe(bool? value) {
     rememberMe.value = value!;
+    isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
   }
 
   // مفتاح النموذج
@@ -84,7 +98,8 @@ class AuthController extends GetxController {
         },
       );
 
-      logger.e("response $otpCode  ");
+      logger.e("response $otpCode    ");
+      logger.e("response ${response.data}    ");
       if (response.isStateSucess < 3) {
         if (response.data['status'] == 'success') {
           otpCode = response.data['data']['message'];
@@ -140,10 +155,7 @@ class AuthController extends GetxController {
 
   @override
   void onClose() {
-    // تحرير الموارد عند إغلاق الـ Controller
-
-    phoneNumber.value.dispose();
-
+    phoneNumber.dispose();
     super.onClose();
   }
 }

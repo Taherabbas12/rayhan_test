@@ -60,7 +60,7 @@ class OTPScreen extends StatelessWidget {
               inputFormatters: [FilteringTextInputFormatter.digitsOnly],
               keyboardType: TextInputType.number,
               pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-              length: 4, // عدد الأرقام في الرمز
+              length: 6, // عدد الأرقام في الرمز
               controller: authController.otpController,
               defaultPinTheme: PinTheme(
                 width: 84,
