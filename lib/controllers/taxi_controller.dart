@@ -2,6 +2,23 @@ import 'package:get/get.dart';
 
 class TaxiController extends GetxController {
   RxBool isLoading = false.obs;
+  bool isCompleteStartingPoint = false;
+  List<TaxiViewName> textTitles = [
+    TaxiViewName(
+      title: 'حدد نقطة الانطلاق',
+      subtitle: 'يرجى تحديد نقطة الانطلاق التي سيتوجه السائق إليها ليقلك منها.',
+    ),
+    TaxiViewName(
+      title: 'حدد نقطة الوصول',
+      subtitle: 'يرجى تحديد نقطة الوصول التي ترغب ان يقلك السائق إليها.',
+    ),
+  ];
+  void setCompleteStartingPoint(bool value) {
+    isCompleteStartingPoint = true;
+  }
+
+  Rx<TaxiViewName> get textTitle =>
+      isCompleteStartingPoint ? textTitles[1].obs : textTitles[0].obs;
   Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
   Rx<String?> selectedTaxiAddress = Rx<String?>(null);
   List<String> addressType = ['عناويني', 'المدخلات الأخيرة'];
@@ -65,4 +82,10 @@ class Taxi {
   String toString() {
     return name;
   }
+}
+
+class TaxiViewName {
+  String title;
+  String subtitle;
+  TaxiViewName({required this.title, required this.subtitle});
 }

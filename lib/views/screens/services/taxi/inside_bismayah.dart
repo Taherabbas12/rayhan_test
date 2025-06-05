@@ -83,7 +83,6 @@ class InsideBismayah extends StatelessWidget {
                   ? RecentAddress()
                   : notRecentAddress(),
         ),
-        nextButton(onPressed: () {}),
       ],
     );
   }
@@ -207,35 +206,4 @@ class InsideBismayah extends StatelessWidget {
   }
 
   //
-  Widget nextButton({required VoidCallback onPressed, String? text}) {
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          color: ColorApp.whiteColor,
-          border: Border(top: BorderSide(color: ColorApp.borderColor)),
-        ),
-        padding: EdgeInsets.symmetric(
-          horizontal: Values.circle * 2.4,
-          vertical: Values.circle * 2.4,
-        ),
-
-        child: Obx(
-          () => BottonsC.action1(
-            text ?? 'التالي',
-            onPressed,
-            h: 58,
-            elevation: 0,
-            color:
-                taxiController.selectedTaxiAddress.value != null
-                    ? ColorApp.primaryColor
-                    : ColorApp.borderColor,
-            colorText:
-                taxiController.selectedTaxiAddress.value == null
-                    ? ColorApp.subColor
-                    : ColorApp.whiteColor,
-          ),
-        ),
-      ),
-    );
-  }
 }

@@ -1,14 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
+import '../../../../controllers/taxi_controller.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
+import '../../../widgets/actions_button.dart';
 import 'inside_bismayah.dart';
 
 class TaxiScreen extends StatelessWidget {
   const TaxiScreen({super.key});
-
+  TaxiController get taxiController => TaxiController();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -16,7 +19,7 @@ class TaxiScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: ColorApp.whiteColor,
         appBar: AppBar(
-          title: const Text('حدد نقطة الانطلاق'),
+          title: Obx(() => Text(taxiController.textTitle.value.title)),
           centerTitle: false,
         ),
         body: Column(
@@ -30,7 +33,43 @@ class TaxiScreen extends StatelessWidget {
                 children: [InsideBismayah(), buildTaxiContent('خارج بسماية')],
               ),
             ),
+            nextButton(onPressed: () {}),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget nextButton({required VoidCallback onPressed, String? text}) {
+    return SafeArea(
+      // bottom: false,
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorApp.whiteColor,
+          border: Border(top: BorderSide(color: ColorApp.borderColor)),
+        ),
+        padding: EdgeInsets.only(
+          left: Values.circle * 2.4,
+          right: Values.circle * 2.4,
+
+          top: Values.circle * 2.4,
+        ),
+
+        child: Obx(
+          () => BottonsC.action1(
+            text ?? 'التالي',
+            onPressed,
+            h: 58,
+            elevation: 0,
+            color:
+                taxiController.selectedTaxiAddress.value != null
+                    ? ColorApp.primaryColor
+                    : ColorApp.borderColor,
+            colorText:
+                taxiController.selectedTaxiAddress.value == null
+                    ? ColorApp.subColor
+                    : ColorApp.whiteColor,
+          ),
         ),
       ),
     );
@@ -57,10 +96,12 @@ class TaxiScreen extends StatelessWidget {
           ),
           const SizedBox(width: 4),
           Expanded(
-            child: Text(
-              'يرجى تحديد نقطة الانطلاق التي سيتوجه السائق إليها ليقلك منها',
-              style: StringStyle.headerStyle.copyWith(
-                color: ColorApp.whiteColor,
+            child: Obx(
+              () => Text(
+                taxiController.textTitle.value.subtitle,
+                style: StringStyle.headerStyle.copyWith(
+                  color: ColorApp.whiteColor,
+                ),
               ),
             ),
           ),

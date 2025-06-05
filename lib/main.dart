@@ -3,8 +3,10 @@
 // import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_secure_storage/get_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'controllers/storage_controller.dart';
 import 'routes/app_routes.dart';
 import 'utils/constants/color_app.dart';
 import 'utils/constants/style_app.dart';
@@ -14,6 +16,11 @@ import 'utils/constants/values_constant.dart';
 
 void main() async {
   // WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetSecureStorage.init(
+    password: Values.passwordStorage,
+    container: Values.pathContiner,
+  );
 
   runApp(
     // DevicePreview(
@@ -82,10 +89,10 @@ class MyApp extends StatelessWidget {
         );
       },
       title: 'ريحان',
-      // initialRoute: StorageController.checkLoginStatus()
-      //     ? AppRoutes.home
-      //     : AppRoutes.login,
-      initialRoute: AppRoutes.login,
+      initialRoute: StorageController.checkLoginStatus()
+          ? AppRoutes.home
+          : AppRoutes.login,
+      // initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
     );
   }

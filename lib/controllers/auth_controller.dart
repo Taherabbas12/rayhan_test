@@ -9,6 +9,7 @@ import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
+import 'storage_controller.dart';
 
 class AuthController extends GetxController {
   // خصائص
@@ -30,7 +31,8 @@ class AuthController extends GetxController {
   }
 
   void reSendOTPMessage() {
-    remainingTime(30);
+    remainingTime(60);
+    submitFormLogin();
     startTimer();
     //
   }
@@ -39,6 +41,7 @@ class AuthController extends GetxController {
     isLoading(true);
     await Future.delayed(Duration(seconds: 1));
     if (otpController.text == otpCode) {
+      await StorageController.storeData(dateOtp);
       Get.toNamed(AppRoutes.home);
       MessageSnak.message(
         'تم التحقق من ال OTP بنجاح',
@@ -76,30 +79,23 @@ class AuthController extends GetxController {
   }
 
   // مفتاح النموذج
-  final formKeyLogin = GlobalKey<FormState>();
-  final formKeyRegister = GlobalKey<FormState>();
-  final formKeyRePassword = GlobalKey<FormState>();
+  var dateOtp;
   void submitFormLogin() async {
     isLoading(true);
 
-    MessageSnak.message('تم إرسال البيانات بنجاح', color: ColorApp.greenColor);
-
     try {
-      otpCode =
-          '${DateTime.now().millisecondsSinceEpoch % 1000000}'; // رقم عشوائي مكون من 6 أرقام
-      final StateReturnData response = await ApiService.postData(
-        ApiConstants.smsSendWhats,
-        {
-          "recipient": "964${phoneNumber.value.text}",
-          "sender_id": "Rayhan",
-          "type": "whatsapp",
-          "message": otpCode, // رقم عشوائي مكون من 6 أرقام
-          "lang": "ar",
-        },
-      );
+      otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
+      final StateReturnData response =
+          await ApiService.postData(ApiConstants.smsSendWhats, {
+            "recipient": "964${phoneNumber.value.text}",
+            "sender_id": "Rayhan",
+            "type": "whatsapp",
+            "message": otpCode,
+            "lang": "ar",
+          });
 
-      logger.e("response $otpCode    ");
-      logger.e("response ${response.data}    ");
+      logger.e("response $otpCode   | ");
+      logger.e("response ${response.data}   | ");
       if (response.isStateSucess < 3) {
         if (response.data['status'] == 'success') {
           otpCode = response.data['data']['message'];
@@ -108,35 +104,20 @@ class AuthController extends GetxController {
           startTimer();
           Get.toNamed(AppRoutes.otp);
           isLoading(false);
-
+          dateOtp = response.data;
           MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
         } else {
           otpCode = '';
         }
       } else {
-        MessageSnak.message('فشل في إرسال OTP', color: ColorApp.redColor);
+        MessageSnak.message(
+          'فشل في إرسال OTP تاكد من رقم الهاتف',
+          color: ColorApp.redColor,
+        );
       }
     } catch (e) {
       logger.i("خطأ في تحميل البيانات: $e");
     }
-
-    isLoading(false);
-  }
-
-  void submitFormRegister() async {
-    if (formKeyRegister.currentState!.validate()) {
-      isLoading(true);
-      startTimer();
-      Get.toNamed(AppRoutes.otp);
-      MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
-    } else {
-      isLoading(true);
-      await Future.delayed(Duration(seconds: 1));
-      startTimer();
-      Get.toNamed(AppRoutes.otp);
-      MessageSnak.message('يرجى ملاء كل الحقول ');
-    }
-    // Get.toNamed(AppRoutes.home);
 
     isLoading(false);
   }
