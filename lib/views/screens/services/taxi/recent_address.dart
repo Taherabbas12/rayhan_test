@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rayhan_test/controllers/taxi_controller.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/views/widgets/common/svg_show.dart';
@@ -8,8 +9,8 @@ import '../../../../utils/constants/images_url.dart';
 import '../../../../utils/constants/values_constant.dart';
 
 class RecentAddress extends StatelessWidget {
-  const RecentAddress({super.key});
-  TaxiController get taxiController => TaxiController();
+  RecentAddress({super.key});
+  final TaxiController taxiController = Get.find<TaxiController>();
   @override
   Widget build(BuildContext context) {
     return Expanded(

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_state_manager/get_state_manager.dart';
+import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../../controllers/taxi_controller.dart';
@@ -10,8 +10,8 @@ import '../../../widgets/actions_button.dart';
 import 'inside_bismayah.dart';
 
 class TaxiScreen extends StatelessWidget {
-  const TaxiScreen({super.key});
-  TaxiController get taxiController => TaxiController();
+  TaxiScreen({super.key});
+  final TaxiController taxiController = Get.find<TaxiController>();
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -33,7 +33,9 @@ class TaxiScreen extends StatelessWidget {
                 children: [InsideBismayah(), buildTaxiContent('خارج بسماية')],
               ),
             ),
-            nextButton(onPressed: () {}),
+            nextButton(
+              onPressed: () => taxiController.setCompleteStartingPoint(true),
+            ),
           ],
         ),
       ),
