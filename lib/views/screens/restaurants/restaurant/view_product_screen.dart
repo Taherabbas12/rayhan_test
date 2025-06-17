@@ -4,6 +4,7 @@ import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/utils/constants/values_constant.dart';
 import 'package:rayhan_test/views/widgets/message_snak.dart';
 
+import '../../../../controllers/restaurant_controller.dart';
 import '../../../../data/models/product_model.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../widgets/actions_button.dart';
@@ -22,7 +23,7 @@ class ViewProductScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ViewProductScreen> {
   int quantity = 1;
   final TextEditingController noteController = TextEditingController();
-
+  RestaurantController restaurantController = Get.find<RestaurantController>();
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -60,20 +61,20 @@ class _ProductDetailsScreenState extends State<ViewProductScreen> {
                       ),
                       Spacer(),
                       const SizedBox(width: 10),
-                      BottonsC.actionIconWithOutColor(
-                        Icons.favorite_border,
-                        circle: 50,
-                        'مفضلة',
-                        () {},
-                        size: 25,
-                        colorBackgraond: ColorApp.whiteColor,
-                        color: ColorApp.primaryColor,
-                      ),
-                      const SizedBox(width: 10),
+                      // BottonsC.actionIconWithOutColor(
+                      //   Icons.favorite_border,
+                      //   circle: 50,
+                      //   'مفضلة',
+                      //   () {},
+                      //   size: 25,
+                      //   colorBackgraond: ColorApp.whiteColor,
+                      //   color: ColorApp.primaryColor,
+                      // ),
+                      // const SizedBox(width: 10),
                       BottonsC.actionIconWithOutColor(
                         Icons.shopping_cart_outlined,
                         circle: 50,
-                        'عربة التسوق',
+                        'السلة',
                         () {},
                         size: 25,
                         colorBackgraond: ColorApp.whiteColor,
@@ -221,11 +222,10 @@ class _ProductDetailsScreenState extends State<ViewProductScreen> {
 
             Expanded(
               child: BottonsC.action1(h: 50, 'إضافة للسلة', () {
-                Get.back();
-
-                MessageSnak.message(
-                  'تمت إضافة العنصر إلى السلة',
-                  color: ColorApp.greenColor,
+                restaurantController.addToCart(
+                  product,
+                  noteController.text,
+                  quantity,
                 );
               }),
             ),

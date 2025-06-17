@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 
 import '../data/models/product_model.dart';
-import '../data/models/category.dart';
 import '../data/models/shop_category.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';

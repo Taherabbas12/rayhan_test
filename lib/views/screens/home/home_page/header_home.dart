@@ -31,7 +31,7 @@ class HeaderHome extends StatelessWidget {
                 circle: Values.circle,
                 color: ColorApp.primaryColor,
                 'السلة',
-                () {},
+                () => Get.toNamed(AppRoutes.cartItemScreen),
               ),
               SizedBox(width: Values.circle),
               BottonsC.actionIconWithOutColor(

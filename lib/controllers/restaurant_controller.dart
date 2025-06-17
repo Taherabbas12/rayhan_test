@@ -1,17 +1,23 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/data/models/product_model.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
 
+import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
 import '../data/models/category.dart';
 import '../data/models/slider_image_model.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
+import '../utils/constants/color_app.dart';
 import '../utils/constants/values_constant.dart';
+import '../views/widgets/message_snak.dart';
+import 'cart_item_controller.dart';
 
 class RestaurantController extends GetxController {
+  CartItemController cartItemController = Get.find<CartItemController>();
   // Select Restaurant
   Rx<Restaurant?> restaurantSelect = Rx(null);
   void selectRestorent(Restaurant restaurant) {
@@ -22,6 +28,29 @@ class RestaurantController extends GetxController {
   RxInt countView() =>
       (Values.width ~/ 500 == 0 ? 1 : (Values.width / 500).round()).obs;
 
+  void addToCart(Product product, String note, int quantity) {
+    cartItemController.addToCart(
+      CartItem(
+        vendorName: restaurantSelect.value!.name,
+        productId: product.id.toString(),
+        name: product.name,
+        image: product.image,
+        note: note,
+        price2: product.price2,
+        price1: product.price1,
+        quantity: quantity,
+        vendorId: restaurantSelect.value!.id.toString(),
+        cartType: CartType.restaurant,
+      ),
+      restaurant: restaurantSelect.value!,
+    );
+    Get.back();
+    // هنا يمكنك إضافة الكود لإضافة المنتج إلى السلة
+    MessageSnak.message(
+      'تمت إضافة العنصر إلى السلة',
+      color: ColorApp.greenColor,
+    );
+  }
   //Filter
 
   static List<FilterOption> filterOptions = [

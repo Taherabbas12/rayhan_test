@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../bindings/auth_binding.dart';
 
+import '../bindings/cart_item_binding.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/market_binding.dart';
 import '../bindings/market_product_binding.dart';
@@ -11,12 +12,13 @@ import '../bindings/shop_binding.dart';
 import '../bindings/taxi_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
+import '../views/screens/cart/cart_item_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
 import '../views/screens/market/view_category_details/category_details_screen.dart';
 import '../views/screens/notification/notification_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
-import '../views/screens/restaurants/shop/shop_screen.dart';
+import '../views/screens/restaurants/restaurant/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
 import '../views/screens/services/taxi/taxi_screen.dart';
 
@@ -32,8 +34,14 @@ class AppRoutes {
   static const categoryDetailsScreen = '/Category-Details-Screen';
   static const notificationScreen = '/Notification-Screen';
   static const taxiScreen = '/Taxi-Screen';
+  static const cartItemScreen = '/Cart-Item-Screen';
 
   static final routes = [
+    GetPage(
+      name: cartItemScreen,
+      page: () => CartItemScreen(),
+      binding: CartItemBinding(),
+    ),
     GetPage(name: login, page: () => Login(), binding: LoginBinding()),
     // GetPage(name: register, page: () => Register(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
