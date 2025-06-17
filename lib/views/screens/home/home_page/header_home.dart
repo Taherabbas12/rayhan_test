@@ -14,10 +14,8 @@ class HeaderHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Padding(
-          padding: EdgeInsets.only(top: Values.spacerV),
-          child: Image.asset(ImagesUrl.imageHome),
-        ),
+        Image.asset(ImagesUrl.imageHome),
+
         Padding(
           padding: EdgeInsets.only(top: Values.spacerV),
           child: Row(
