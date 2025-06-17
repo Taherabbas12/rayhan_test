@@ -9,7 +9,7 @@ class CartItemController extends GetxController {
   RxList<CartItem> cartItems = <CartItem>[].obs;
   String? currentVendorId;
   CartType? currentCartType;
-  Restaurant? selectedRestaurant;
+  Rx<Restaurant?> selectedRestaurant = Rx<Restaurant?>(null);
 
   List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت'];
   RxString selectedCartType = 'المطاعم'.obs;
@@ -32,10 +32,14 @@ class CartItemController extends GetxController {
       currentCartType = items.first.cartType;
     }
 
-    selectedRestaurant = await CartDb.instance.getRestaurant();
+    selectedRestaurant.value = await CartDb.instance.getRestaurant();
   }
 
-  Future<void> addToCart(CartItem newItem, {Restaurant? restaurant}) async {
+  Future<void> addToCart(
+    CartItem newItem, {
+    Restaurant? restaurant,
+    bool isBack = true,
+  }) async {
     if (currentCartType != null && currentCartType != newItem.cartType) {
       MessageSnak.message('لا يمكنك خلط أنواع سلة مختلفة');
       return;
@@ -63,13 +67,11 @@ class CartItemController extends GetxController {
       currentCartType ??= newItem.cartType;
     }
 
-    // حفظ المطعم إذا لم يكن محفوظ مسبقاً
-    if (selectedRestaurant == null && restaurant != null) {
+    if (selectedRestaurant.value == null && restaurant != null) {
       await CartDb.instance.saveRestaurant(restaurant);
-      selectedRestaurant = restaurant;
+      selectedRestaurant.value = restaurant;
     }
-    Get.back();
-    // هنا يمكنك إضافة الكود لإضافة المنتج إلى السلة
+    if (isBack) Get.back();
     MessageSnak.message(
       'تمت إضافة العنصر إلى السلة',
       color: ColorApp.greenColor,
@@ -96,7 +98,7 @@ class CartItemController extends GetxController {
     if (cartItems.isEmpty) {
       currentVendorId = null;
       currentCartType = null;
-      selectedRestaurant = null;
+      selectedRestaurant.value = null;
       await CartDb.instance.clearRestaurant();
     }
   }
@@ -107,11 +109,14 @@ class CartItemController extends GetxController {
     cartItems.clear();
     currentVendorId = null;
     currentCartType = null;
-    selectedRestaurant = null;
+    selectedRestaurant.value = null;
   }
 
-  Rx<double> get total =>
-      cartItems.fold(0.0.obs, (sum, item) => sum + item.price1 * item.quantity);
+  Rx<double> get total => cartItems.fold(
+    0.0.obs,
+    (sum, item) =>
+        sum + (item.price2 > 0 ? item.price2 : item.price1) * item.quantity,
+  );
   Rx<int> get countProduct =>
       cartItems.fold(0.obs, (sum, item) => Rx(sum.value + item.quantity));
 }

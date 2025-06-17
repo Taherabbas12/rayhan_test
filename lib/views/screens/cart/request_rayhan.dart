@@ -50,41 +50,44 @@ class RequestRayhan extends StatelessWidget {
           ),
           SizedBox(height: Values.circle),
           // Display selected restaurant if available
-          cartItemController.selectedRestaurant != null
-              ? Container(
-                margin: EdgeInsets.symmetric(
-                  horizontal: Values.spacerV,
-                  vertical: Values.circle,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: ColorApp.borderColor),
-                  color: Color(0xffFAFAFA),
-                  borderRadius: BorderRadius.circular(Values.circle),
-                  boxShadow: ShadowValues.shadowValues,
-                ),
-                padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: 64,
-                      height: 64,
-                      child: imageCached(
-                        cartItemController.selectedRestaurant!.logo,
-                        right: true,
+          Obx(
+            () =>
+                cartItemController.selectedRestaurant.value != null
+                    ? Container(
+                      margin: EdgeInsets.symmetric(
+                        horizontal: Values.spacerV,
+                        vertical: Values.circle,
                       ),
-                    ),
-                    SizedBox(width: Values.spacerV),
-                    Text(
-                      cartItemController.selectedRestaurant!.name,
-                      style: StringStyle.textLabil.copyWith(
-                        color: ColorApp.blackColor,
+                      decoration: BoxDecoration(
+                        border: Border.all(color: ColorApp.borderColor),
+                        color: Color(0xffFAFAFA),
+                        borderRadius: BorderRadius.circular(Values.circle),
+                        boxShadow: ShadowValues.shadowValues,
                       ),
-                      textAlign: TextAlign.right,
-                    ),
-                  ],
-                ),
-              )
-              : Container(),
+                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 64,
+                            height: 64,
+                            child: imageCached(
+                              cartItemController.selectedRestaurant.value!.logo,
+                              right: true,
+                            ),
+                          ),
+                          SizedBox(width: Values.spacerV),
+                          Text(
+                            cartItemController.selectedRestaurant.value!.name,
+                            style: StringStyle.textLabil.copyWith(
+                              color: ColorApp.blackColor,
+                            ),
+                            textAlign: TextAlign.right,
+                          ),
+                        ],
+                      ),
+                    )
+                    : Container(),
+          ),
 
           buildCartItems(),
         ],

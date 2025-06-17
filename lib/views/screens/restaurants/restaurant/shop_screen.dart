@@ -47,12 +47,6 @@ class ShopScreen extends StatelessWidget {
             ),
             flexibleSpace: LayoutBuilder(
               builder: (BuildContext context, BoxConstraints constraints) {
-                // حساب نسبة التمرير
-                double top = constraints.biggest.height;
-                double percent = ((top - kToolbarHeight) /
-                        (250 - kToolbarHeight))
-                    .clamp(0.0, 1.0);
-
                 return Stack(
                   clipBehavior: Clip.none,
                   children: [

@@ -11,9 +11,7 @@ import '../data/models/slider_image_model.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
-import '../utils/constants/color_app.dart';
 import '../utils/constants/values_constant.dart';
-import '../views/widgets/message_snak.dart';
 import 'cart_item_controller.dart';
 
 class RestaurantController extends GetxController {
@@ -28,7 +26,12 @@ class RestaurantController extends GetxController {
   RxInt countView() =>
       (Values.width ~/ 500 == 0 ? 1 : (Values.width / 500).round()).obs;
 
-  void addToCart(Product product, String note, int quantity) {
+  void addToCart(
+    Product product,
+    String note,
+    int quantity, {
+    bool isBack = true,
+  }) {
     cartItemController.addToCart(
       CartItem(
         vendorName: restaurantSelect.value!.name,
@@ -43,8 +46,9 @@ class RestaurantController extends GetxController {
         cartType: CartType.restaurant,
       ),
       restaurant: restaurantSelect.value!,
+
+      isBack: isBack,
     );
-  
   }
   //Filter
 
