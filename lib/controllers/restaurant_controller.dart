@@ -44,12 +44,7 @@ class RestaurantController extends GetxController {
       ),
       restaurant: restaurantSelect.value!,
     );
-    Get.back();
-    // هنا يمكنك إضافة الكود لإضافة المنتج إلى السلة
-    MessageSnak.message(
-      'تمت إضافة العنصر إلى السلة',
-      color: ColorApp.greenColor,
-    );
+  
   }
   //Filter
 

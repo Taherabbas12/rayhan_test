@@ -26,7 +26,11 @@ class CartItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: item.note.isNotEmpty ? 150 : 130,
+      // height: item.note.isNotEmpty ? 150 : 130,
+      constraints: BoxConstraints(
+        minHeight: item.note.isNotEmpty ? 160 : 130,
+        maxHeight: item.note.isNotEmpty ? 170 : 160,
+      ),
       padding: EdgeInsets.symmetric(
         vertical: Values.circle,
         horizontal: Values.spacerV,
@@ -104,25 +108,26 @@ class CartItemWidget extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              '${item.price2.toStringAsFixed(0)} د.ع',
+                              '${(item.price2 > 0 ? item.price2 : item.price1).toStringAsFixed(0)} د.ع',
                               style: StringStyle.textLabil.copyWith(
                                 color: ColorApp.primaryColor,
                               ),
                             ),
-                            SizedBox(width: Values.circle),
-                            Text(
-                              '${item.price1.toStringAsFixed(0)} د.ع',
-                              style: StringStyle.textTable.copyWith(
-                                decoration: TextDecoration.lineThrough,
-                                color: Colors.grey,
+                            if (item.price2 > 0) SizedBox(width: Values.circle),
+                            if (item.price2 > 0)
+                              Text(
+                                '${item.price1.toStringAsFixed(0)} د.ع',
+                                style: StringStyle.textTable.copyWith(
+                                  decoration: TextDecoration.lineThrough,
+                                  color: Colors.grey,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                         Container(
                           margin: const EdgeInsets.only(left: 8),
                           decoration: BoxDecoration(
-                            color: Colors.grey.shade100,
+                            color: Colors.grey.shade50,
                             borderRadius: BorderRadius.circular(30),
                           ),
                           child: Row(
@@ -133,7 +138,7 @@ class CartItemWidget extends StatelessWidget {
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: ColorApp.primaryColor.withOpacity(
-                                      0.2,
+                                      0.1,
                                     ),
                                     shape: BoxShape.circle,
                                   ),
@@ -153,12 +158,12 @@ class CartItemWidget extends StatelessWidget {
                                 ),
                               ),
                               InkWell(
-                                onTap: onDelete,
+                                onTap: onIncrease,
                                 child: Container(
                                   padding: const EdgeInsets.all(8),
                                   decoration: BoxDecoration(
                                     color: ColorApp.primaryColor.withOpacity(
-                                      0.2,
+                                      0.1,
                                     ),
                                     shape: BoxShape.circle,
                                   ),

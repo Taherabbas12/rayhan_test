@@ -1,11 +1,17 @@
+// ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../controllers/cart_item_controller.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
+import '../../widgets/actions_button.dart';
 import 'request_rayhan.dart';
 
 class CartItemScreen extends StatelessWidget {
   CartItemScreen({super.key});
+  CartItemController cartItemController = Get.find<CartItemController>();
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -22,6 +28,54 @@ class CartItemScreen extends StatelessWidget {
               Expanded(
                 child: TabBarView(children: [RequestRayhan(), RequestRayhan()]),
               ),
+            ],
+          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Container(
+          padding: EdgeInsets.symmetric(vertical: Values.circle),
+          decoration: BoxDecoration(
+            color: ColorApp.backgroundColor,
+            border: Border.all(color: ColorApp.borderColor.withAlpha(50)),
+          ),
+          child: Row(
+            children: [
+              SizedBox(width: Values.spacerV),
+
+              SizedBox(
+                width: Values.width * .3,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Obx(
+                      () => Text(
+                        '(${cartItemController.countProduct}) عناصر',
+                        style: StringStyle.textLabil.copyWith(
+                          color: ColorApp.textSecondryColor,
+                        ),
+                      ),
+                    ),
+                    Obx(
+                      () => Text(
+                        '${cartItemController.total.toStringAsFixed(0)} د.ع',
+                        style: StringStyle.textLabil,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Expanded(
+                child: BottonsC.action1(h: 50, 'التالي', () {
+                  // restaurantController.addToCart(
+                  //   product,
+                  //   noteController.text,
+                  //   quantity,
+                  // );
+                }),
+              ),
+              SizedBox(width: Values.spacerV),
             ],
           ),
         ),

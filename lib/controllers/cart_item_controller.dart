@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
+import '../utils/constants/color_app.dart';
+import '../views/widgets/message_snak.dart';
 
 class CartItemController extends GetxController {
   RxList<CartItem> cartItems = <CartItem>[].obs;
@@ -35,12 +37,13 @@ class CartItemController extends GetxController {
 
   Future<void> addToCart(CartItem newItem, {Restaurant? restaurant}) async {
     if (currentCartType != null && currentCartType != newItem.cartType) {
-      Get.snackbar('تنبيه', 'لا يمكنك خلط أنواع سلة مختلفة');
+      MessageSnak.message('لا يمكنك خلط أنواع سلة مختلفة');
       return;
     }
 
     if (currentVendorId != null && currentVendorId != newItem.vendorId) {
-      Get.snackbar('تنبيه', 'لا يمكنك إضافة منتجات من مورد مختلف');
+      MessageSnak.message('لا يمكنك إضافة منتجات من مورد مختلف');
+
       return;
     }
 
@@ -65,6 +68,12 @@ class CartItemController extends GetxController {
       await CartDb.instance.saveRestaurant(restaurant);
       selectedRestaurant = restaurant;
     }
+    Get.back();
+    // هنا يمكنك إضافة الكود لإضافة المنتج إلى السلة
+    MessageSnak.message(
+      'تمت إضافة العنصر إلى السلة',
+      color: ColorApp.greenColor,
+    );
   }
 
   Future<void> updateItemQuantity(String productId, int quantity) async {
@@ -101,6 +110,8 @@ class CartItemController extends GetxController {
     selectedRestaurant = null;
   }
 
-  double get total =>
-      cartItems.fold(0.0, (sum, item) => sum + item.price1 * item.quantity);
+  Rx<double> get total =>
+      cartItems.fold(0.0.obs, (sum, item) => sum + item.price1 * item.quantity);
+  Rx<int> get countProduct =>
+      cartItems.fold(0.obs, (sum, item) => Rx(sum.value + item.quantity));
 }
