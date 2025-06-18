@@ -25,6 +25,10 @@ class CartItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double discount = 0;
+    if (item.price2 != 0) {
+      discount = ((item.price1 - item.price2) / item.price1) * 100;
+    }
     return Container(
       // height: item.note.isNotEmpty ? 150 : 130,
       constraints: BoxConstraints(
@@ -68,11 +72,40 @@ class CartItemWidget extends StatelessWidget {
           ),
           child: Row(
             children: [
-              SizedBox(
-                width: 130,
-                height: 130,
-                child: imageCached(item.image, right: true),
+              Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  SizedBox(
+                    width: 130,
+                    height: 130,
+                    child: imageCached(item.image, right: true),
+                  ),
+
+                  if (item.price2 != 0)
+                    Positioned(
+                      top: 10,
+                      right: 10,
+                      child: Container(
+                        padding: const EdgeInsets.all(5),
+                        decoration: BoxDecoration(
+                          color: ColorApp.primaryColor,
+                          // borderRadius: BorderRadius.circular(Values.circle),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          "الخصم\n%${discount.toStringAsFixed(0)}",
+                          style: StringStyle.textTable.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 12,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
               ),
+
               SizedBox(width: Values.circle),
               Expanded(
                 child: Column(
