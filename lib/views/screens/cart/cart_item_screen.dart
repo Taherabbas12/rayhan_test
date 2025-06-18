@@ -118,7 +118,7 @@ class CartItemScreen extends StatelessWidget {
 
           indicatorAnimation: TabIndicatorAnimation.elastic,
           splashBorderRadius: BorderRadius.circular(Values.circle),
-          tabs: [Tab(text: 'خدمات ريحان'), Tab(text: 'طلبات ريحان')],
+          tabs: [Tab(text: 'طلبات ريحان'), Tab(text: 'خدمات ريحان')],
         ),
       ],
     );

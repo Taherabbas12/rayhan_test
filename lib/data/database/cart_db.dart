@@ -38,7 +38,7 @@ class CartDb {
         vendorName TEXT,
         cartType TEXT
       )
-    ''');
+      ''');
     await db.execute('''
     CREATE TABLE selected_restaurant (
       id INTEGER PRIMARY KEY,
@@ -62,14 +62,25 @@ class CartDb {
       freeDelivery INTEGER,
       openTime TEXT,
       closeTime TEXT,
-      starAvg REAL
+      starAvg REAL,
+      cartType TEXT
     )
-  ''');
+    ''');
   }
 
   Future<List<CartItem>> getAllItems() async {
     final db = await instance.database;
     final result = await db.query('cart');
+    return result.map((e) => CartItem.fromMap(e)).toList();
+  }
+
+  Future<List<CartItem>> getItemsByCartType(String cartType) async {
+    final db = await instance.database;
+    final result = await db.query(
+      'cart',
+      where: 'cartType = ?',
+      whereArgs: [cartType],
+    );
     return result.map((e) => CartItem.fromMap(e)).toList();
   }
 
@@ -98,7 +109,6 @@ class CartDb {
     await db.delete('cart');
   }
 
-  // -----Selected Restaurant Methods-----
   Future<void> saveRestaurant(Restaurant restaurant) async {
     final db = await instance.database;
     await db.delete('selected_restaurant'); // احذف أي مطعم سابق

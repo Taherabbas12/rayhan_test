@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../../controllers/market_product_controller.dart';
 import '../../../../data/models/product_model.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/style_app.dart';
 import '../../../../utils/constants/values_constant.dart';
-import '../../../widgets/message_snak.dart';
 import '../../../widgets/more_widgets.dart';
 import 'view_product_screen.dart';
 
@@ -16,6 +16,8 @@ class ProductWidgetGrid extends StatelessWidget {
   ProductWidgetGrid({super.key, required this.product});
   final Product product;
   RxBool isBasket = false.obs;
+  MarketProductController marketProductController =
+      Get.find<MarketProductController>();
   @override
   Widget build(BuildContext context) {
     double discount = 0;
@@ -76,17 +78,17 @@ class ProductWidgetGrid extends StatelessWidget {
                   left: 40,
                   height: 32,
                   child: InkWell(
-                    onTap: () {
+                    onTap: () async {
                       if (isBasket.value) return;
                       isBasket.value = true;
-                      // addToCart(product.id, 1, product.price1, product.price2);
-                      Future.delayed(const Duration(seconds: 2), () {
-                        isBasket.value = false;
-                        MessageSnak.message(
-                          "تمت الإضافة للسلة",
-                          color: ColorApp.primaryColor,
-                        );
-                      });
+                      marketProductController.addToCart(
+                        product,
+                        "",
+                        1,
+                        isBack: false,
+                      );
+                      await Future.delayed(const Duration(milliseconds: 500));
+                      isBasket.value = false;
                     },
 
                     borderRadius: BorderRadius.circular(Values.spacerV),

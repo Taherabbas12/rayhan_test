@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 
+import '../data/models/cart_item.dart';
 import '../data/models/product_model.dart';
 import '../data/models/shop_category.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/values_constant.dart';
+import 'cart_item_controller.dart';
 import 'market_controller.dart';
 
 class MarketProductController extends GetxController {
@@ -32,6 +34,32 @@ class MarketProductController extends GetxController {
     fetchMarketProducts(
       idCategores: marketController.selectCategories.value!.id,
       subCategorie: category.id,
+    );
+  }
+
+  CartItemController cartItemController = Get.find<CartItemController>();
+
+  void addToCart(
+    Product product,
+    String note,
+    int quantity, {
+    bool isBack = true,
+  }) {
+    cartItemController.addToCart(
+      CartItem(
+        vendorName: '',
+        productId: product.id.toString(),
+        name: product.name,
+        image: product.image,
+        note: note,
+        price2: product.price2,
+        price1: product.price1,
+        quantity: quantity,
+        vendorId: '',
+        cartType: CartType.mart,
+      ),
+
+      isBack: isBack,
     );
   }
 

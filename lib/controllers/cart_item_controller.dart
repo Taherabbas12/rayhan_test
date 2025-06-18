@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
+import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 
@@ -16,16 +17,29 @@ class CartItemController extends GetxController {
 
   void onAddressTypeChanged(String value) {
     selectedCartType.value = value;
+    if (value == 'المطاعم') {
+      currentCartType = CartType.restaurant;
+    } else if (value == 'المتاجر') {
+      currentCartType = CartType.shop;
+    } else if (value == 'الماركت') {
+      currentCartType = CartType.mart;
+    } else {
+      currentCartType = null;
+    }
+    loadCart(cartType: currentCartType ?? CartType.restaurant);
+    logger.e('Cart type changed to: $currentCartType');
   }
 
   @override
   void onInit() {
     super.onInit();
-    loadCart();
+    loadCart(cartType: currentCartType ?? CartType.restaurant);
   }
 
-  Future<void> loadCart() async {
-    final items = await CartDb.instance.getAllItems();
+  Future<void> loadCart({CartType cartType = CartType.restaurant}) async {
+    final items = await CartDb.instance.getItemsByCartType(
+      cartTypeToString(cartType),
+    );
     cartItems.assignAll(items);
     if (items.isNotEmpty) {
       currentVendorId = items.first.vendorId;
@@ -40,15 +54,17 @@ class CartItemController extends GetxController {
     Restaurant? restaurant,
     bool isBack = true,
   }) async {
-    if (currentCartType != null && currentCartType != newItem.cartType) {
-      MessageSnak.message('لا يمكنك خلط أنواع سلة مختلفة');
-      return;
-    }
+    if (newItem.cartType == CartType.restaurant) {
+      if (currentCartType != null && currentCartType != newItem.cartType) {
+        MessageSnak.message('لا يمكنك خلط أنواع سلة مختلفة');
+        return;
+      }
 
-    if (currentVendorId != null && currentVendorId != newItem.vendorId) {
-      MessageSnak.message('لا يمكنك إضافة منتجات من مورد مختلف');
+      if (currentVendorId != null && currentVendorId != newItem.vendorId) {
+        MessageSnak.message('لا يمكنك إضافة منتجات من مورد مختلف');
 
-      return;
+        return;
+      }
     }
 
     final index = cartItems.indexWhere(

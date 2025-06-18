@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/cart_item_controller.dart';
+import '../../../data/models/cart_item.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/shadow_values.dart';
 import '../../../utils/constants/style_app.dart';
@@ -40,19 +41,22 @@ class RequestRayhan extends StatelessWidget {
 
           Padding(
             padding: EdgeInsets.symmetric(horizontal: Values.spacerV * 1.3),
-            child: Text(
-              'المطعم الذي تم تحديد الطلبات منه',
-              style: StringStyle.headerStyle.copyWith(
-                color: ColorApp.blackColor,
+            child: Obx(
+              () => Text(
+                '${cartItemController.selectedCartType.value} الذي تم تحديد الطلبات منه',
+                style: StringStyle.headerStyle.copyWith(
+                  color: ColorApp.blackColor,
+                ),
+                textAlign: TextAlign.right,
               ),
-              textAlign: TextAlign.right,
             ),
           ),
           SizedBox(height: Values.circle),
-          // Display selected restaurant if available
           Obx(
             () =>
-                cartItemController.selectedRestaurant.value != null
+                cartItemController.selectedRestaurant.value != null &&
+                        cartItemController.currentCartType ==
+                            CartType.restaurant
                     ? Container(
                       margin: EdgeInsets.symmetric(
                         horizontal: Values.spacerV,
