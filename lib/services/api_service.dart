@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 
+import '../controllers/storage_controller.dart';
 import '../utils/constants/api_constants.dart';
 import 'error_message.dart';
 
@@ -26,10 +27,10 @@ class ApiService {
     ),
   );
 
-  // static void updateToken() {
-  //   _dio.options.headers['Authorization'] =
-  //       'Bearer ${StorageController.getToken()}';
-  // }
+  static void updateToken() {
+    _dio.options.headers['Authorization'] =
+        'Bearer ${StorageController.getToken()}';
+  }
 
   // دالة GET لجلب البيانات وإرجاعها على شكل Map
   static Future<StateReturnData> getData(String endpoint) async {

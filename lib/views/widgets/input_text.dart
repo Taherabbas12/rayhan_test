@@ -60,12 +60,15 @@ class InputText {
     TextEditingController controller, {
     required String? Function(String?)? validator,
     double w = 300,
+    double? h,
     int isNumber = 0,
     int maxLine = 1,
+    double circle = 10,
   }) => Container(
     margin: EdgeInsets.all(Values.circle * 0.5),
     decoration: BoxDecoration(boxShadow: ShadowValues.shadowValues2),
     width: w,
+
     child: TextFormField(
       maxLines: maxLine,
       controller: controller,
@@ -86,18 +89,16 @@ class InputText {
             color: ColorApp.subColor.withAlpha(150),
             width: 0.5,
           ),
-          borderRadius: BorderRadius.circular(Values.circle),
+          borderRadius: BorderRadius.circular(circle),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorApp.greenColor.withAlpha(150),
             width: 0.5,
           ),
-          borderRadius: BorderRadius.circular(Values.circle),
+          borderRadius: BorderRadius.circular(circle),
         ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(Values.circle),
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(circle)),
         focusedErrorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: ColorApp.redColor.withAlpha(150),
@@ -109,12 +110,12 @@ class InputText {
             color: ColorApp.redColor.withAlpha(150),
             width: 0.5,
           ),
-          borderRadius: BorderRadius.circular(Values.circle),
+          borderRadius: BorderRadius.circular(circle),
         ),
         label: Container(
           decoration: BoxDecoration(
             // color: ColorApp.backgroundColor2,
-            borderRadius: BorderRadius.circular(Values.circle),
+            borderRadius: BorderRadius.circular(circle),
           ),
           padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
           child: Text(
@@ -126,6 +127,7 @@ class InputText {
       validator: validator,
     ),
   );
+
   static Widget inputStringValidatorIcon(
     String name,
     TextEditingController controller, {
