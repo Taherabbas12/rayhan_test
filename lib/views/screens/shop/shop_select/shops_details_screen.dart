@@ -13,7 +13,7 @@ import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
 import '../../../widgets/more_widgets.dart';
-import '../retaurant_list.dart';
+import '../shop_list.dart';
 import 'product_widget_grid_shop.dart';
 import 'product_widget_horizontal_shops.dart';
 import 'view_shop_categorey.dart';

@@ -13,7 +13,6 @@ import '../../../controllers/shops_controller.dart';
 import '../../../data/models/restaurant.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/values_constant.dart';
-import '../../widgets/image_slder.dart';
 import '../../widgets/more_widgets.dart';
 
 class ShopLists extends StatelessWidget {
