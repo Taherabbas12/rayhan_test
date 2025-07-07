@@ -89,10 +89,10 @@ class MyApp extends StatelessWidget {
         );
       },
       title: 'ريحان',
-      initialRoute: StorageController.checkLoginStatus()
-          ? AppRoutes.home
-          : AppRoutes.login,
-      // initialRoute: AppRoutes.login,
+      // initialRoute: StorageController.checkLoginStatus()
+      //     ? AppRoutes.home
+      //     : AppRoutes.login,
+      initialRoute: AppRoutes.register,
       getPages: AppRoutes.routes,
     );
   }

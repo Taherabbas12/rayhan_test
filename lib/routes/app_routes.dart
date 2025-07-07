@@ -12,6 +12,7 @@ import '../bindings/shop_binding.dart';
 import '../bindings/taxi_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
+import '../views/screens/auth/register.dart';
 import '../views/screens/cart/cart_item_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
@@ -43,7 +44,7 @@ class AppRoutes {
       binding: CartItemBinding(),
     ),
     GetPage(name: login, page: () => Login(), binding: LoginBinding()),
-    // GetPage(name: register, page: () => Register(), binding: LoginBinding()),
+    GetPage(name: register, page: () => Register(), binding: LoginBinding()),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),

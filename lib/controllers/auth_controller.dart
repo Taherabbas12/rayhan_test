@@ -16,11 +16,76 @@ class AuthController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isCompleteForm = false.obs;
   final TextEditingController phoneNumber = TextEditingController();
+  // تسجيل الدخول
+  final TextEditingController password = TextEditingController();
+  final TextEditingController name = TextEditingController();
+  final TextEditingController birthDay = TextEditingController();
+  final TextEditingController homeNo = TextEditingController();
+  final TextEditingController buildingNo = TextEditingController();
+  final TextEditingController roofNo = TextEditingController();
+  final TextEditingController blockNo = TextEditingController();
+  final TextEditingController nickName = TextEditingController();
 
+  //
+  RxBool loginWithOtpStatus = false.obs;
+  RxString deviceID = ''.obs;
+  RxDouble lat = 0.0.obs;
+  RxDouble lang = 0.0.obs;
+  //
+  Future<void> registerUser() async {
+    final data = {
+      "tbUser": {
+        "phone": setTruePhoneNumber(),
+        "type": "user",
+        "admin": "false",
+        "active": "true",
+        "isBusy": "false",
+        "star": "false",
+        "lat": lat.value.toString(),
+        "lang": lang.value.toString(),
+        "deviecidx": deviceID.value.toString(), // معرف الجهاز
+        "pass":
+            loginWithOtpStatus.value ? "123456" : password.text, // كلمة المرور
+        "name": name.text,
+        "birthday": birthDay.text,
+      },
+      "tbAddress": {
+        "homeNo": homeNo.text, // رقم المنزل
+        "buildingNo": buildingNo.text, // رقم البناية
+        "roofNo": roofNo.text, // رقم السطح
+        "blockNo": blockNo.text, // رقم القطعة
+        "nickName": nickName.text,
+        "inBasmaya": "true",
+      },
+    };
+
+    try {
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.smsSendWhats,
+        data,
+      );
+
+      logger.e("response ${response.data}   | ");
+      if (response.isStateSucess < 3) {
+      } else {
+        MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
+    }
+
+    isLoading(false);
+  }
+
+  String setTruePhoneNumber() {
+    // قم بتعديل هذه الدالة حسب الحاجة
+    return phoneNumber.text.replaceAll(" ", "").replaceAll("+", "");
+  }
+
+  //
   RxString numberInput = RxString('');
   // OTP
   final TextEditingController otpController = TextEditingController();
-  // اعادة ارسال ال OTP
 
   @override
   void onInit() {

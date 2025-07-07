@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../utils/constants/images_url.dart';
 
 class PhoneFieldWidget extends StatelessWidget {
   final TextEditingController controller;
+  final bool enabled;
 
-  const PhoneFieldWidget({super.key, required this.controller});
+  const PhoneFieldWidget({
+    super.key,
+    required this.controller,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +42,7 @@ class PhoneFieldWidget extends StatelessWidget {
           ),
 
           // TextField
-          AutoWidthPhoneInput(controller: controller),
+          AutoWidthPhoneInput(controller: controller, enabled: enabled),
 
           const SizedBox(width: 5),
 
@@ -56,8 +60,12 @@ class PhoneFieldWidget extends StatelessWidget {
 
 class AutoWidthPhoneInput extends StatefulWidget {
   final TextEditingController controller;
-
-  const AutoWidthPhoneInput({super.key, required this.controller});
+  final bool enabled;
+  const AutoWidthPhoneInput({
+    super.key,
+    required this.controller,
+    this.enabled = true,
+  });
 
   @override
   State<AutoWidthPhoneInput> createState() => _AutoWidthPhoneInputState();
@@ -105,6 +113,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: TextFormField(
+          enabled: widget.enabled,
           controller: widget.controller,
           keyboardType: TextInputType.phone,
           inputFormatters: [

@@ -22,7 +22,6 @@ class StringStyle {
   );
   static TextStyle textTitle = TextStyle(
     fontSize: (18 * fontSize),
-
     color: ColorApp.blackColor,
   );
 
