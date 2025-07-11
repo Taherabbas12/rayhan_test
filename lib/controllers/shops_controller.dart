@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/data/models/product_model.dart';
-import 'package:rayhan_test/routes/app_routes.dart';
 
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
@@ -18,7 +17,7 @@ class ShopsController extends GetxController {
   Rx<Restaurant?> restaurantSelect = Rx(null);
   void selectRestorent(Restaurant restaurant) {
     restaurantSelect(restaurant);
-    Get.toNamed(AppRoutes.shopShopsScreen);
+    // Get.toNamed(AppRoutes.shopShopsScreen);
   }
 
   RxInt countView() =>

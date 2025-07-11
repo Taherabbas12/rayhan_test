@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
-
 import '../../../controllers/auth_controller.dart' show AuthController;
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/values_constant.dart';
@@ -74,7 +72,21 @@ class Register extends StatelessWidget {
               controller: authController.phoneNumber,
               enabled: false,
             ),
+            SizedBox(height: Values.spacerV * 2),
+            Text('تاريخ الميلاد', style: StringStyle.headerStyle),
             SizedBox(height: Values.circle),
+
+            InputText.inputDatePicker(
+              name: 'اختر تاريخ ميلادك',
+              context: context,
+              controller: authController.birthDay,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'الرجاء إدخال تاريخ ميلادك';
+                }
+                return null;
+              },
+            ),
           ],
         ),
       ),

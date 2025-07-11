@@ -127,6 +127,103 @@ class InputText {
       validator: validator,
     ),
   );
+  static Widget inputDatePicker({
+    required String name,
+    required TextEditingController controller,
+    double w = 300,
+    double circle = 10,
+    DateTime? initialDate,
+    DateTime? firstDate,
+    DateTime? lastDate,
+    required BuildContext context,
+    String? Function(String?)? validator,
+  }) {
+    return Container(
+      // margin: EdgeInsets.all(Values.circle * 0.5),
+      decoration: BoxDecoration(boxShadow: ShadowValues.shadowValues2),
+      child: TextFormField(
+        controller: controller,
+        readOnly: true,
+        onTap: () async {
+          FocusScope.of(context).unfocus();
+          DateTime? picked = await showDatePicker(
+            context: context,
+            initialDate: initialDate ?? DateTime(2000),
+            firstDate: firstDate ?? DateTime(1900),
+            lastDate: lastDate ?? DateTime.now(),
+            builder:
+                (context, child) => Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: ColorScheme.light(
+                      primary: ColorApp.greenColor,
+                      onPrimary: Colors.white,
+                      onSurface: ColorApp.blackColor,
+                    ),
+                    dialogBackgroundColor: ColorApp.backgroundColor,
+                  ),
+                  child: child!,
+                ),
+          );
+
+          if (picked != null) {
+            controller.text =
+                "${picked.year}-${picked.month.toString().padLeft(2, '0')}-${picked.day.toString().padLeft(2, '0')}";
+          }
+        },
+        style: StringStyle.textTable,
+        decoration: InputDecoration(
+          fillColor: ColorApp.whiteColor,
+          contentPadding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          // border: OutlineInputBorder(
+          //     borderRadius:
+          //         BorderRadius.circular(Values.circle), // تدوير الحواف
+          //     borderSide: BorderSide.none), // إزالة الحدود
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorApp.subColor.withAlpha(150),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(circle),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorApp.greenColor.withAlpha(150),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(circle),
+          ),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(circle),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorApp.redColor.withAlpha(150),
+              width: 1,
+            ),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: BorderSide(
+              color: ColorApp.redColor.withAlpha(150),
+              width: 0.5,
+            ),
+            borderRadius: BorderRadius.circular(circle),
+          ),
+          label: Container(
+            decoration: BoxDecoration(
+              // color: ColorApp.backgroundColor2,
+              borderRadius: BorderRadius.circular(circle),
+            ),
+            padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+            child: Text(
+              name,
+              style: StringStyle.textTable.copyWith(color: ColorApp.subColor),
+            ),
+          ),
+        ),
+        validator: validator,
+      ),
+    );
+  }
 
   static Widget inputStringValidatorIcon(
     String name,
