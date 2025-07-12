@@ -13,6 +13,7 @@ import '../bindings/taxi_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
 import '../views/screens/auth/register.dart';
+import '../views/screens/auth/register_complete.dart';
 import '../views/screens/cart/cart_item_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
@@ -26,6 +27,7 @@ import '../views/screens/services/taxi/taxi_screen.dart';
 class AppRoutes {
   static const login = '/login';
   static const register = '/Register';
+  static const registerComplete = '/Register-Complete';
   static const otp = '/otp';
   static const resturantsScreen = '/Resturants-Screen';
   static const servicesScreen = '/Services-Screen';
@@ -45,6 +47,11 @@ class AppRoutes {
     ),
     GetPage(name: login, page: () => Login(), binding: LoginBinding()),
     GetPage(name: register, page: () => Register(), binding: LoginBinding()),
+    GetPage(
+      name: registerComplete,
+      page: () => RegisterComplete(),
+      binding: LoginBinding(),
+    ),
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),

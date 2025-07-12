@@ -23,10 +23,8 @@ class RecentAddress extends StatelessWidget {
                 height: Values.circle * 0.5,
               ),
             ),
-        itemBuilder:
-            (context, index) =>
-                fivortyLoaction(taxiController.taxiAddresses[index]),
-        itemCount: taxiController.taxiAddresses.length,
+        itemBuilder: (context, index) => fivortyLoaction(taxiAddresses[index]),
+        itemCount: taxiAddresses.length,
       ),
     );
   }

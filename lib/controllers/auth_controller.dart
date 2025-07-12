@@ -10,8 +10,25 @@ import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 import 'storage_controller.dart';
+import 'taxi_controller.dart';
 
 class AuthController extends GetxController {
+  // مفتاح النموذج
+  final GlobalKey<FormState> formKeyRegister = GlobalKey<FormState>();
+  // بيانات العنوان الأول (الانطلاق)
+  Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
+  Rx<String?> selectedTaxiAddress = Rx<String?>(null);
+
+
+  void selectTaxi(Taxi taxi) {
+    selectedTaxiAddress.value = null;
+    selectedTaxi.value = taxi;
+  }
+
+  void selectTaxiAddress(String address) {
+    selectedTaxiAddress.value = address;
+  }
+
   // خصائص
   RxBool isLoading = false.obs;
   RxBool isCompleteForm = false.obs;
@@ -69,6 +86,7 @@ class AuthController extends GetxController {
 
       logger.e("response ${response.data}   | ");
       if (response.isStateSucess < 3) {
+        Get.toNamed(AppRoutes.home);
       } else {
         MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
       }
@@ -109,7 +127,7 @@ class AuthController extends GetxController {
     await Future.delayed(Duration(seconds: 1));
     if (otpController.text == otpCode) {
       await StorageController.storeData(dateOtp);
-      Get.toNamed(AppRoutes.home);
+      Get.toNamed(AppRoutes.register);
       MessageSnak.message(
         'تم التحقق من ال OTP بنجاح',
         color: ColorApp.greenColor,

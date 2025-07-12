@@ -25,7 +25,7 @@ class InsideBismayah extends StatelessWidget {
                 hintText: 'اختر البلوك',
                 labelText: isStart ? 'الانطلاق - البلوك' : 'الوصول - البلوك',
                 items:
-                    taxiController.taxiAddresses
+                    taxiAddresses
                         .map(
                           (e) =>
                               DropdownMenuItem(value: e, child: Text(e.name)),
@@ -108,49 +108,6 @@ class InsideBismayah extends StatelessWidget {
     });
   }
 
-  Widget inputDropDown({
-    String? hintText,
-    String? labelText,
-    initialValue,
-    items,
-    onChanged,
-  }) {
-    return Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (labelText != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Text(labelText, style: StringStyle.headerStyle),
-            ),
-          SizedBox(height: Values.circle),
-          Container(
-            height: 60,
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-            decoration: BoxDecoration(
-              color: ColorApp.borderColor.withAlpha(50),
-              borderRadius: BorderRadius.circular(8),
-              border: Border.all(color: ColorApp.borderColor),
-            ),
-            child: DropdownButtonFormField(
-              icon: Icon(CupertinoIcons.chevron_down),
-              style: StringStyle.headerStyle,
-              borderRadius: BorderRadius.circular(Values.circle),
-              decoration: InputDecoration(
-                border: InputBorder.none,
-                hintText: hintText ?? 'اختر خيارًا',
-              ),
-              items: items,
-              value: initialValue,
-              onChanged: onChanged,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget recent(String title) {
     return Expanded(
       child: InkWell(
@@ -220,4 +177,47 @@ class InsideBismayah extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget inputDropDown({
+  String? hintText,
+  String? labelText,
+  initialValue,
+  items,
+  onChanged,
+}) {
+  return Expanded(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        if (labelText != null)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Text(labelText, style: StringStyle.headerStyle),
+          ),
+        SizedBox(height: Values.circle),
+        Container(
+          height: 60,
+          padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 8),
+          decoration: BoxDecoration(
+            color: ColorApp.borderColor.withAlpha(50),
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: ColorApp.borderColor),
+          ),
+          child: DropdownButtonFormField(
+            icon: Icon(CupertinoIcons.chevron_down),
+            style: StringStyle.headerStyle,
+            borderRadius: BorderRadius.circular(Values.circle),
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: hintText ?? 'اختر خيارًا',
+            ),
+            items: items,
+            value: initialValue,
+            onChanged: onChanged,
+          ),
+        ),
+      ],
+    ),
+  );
 }

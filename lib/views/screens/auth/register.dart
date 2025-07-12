@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/routes/app_routes.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import '../../../controllers/auth_controller.dart' show AuthController;
 import '../../../utils/constants/color_app.dart';
@@ -100,13 +101,14 @@ class Register extends StatelessWidget {
             'التالي',
             () {
               if (authController.isCompleteFormRegester().value) {
-                authController.registerUser();
+                // authController.registerUser();
+                Get.toNamed(AppRoutes.registerComplete);
               }
             },
             color:
                 authController.isCompleteFormRegester().value
                     ? ColorApp.primaryColor
-                    : ColorApp.backgroundColorContent,
+                    : ColorApp.borderColor,
             colorText: ColorApp.whiteColor,
           ),
         ),

@@ -64,8 +64,9 @@ class InputText {
     int isNumber = 0,
     int maxLine = 1,
     double circle = 10,
+    EdgeInsetsGeometry? margin,
   }) => Container(
-    margin: EdgeInsets.all(Values.circle * 0.5),
+    margin: margin ?? EdgeInsets.all(Values.circle * 0.5),
     decoration: BoxDecoration(boxShadow: ShadowValues.shadowValues2),
     width: w,
 

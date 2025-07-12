@@ -45,7 +45,8 @@ class TaxiController extends GetxController {
 
   void selectTaxiAddress(String address) {
     selectedTaxiAddress.value = address;
-  }   
+  }
+
   // بيانات العنوان الثاني (الوصول)
   Rx<Taxi?> selectedTaxi2 = Rx<Taxi?>(null);
   Rx<String?> selectedTaxiAddress2 = Rx<String?>(null);
@@ -68,22 +69,23 @@ class TaxiController extends GetxController {
   }
 
   // عناوين افتراضية
-  List<Taxi> taxiAddresses = [
-    Taxi(name: 'A1', addresses: List.generate(12, (index) => '${index + 1}')),
-    Taxi(name: 'A2', addresses: List.generate(14, (index) => '${index + 1}')),
-    Taxi(name: 'A3', addresses: List.generate(14, (index) => '${index + 1}')),
-    Taxi(name: 'A4', addresses: List.generate(12, (index) => '${index + 1}')),
-    Taxi(name: 'A5', addresses: List.generate(12, (index) => '${index + 1}')),
-    Taxi(name: 'A6', addresses: List.generate(12, (index) => '${index + 1}')),
-    Taxi(name: 'A7', addresses: List.generate(13, (index) => '${index + 1}')),
-    Taxi(name: 'A8', addresses: List.generate(15, (index) => '${index + 1}')),
-    Taxi(name: 'A9', addresses: List.generate(15, (index) => '${index + 1}')),
-    Taxi(name: 'B1', addresses: List.generate(12, (index) => '${index + 1}')),
-    Taxi(name: 'B2', addresses: List.generate(18, (index) => '${index + 1}')),
-    Taxi(name: 'B3', addresses: List.generate(18, (index) => '${index + 1}')),
-    Taxi(name: 'B8', addresses: List.generate(12, (index) => '${index + 1}')),
-  ];
 }
+
+List<Taxi> taxiAddresses = [
+  Taxi(name: 'A1', addresses: List.generate(12, (index) => '${index + 1}')),
+  Taxi(name: 'A2', addresses: List.generate(14, (index) => '${index + 1}')),
+  Taxi(name: 'A3', addresses: List.generate(14, (index) => '${index + 1}')),
+  Taxi(name: 'A4', addresses: List.generate(12, (index) => '${index + 1}')),
+  Taxi(name: 'A5', addresses: List.generate(12, (index) => '${index + 1}')),
+  Taxi(name: 'A6', addresses: List.generate(12, (index) => '${index + 1}')),
+  Taxi(name: 'A7', addresses: List.generate(13, (index) => '${index + 1}')),
+  Taxi(name: 'A8', addresses: List.generate(15, (index) => '${index + 1}')),
+  Taxi(name: 'A9', addresses: List.generate(15, (index) => '${index + 1}')),
+  Taxi(name: 'B1', addresses: List.generate(12, (index) => '${index + 1}')),
+  Taxi(name: 'B2', addresses: List.generate(18, (index) => '${index + 1}')),
+  Taxi(name: 'B3', addresses: List.generate(18, (index) => '${index + 1}')),
+  Taxi(name: 'B8', addresses: List.generate(12, (index) => '${index + 1}')),
+];
 
 // الموديل المستخدم للعناوين
 class Taxi {
