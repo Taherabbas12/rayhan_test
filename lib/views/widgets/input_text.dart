@@ -155,7 +155,7 @@ class InputText {
                 (context, child) => Theme(
                   data: Theme.of(context).copyWith(
                     colorScheme: ColorScheme.light(
-                      primary: ColorApp.greenColor,
+                      primary: ColorApp.primaryColor,
                       onPrimary: Colors.white,
                       onSurface: ColorApp.blackColor,
                     ),

@@ -15,6 +15,8 @@ class AuthController extends GetxController {
   // خصائص
   RxBool isLoading = false.obs;
   RxBool isCompleteForm = false.obs;
+  RxBool isCompleteFormRegester() =>
+      (birthDay.text.isNotEmpty && name.text.isNotEmpty).obs;
   final TextEditingController phoneNumber = TextEditingController();
   // تسجيل الدخول
   final TextEditingController password = TextEditingController();

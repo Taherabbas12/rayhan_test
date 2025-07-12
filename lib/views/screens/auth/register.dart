@@ -64,15 +64,16 @@ class Register extends StatelessWidget {
                 return null;
               },
             ),
-            SizedBox(height: Values.spacerV * 2),
+            SizedBox(height: Values.spacerV),
             Text('رقم الهاتف', style: StringStyle.headerStyle),
             SizedBox(height: Values.circle),
 
             PhoneFieldWidget(
+              w: 50,
               controller: authController.phoneNumber,
               enabled: false,
             ),
-            SizedBox(height: Values.spacerV * 2),
+            SizedBox(height: Values.spacerV),
             Text('تاريخ الميلاد', style: StringStyle.headerStyle),
             SizedBox(height: Values.circle),
 
@@ -93,16 +94,21 @@ class Register extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.all(Values.spacerV),
-        child: BottonsC.action1(
-          elevation: 0,
-          'التالي',
-          () {
-            if (authController.isCompleteForm.value) {
-              authController.submitFormLogin();
-            }
-          },
-          color: ColorApp.primaryColor,
-          colorText: ColorApp.whiteColor,
+        child: Obx(
+          () => BottonsC.action1(
+            elevation: 0,
+            'التالي',
+            () {
+              if (authController.isCompleteFormRegester().value) {
+                authController.registerUser();
+              }
+            },
+            color:
+                authController.isCompleteFormRegester().value
+                    ? ColorApp.primaryColor
+                    : ColorApp.backgroundColorContent,
+            colorText: ColorApp.whiteColor,
+          ),
         ),
       ),
     );

@@ -7,17 +7,20 @@ import '../../../utils/constants/images_url.dart';
 class PhoneFieldWidget extends StatelessWidget {
   final TextEditingController controller;
   final bool enabled;
+  final double w;
 
   const PhoneFieldWidget({
     super.key,
     required this.controller,
     this.enabled = true,
+    this.w = 60,
   });
+
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 60,
+      height: w,
       padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
         color: const Color.fromARGB(255, 244, 244, 244),
