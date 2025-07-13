@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/cart_item_controller.dart';
+import '../../../routes/app_routes.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
@@ -68,6 +69,7 @@ class CartItemScreen extends StatelessWidget {
 
               Expanded(
                 child: BottonsC.action1(h: 50, 'التالي', () {
+                  Get.toNamed(AppRoutes.orderScreen);
                   // restaurantController.addToCart(
                   //   product,
                   //   noteController.text,

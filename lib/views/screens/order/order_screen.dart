@@ -1,0 +1,286 @@
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../controllers/cart_item_controller.dart';
+import '../../../utils/constants/color_app.dart';
+import '../../../utils/constants/style_app.dart';
+import '../../../utils/constants/values_constant.dart';
+
+class OrderScreen extends StatelessWidget {
+  OrderScreen({super.key});
+
+  final CartItemController cartController = Get.find<CartItemController>();
+  final TextEditingController noteController = TextEditingController();
+  final TextEditingController couponController = TextEditingController();
+
+  final RxBool usePoints = false.obs;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text("إكمال الطلب")),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _buildAddressSection(),
+            const SizedBox(height: 12),
+            _buildNoteSection(noteController),
+            const SizedBox(height: 12),
+            _buildDiscountSection(couponController),
+            const SizedBox(height: 12),
+            _buildPaymentDetailsSection(),
+            const SizedBox(height: 12),
+            _buildPaymentInfoSection(),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  // تنفيذ الإرسال هنا
+                },
+                child: const Text("التالي"),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddressSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+
+      children: [
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(Values.circle),
+              topRight: Radius.circular(Values.circle),
+            ),
+            border: Border(
+              top: BorderSide(color: Colors.grey.shade300),
+              left: BorderSide(color: Colors.grey.shade300),
+              right: BorderSide(color: Colors.grey.shade300),
+              bottom: BorderSide.none, // ✅ أخفينا الحد السفلي
+            ),
+          ),
+          child: Text("عنوان التوصيل", style: StringStyle.headerStyle),
+        ),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(Values.circle),
+              bottomRight: Radius.circular(Values.circle),
+            ),
+            border: Border.all(color: Colors.grey.shade300),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 6),
+              Row(
+                children: [
+                  Text("منزل أهلي"),
+                  SizedBox(width: Values.circle * .5),
+                  Container(
+                    padding: const EdgeInsets.all(5),
+                    decoration: BoxDecoration(
+                      color: ColorApp.subColor.withAlpha(70),
+                      borderRadius: BorderRadius.circular(Values.circle),
+                    ),
+                    child: Text("الافتراضي"),
+                  ),
+                ],
+              ),
+              Text("البلوك A1، الطابق 4، شقة 56"),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNoteSection(TextEditingController controller) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(Values.circle),
+          topRight: Radius.circular(Values.circle),
+        ),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Text(
+              "ملاحظة عامة حول الطلبية",
+              style: StringStyle.headerStyle,
+            ),
+          ),
+          Divider(color: ColorApp.borderColor),
+
+          Container(
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(Values.circle),
+
+              border: Border.all(color: Colors.grey.shade300),
+            ),
+            child: TextFormField(
+              controller: controller,
+              maxLines: 3,
+              decoration: InputDecoration(
+                hintText: "اكتب ملاحظتك هنا.",
+                contentPadding: EdgeInsets.all(Values.circle),
+                border: InputBorder.none,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDiscountSection(TextEditingController controller) {
+    return Obx(
+      () => Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "الخصم على الطلبية",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 8),
+            Row(
+              children: [
+                Expanded(
+                  child: TextFormField(
+                    controller: controller,
+                    decoration: const InputDecoration(
+                      hintText: "اكتب الكود هنا",
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ElevatedButton(onPressed: () {}, child: const Text("تحقق")),
+              ],
+            ),
+            const Divider(height: 20),
+            Row(
+              children: [
+                const Expanded(child: Text("200 نقطة")),
+                Switch(
+                  value: usePoints.value,
+                  onChanged: (val) => usePoints.value = val,
+                ),
+                const Text("كل 100 نقطة = 1,000 د.ع"),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPaymentDetailsSection() {
+    return Obx(() {
+      double total = cartController.total.value;
+      double delivery =
+          cartController.selectedRestaurant.value?.deliveryPrice ?? 0;
+      double discount = 1000; // خصم المطعم
+      double pointsDiscount = usePoints.value ? 2000 : 0;
+      double coupon = 4000;
+      double serviceFee = 0;
+      double totalFinal =
+          total + delivery - discount - pointsDiscount - coupon + serviceFee;
+
+      return Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(color: Colors.grey.shade300),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              "معلومات الدفع",
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10),
+            _priceRow("سعر الطلب", total),
+            _priceRow("التوصيل", delivery),
+            _priceRow("خصم المطعم", -discount),
+            _priceRow("خصم النقاط", -pointsDiscount),
+            _priceRow("كوبون خصم", -coupon),
+            _priceRow("أجور الخدمة", serviceFee),
+            const Divider(),
+            _priceRow("المبلغ الكلي", totalFinal, bold: true),
+          ],
+        ),
+      );
+    });
+  }
+
+  Widget _buildPaymentInfoSection() {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: Colors.grey.shade300),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: const [
+          Text(
+            "المعلومات العامة",
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 8),
+          Text("طريقة الدفع: كاش"),
+          Text("رقم المعاملة: SK7263727399"),
+        ],
+      ),
+    );
+  }
+
+  Widget _priceRow(String title, double amount, {bool bold = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            title,
+            style: bold ? const TextStyle(fontWeight: FontWeight.bold) : null,
+          ),
+          Text(
+            "د.ع ${amount.toStringAsFixed(0)}",
+            style: bold ? const TextStyle(fontWeight: FontWeight.bold) : null,
+          ),
+        ],
+      ),
+    );
+  }
+}

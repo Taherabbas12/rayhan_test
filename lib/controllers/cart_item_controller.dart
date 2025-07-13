@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
+import '../services/api_service.dart';
 import '../services/error_message.dart';
+import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 
@@ -135,4 +138,126 @@ class CartItemController extends GetxController {
   );
   Rx<int> get countProduct =>
       cartItems.fold(0.obs, (sum, item) => Rx(sum.value + item.quantity));
+
+  // -----------------
+  Future<void> submitOrderFromCart({
+    required String userId,
+    required String addressId,
+    required String deliveryDay,
+    required String receiveDay,
+    String? seenDay,
+    required TimeOfDay deliveryTime,
+    required TimeOfDay receiveTime,
+    TimeOfDay? seenTime,
+    required String orderNote,
+  }) async {
+    if (cartItems.isEmpty || selectedRestaurant.value == null) {
+      MessageSnak.message('السلة فارغة أو المطعم غير محدد');
+      return;
+    }
+
+    final restaurant = selectedRestaurant.value!;
+    final totalPriceValue = total.value;
+    final taxValue = (totalPriceValue * 0.05).toStringAsFixed(
+      2,
+    ); // مثال على ضريبة 5%
+    final orderPriceValue = totalPriceValue.toStringAsFixed(2);
+    final deliveryPriceValue = restaurant.deliveryPrice.toStringAsFixed(2);
+    final totalWithDelivery = (totalPriceValue + restaurant.deliveryPrice)
+        .toStringAsFixed(2);
+
+    final itemsList =
+        cartItems.map((item) {
+          return {
+            "price": (item.price2 > 0 ? item.price2 : item.price1).toString(),
+            "count": item.quantity.toString(),
+            "productId": item.productId,
+            "note": item.note,
+          };
+        }).toList();
+
+    final body = createOrderBody(
+      branchId: restaurant.id.toString(),
+      taxPrice: taxValue,
+      orderPrice: orderPriceValue,
+      userId: userId,
+      addressId: addressId,
+      totalPrice: totalWithDelivery,
+      deliveryPrice: deliveryPriceValue,
+      mainCategoryId: restaurant.categoryId,
+      orderType: "Found",
+      deliveryDaySelected: deliveryDay,
+      receiveDaySelected: receiveDay,
+      seenDaySelected: seenDay,
+      deliveryTimeSelected: deliveryTime,
+      receiveTimeSelected: receiveTime,
+      seenTimeSelected: seenTime,
+      orderNote: orderNote,
+      items: itemsList,
+    );
+
+    try {
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.marketCatagorys,
+        body,
+      );
+
+      if (response.isStateSucess < 3) {
+        MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
+        await clearCart(); // إفراغ السلة بعد الإرسال الناجح
+      } else {
+        MessageSnak.message('فشل إرسال الطلب');
+      }
+    } catch (e) {
+      MessageSnak.message('حدث خطأ أثناء إرسال الطلب: $e');
+    }
+  }
+}
+
+Map<String, dynamic> createOrderBody({
+  required String branchId,
+  required String taxPrice,
+  required String orderPrice,
+  required String userId,
+  required String addressId,
+  required String totalPrice,
+  required String deliveryPrice,
+  required String mainCategoryId,
+  required String orderType,
+  required String deliveryDaySelected,
+  required String receiveDaySelected,
+  String? seenDaySelected,
+  required TimeOfDay deliveryTimeSelected,
+  required TimeOfDay receiveTimeSelected,
+  TimeOfDay? seenTimeSelected,
+  required String orderNote,
+  required List<Map<String, dynamic>> items,
+}) {
+  return {
+    "branch": branchId,
+    "tax": taxPrice,
+    "orderPrice": orderPrice,
+    "userId": userId,
+    "addressId": addressId,
+    "totalPrice": totalPrice,
+    "deliveryPrice": deliveryPrice,
+    "mainCategoryId": mainCategoryId,
+    "orderType": orderType,
+    "deliveryDays": deliveryDaySelected,
+    "receiveDays": receiveDaySelected,
+    if (seenDaySelected != null) "seenDays": seenDaySelected,
+    "deliveryTime": deliveryTimeSelected.toString(),
+    "receiveTimes": receiveTimeSelected.toString(),
+    "seenTimes": seenTimeSelected == null ? "" : seenTimeSelected.toString(),
+    "orderNote": orderNote,
+    "items":
+        items.map((item) {
+          return {
+            "price": item['price'].toString(),
+            "count": item['count'].toString(),
+            "productId": item['productId'].toString(),
+            "note": item['note'].toString(),
+          };
+        }).toList(),
+  };
 }
