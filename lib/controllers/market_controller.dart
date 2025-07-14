@@ -54,7 +54,7 @@ class MarketController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.marketCatagorys,
       );
-
+      logger.e('Market categories response: ${response.data}');
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 

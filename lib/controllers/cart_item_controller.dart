@@ -197,8 +197,10 @@ class CartItemController extends GetxController {
         ApiConstants.marketCatagorys,
         body,
       );
-
+      logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
+        Get.back();
+        Get.back();
         MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
         await clearCart(); // إفراغ السلة بعد الإرسال الناجح
       } else {

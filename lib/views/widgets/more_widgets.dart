@@ -137,7 +137,11 @@ Widget imageCached(
                     ),
                   ),
             )
-            : const SizedBox(child: Text('لا يوجد صورة ')),
+            : SizedBox(
+              child: Center(
+                child: Image.asset(ImagesUrl.logoPNG, width: 80, height: 80),
+              ),
+            ),
   );
 }
 
