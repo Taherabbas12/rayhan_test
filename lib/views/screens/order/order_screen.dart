@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_connect/http/src/utils/utils.dart';
+import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../../controllers/cart_item_controller.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
+import '../../widgets/actions_button.dart';
 
 class OrderScreen extends StatelessWidget {
   OrderScreen({super.key});
 
   final CartItemController cartController = Get.find<CartItemController>();
-  final TextEditingController noteController = TextEditingController();
-  final TextEditingController couponController = TextEditingController();
 
   final RxBool usePoints = false.obs;
 
@@ -26,24 +27,28 @@ class OrderScreen extends StatelessWidget {
           children: [
             _buildAddressSection(),
             const SizedBox(height: 12),
-            _buildNoteSection(noteController),
+            _buildNoteSection(cartController.noteController),
             const SizedBox(height: 12),
-            _buildDiscountSection(couponController),
-            const SizedBox(height: 12),
+            // _buildDiscountSection(couponController),
+            // const SizedBox(height: 12),
             _buildPaymentDetailsSection(),
             const SizedBox(height: 12),
             _buildPaymentInfoSection(),
             const SizedBox(height: 24),
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: () {
-                  // تنفيذ الإرسال هنا
-                },
-                child: const Text("التالي"),
-              ),
-            ),
+            SizedBox(height: Values.height * .15),
           ],
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Values.spacerV * 2),
+        child: Obx(
+          () =>
+              cartController.isLoadingOrder.value
+                  ? LoadingIndicator()
+                  : BottonsC.action1(h: 50, 'التالي', () {
+                    cartController.submitOrderFromCart();
+                  }, color: ColorApp.primaryColor),
         ),
       ),
     );
@@ -111,10 +116,8 @@ class OrderScreen extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(Values.circle),
-          topRight: Radius.circular(Values.circle),
-        ),
+        borderRadius: BorderRadius.circular(Values.circle),
+
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
@@ -208,34 +211,42 @@ class OrderScreen extends StatelessWidget {
           cartController.selectedRestaurant.value?.deliveryPrice ?? 0;
       double discount = 1000; // خصم المطعم
       double pointsDiscount = usePoints.value ? 2000 : 0;
-      double coupon = 4000;
+      // double coupon = 4000;
       double serviceFee = 0;
       double totalFinal =
-          total + delivery - discount - pointsDiscount - coupon + serviceFee;
+          total + delivery - discount - pointsDiscount + serviceFee;
 
       return Container(
-        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(Values.circle),
           border: Border.all(color: Colors.grey.shade300),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              "معلومات الدفع",
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Padding(
+              padding: EdgeInsets.all(Values.spacerV),
+              child: Text("معلومات الدفع", style: StringStyle.headerStyle),
             ),
-            const SizedBox(height: 10),
-            _priceRow("سعر الطلب", total),
-            _priceRow("التوصيل", delivery),
-            _priceRow("خصم المطعم", -discount),
-            _priceRow("خصم النقاط", -pointsDiscount),
-            _priceRow("كوبون خصم", -coupon),
-            _priceRow("أجور الخدمة", serviceFee),
-            const Divider(),
-            _priceRow("المبلغ الكلي", totalFinal, bold: true),
+            const Divider(color: ColorApp.borderColor, height: 0),
+
+            Padding(
+              padding: EdgeInsets.all(Values.spacerV),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _priceRow("سعر الطلب", total),
+                  _priceRow("التوصيل", delivery),
+                  _priceRow("خصم المطعم", -discount),
+                  // _priceRow("خصم النقاط", -pointsDiscount),
+                  // _priceRow("كوبون خصم", -coupon),
+                  // _priceRow("أجور الخدمة", serviceFee),
+                  const Divider(color: ColorApp.borderColor),
+                  _priceRow("المبلغ الكلي", totalFinal, bold: true),
+                ],
+              ),
+            ),
           ],
         ),
       );
@@ -244,22 +255,40 @@ class OrderScreen extends StatelessWidget {
 
   Widget _buildPaymentInfoSection() {
     return Container(
-      padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(Values.circle),
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: const [
-          Text(
-            "المعلومات العامة",
-            style: TextStyle(fontWeight: FontWeight.bold),
+        children: [
+          Padding(
+            padding: EdgeInsets.all(Values.spacerV),
+            child: Text("المعلومات العامة", style: StringStyle.headerStyle),
           ),
-          SizedBox(height: 8),
-          Text("طريقة الدفع: كاش"),
-          Text("رقم المعاملة: SK7263727399"),
+          const Divider(color: ColorApp.borderColor, height: 0),
+
+          Padding(
+            padding: EdgeInsets.all(Values.spacerV),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "المعلومات العامة",
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  "طريقة الدفع: كاش",
+                  style: StringStyle.headerStyle.copyWith(
+                    color: ColorApp.textSecondryColor,
+                  ),
+                ),
+                // Text("رقم المعاملة: SK7263727399"),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -273,11 +302,25 @@ class OrderScreen extends StatelessWidget {
         children: [
           Text(
             title,
-            style: bold ? const TextStyle(fontWeight: FontWeight.bold) : null,
+            style:
+                bold
+                    ? StringStyle.headerStyle.copyWith(
+                      color: ColorApp.textSecondryColor,
+                    )
+                    : StringStyle.textLabil.copyWith(
+                      color: ColorApp.textSecondryColor,
+                    ),
           ),
           Text(
             "د.ع ${amount.toStringAsFixed(0)}",
-            style: bold ? const TextStyle(fontWeight: FontWeight.bold) : null,
+            style:
+                bold
+                    ? StringStyle.headerStyle.copyWith(
+                      color: ColorApp.textSecondryColor,
+                    )
+                    : StringStyle.textLabil.copyWith(
+                      color: ColorApp.textSecondryColor,
+                    ),
           ),
         ],
       ),

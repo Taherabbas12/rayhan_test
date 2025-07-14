@@ -140,21 +140,16 @@ class CartItemController extends GetxController {
       cartItems.fold(0.obs, (sum, item) => Rx(sum.value + item.quantity));
 
   // -----------------
-  Future<void> submitOrderFromCart({
-    required String userId,
-    required String addressId,
-    required String deliveryDay,
-    required String receiveDay,
-    String? seenDay,
-    required TimeOfDay deliveryTime,
-    required TimeOfDay receiveTime,
-    TimeOfDay? seenTime,
-    required String orderNote,
-  }) async {
+  RxBool isLoadingOrder = false.obs;
+  final TextEditingController noteController = TextEditingController();
+  final TextEditingController couponController = TextEditingController();
+
+  Future<void> submitOrderFromCart() async {
     if (cartItems.isEmpty || selectedRestaurant.value == null) {
       MessageSnak.message('السلة فارغة أو المطعم غير محدد');
       return;
     }
+    isLoadingOrder(true);
 
     final restaurant = selectedRestaurant.value!;
     final totalPriceValue = total.value;
@@ -180,19 +175,20 @@ class CartItemController extends GetxController {
       branchId: restaurant.id.toString(),
       taxPrice: taxValue,
       orderPrice: orderPriceValue,
-      userId: userId,
-      addressId: addressId,
+      userId: '1087', // يجب استبداله بمعرف المستخدم الفعلي
+      addressId: 'addressid',
       totalPrice: totalWithDelivery,
       deliveryPrice: deliveryPriceValue,
       mainCategoryId: restaurant.categoryId,
       orderType: "Found",
-      deliveryDaySelected: deliveryDay,
-      receiveDaySelected: receiveDay,
-      seenDaySelected: seenDay,
-      deliveryTimeSelected: deliveryTime,
-      receiveTimeSelected: receiveTime,
-      seenTimeSelected: seenTime,
-      orderNote: orderNote,
+      deliveryDaySelected:
+          DateTime.now().toIso8601String(), // مثال على تاريخ التسليم
+      receiveDaySelected: DateTime.now().toIso8601String(),
+      seenDaySelected: DateTime.now().toIso8601String(),
+      deliveryTimeSelected: DateTime.now().toIso8601String(),
+      receiveTimeSelected: DateTime.now().toIso8601String(),
+      seenTimeSelected: DateTime.now().toIso8601String(),
+      orderNote: noteController.text.trim(),
       items: itemsList,
     );
 
@@ -210,6 +206,8 @@ class CartItemController extends GetxController {
       }
     } catch (e) {
       MessageSnak.message('حدث خطأ أثناء إرسال الطلب: $e');
+    } finally {
+      isLoadingOrder(false);
     }
   }
 }
@@ -227,9 +225,9 @@ Map<String, dynamic> createOrderBody({
   required String deliveryDaySelected,
   required String receiveDaySelected,
   String? seenDaySelected,
-  required TimeOfDay deliveryTimeSelected,
-  required TimeOfDay receiveTimeSelected,
-  TimeOfDay? seenTimeSelected,
+  required String deliveryTimeSelected,
+  required String receiveTimeSelected,
+  String? seenTimeSelected,
   required String orderNote,
   required List<Map<String, dynamic>> items,
 }) {

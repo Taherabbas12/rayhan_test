@@ -68,14 +68,26 @@ class CartItemScreen extends StatelessWidget {
               ),
 
               Expanded(
-                child: BottonsC.action1(h: 50, 'التالي', () {
-                  Get.toNamed(AppRoutes.orderScreen);
-                  // restaurantController.addToCart(
-                  //   product,
-                  //   noteController.text,
-                  //   quantity,
-                  // );
-                }),
+                child: Obx(
+                  () => BottonsC.action1(
+                    h: 50,
+                    'التالي',
+                    () {
+                      if (cartItemController.total > 0) {
+                        Get.toNamed(AppRoutes.orderScreen);
+                      }
+                      // restaurantController.addToCart(
+                      //   product,
+                      //   noteController.text,
+                      //   quantity,
+                      // );
+                    },
+                    color:
+                        cartItemController.total > 0
+                            ? ColorApp.primaryColor
+                            : ColorApp.subColor,
+                  ),
+                ),
               ),
               SizedBox(width: Values.spacerV),
             ],
