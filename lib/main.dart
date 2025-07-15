@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
       //     StorageController.checkLoginStatus()
       //         ? AppRoutes.home
       //         : AppRoutes.login,
-      initialRoute: AppRoutes.home,
+      initialRoute: AppRoutes.login,
       getPages: AppRoutes.routes,
     );
   }

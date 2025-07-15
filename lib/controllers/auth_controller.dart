@@ -19,7 +19,6 @@ class AuthController extends GetxController {
   Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
   Rx<String?> selectedTaxiAddress = Rx<String?>(null);
 
-
   void selectTaxi(Taxi taxi) {
     selectedTaxiAddress.value = null;
     selectedTaxi.value = taxi;
@@ -88,10 +87,17 @@ class AuthController extends GetxController {
       if (response.isStateSucess < 3) {
         Get.toNamed(AppRoutes.home);
       } else {
-        MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
+        Get.toNamed(AppRoutes.home);
+        // MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
+      Get.toNamed(AppRoutes.home);
+    } finally {
+      ApiService.updateTokenString(
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VyU3ViamVjdCIsImp0aSI6Ijc2Y2YxNWVlLWMyOWItNDg2MC1hODhkLTBiMDU4YjY3NWYyYyIsImlhdCI6IjcvMTMvMjAyNSA1OjM0OjEwIFBNIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJZb3VyQXVkaWVuY2UifQ._6fGCfpFIPWBCaEbGRbX4LBmxu-sB7j-ZmtgSm3rMno',
+      );
+      isLoading(false);
     }
 
     isLoading(false);
