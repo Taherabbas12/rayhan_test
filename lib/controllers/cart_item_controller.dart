@@ -194,15 +194,17 @@ class CartItemController extends GetxController {
 
     try {
       final StateReturnData response = await ApiService.postData(
-        ApiConstants.marketCatagorys,
+        'https://rayhan.shop/api/PlaysorderController1/CheckOrder',
         body,
       );
+
+      logger.e('Order response Data: $body');
       logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
-        Get.back();
-        Get.back();
+        // Get.back();
+        // Get.back();
         MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
-        await clearCart(); // إفراغ السلة بعد الإرسال الناجح
+        // await clearCart(); // إفراغ السلة بعد الإرسال الناجح
       } else {
         MessageSnak.message('فشل إرسال الطلب');
       }

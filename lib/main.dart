@@ -93,7 +93,7 @@ class MyApp extends StatelessWidget {
       //     StorageController.checkLoginStatus()
       //         ? AppRoutes.home
       //         : AppRoutes.login,
-      initialRoute: AppRoutes.login,
+      initialRoute: AppRoutes.home,
       getPages: AppRoutes.routes,
     );
   }
@@ -217,6 +217,7 @@ class MyApp extends StatelessWidget {
 //   }).toList(),
 //   "items": []
 // }
+// https://rayhan.shop/api/PlaysorderController1
 
 
 // عند انشاء طلب خدمه يجب توفر اوقات و ايام التواجد و الاستلام و تحديد الاسعار 
