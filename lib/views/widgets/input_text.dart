@@ -64,6 +64,7 @@ class InputText {
     int isNumber = 0,
     int maxLine = 1,
     double circle = 10,
+    bool isPassword = false,
     EdgeInsetsGeometry? margin,
   }) => Container(
     margin: margin ?? EdgeInsets.all(Values.circle * 0.5),
@@ -72,6 +73,7 @@ class InputText {
 
     child: TextFormField(
       maxLines: maxLine,
+      obscureText: isPassword,
       controller: controller,
       inputFormatters: [
         if (isNumber >= 1) FilteringTextInputFormatter.digitsOnly,
@@ -232,12 +234,13 @@ class InputText {
     required String? Function(String?)? validator,
     String? Function(String?)? onChanged,
     double w = 300,
+    EdgeInsetsGeometry? margin,
     int isNumber = 0,
     int maxLine = 1,
     bool isPassword = false,
     required IconData icon,
   }) => Container(
-    margin: EdgeInsets.all(Values.circle * 0.5),
+    margin: margin ?? EdgeInsets.all(Values.circle * 0.5),
     // decoration: BoxDecoration(
     //     boxShadow: ShadowValues.shadowValues2,
     //     borderRadius: BorderRadius.circular(Values.circle)),

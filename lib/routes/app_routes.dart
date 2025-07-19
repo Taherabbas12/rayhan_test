@@ -9,6 +9,7 @@ import '../bindings/market_product_binding.dart';
 import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
+import '../bindings/shops_binding.dart';
 import '../bindings/taxi_binding.dart';
 import '../views/screens/auth/login.dart';
 import '../views/screens/auth/otp.dart';
@@ -24,6 +25,8 @@ import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/restaurant/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
 import '../views/screens/services/taxi/taxi_screen.dart';
+import '../views/screens/shop/shop_select/shops_details_screen.dart';
+import '../views/screens/shop/shops_screen.dart';
 
 class AppRoutes {
   static const login = '/login';
@@ -40,8 +43,11 @@ class AppRoutes {
   static const taxiScreen = '/Taxi-Screen';
   static const cartItemScreen = '/Cart-Item-Screen';
   static const orderScreen = '/Order-Screen';
+  static const shopsScreen = '/Shops-Screen';
+  static const shopShopsScreen = '/shop-Shops-Screen';
 
   static final routes = [
+    GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
     GetPage(
       name: cartItemScreen,
       page: () => CartItemScreen(),
@@ -85,5 +91,10 @@ class AppRoutes {
       binding: ServicesBinding(),
     ),
     GetPage(name: orderScreen, page: () => OrderScreen()),
+    GetPage(
+      name: shopsScreen,
+      page: () => ShopsScreen(),
+      binding: ShopsBinding(),
+    ),
   ];
 }

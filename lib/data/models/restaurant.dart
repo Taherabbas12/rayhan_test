@@ -48,30 +48,38 @@ class Restaurant {
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
-    final shop = json['shop'];
+    final shop = json['shop'] ?? {};
+
     return Restaurant(
-      id: shop['id'],
-      categoryId: shop['categoryId'],
-      name: shop['name'],
-      subName: shop['subName'],
-      deviceToken: shop['deviceToken'],
-      type: shop['type'],
+      id: shop['id'] ?? 0,
+      categoryId: shop['categoryId']?.toString() ?? '',
+      name: shop['name'] ?? '',
+      subName: shop['subName'] ?? '',
+      deviceToken: shop['deviceToken'] ?? '',
+      type: shop['type'] ?? '',
       isOpen: (shop['isOpen'] ?? 0) == 1,
       active: (shop['active'] ?? 0) == 1,
-      deliveryTime: shop['deliveryTime'],
-      tag: shop['tag'],
-      cover: shop['cover'],
-      logo: shop['logo'],
-      password: shop['password'],
-      phone: shop['phone'],
-      address: shop['address'],
-      date: DateTime.parse(shop['date']),
-      discount: (shop['discount'] as num).toDouble(),
-      deliveryPrice: (shop['deliveryPrice'] as num).toDouble(),
+      deliveryTime: shop['deliveryTime'] ?? '',
+      tag: shop['tag'] ?? '',
+      cover: shop['cover'] ?? '',
+      logo: shop['logo'] ?? '',
+      password: shop['password'] ?? '',
+      phone: shop['phone'] ?? '',
+      address: shop['address'] ?? '',
+      date: DateTime.tryParse(shop['date'] ?? '') ?? DateTime.now(),
+      discount:
+          (shop['discount'] is num)
+              ? (shop['discount'] as num).toDouble()
+              : 0.0,
+      deliveryPrice:
+          (shop['deliveryPrice'] is num)
+              ? (shop['deliveryPrice'] as num).toDouble()
+              : 0.0,
       freeDelivery: (shop['freeDelivery'] ?? 0) == 1,
-      openTime: shop['openTime'],
-      closeTime: shop['closeTime'],
-      starAvg: (json['starAvg'] as num).toDouble(),
+      openTime: shop['openTime'] ?? '',
+      closeTime: shop['closeTime'] ?? '',
+      starAvg:
+          (json['starAvg'] is num) ? (json['starAvg'] as num).toDouble() : 0.0,
     );
   }
 

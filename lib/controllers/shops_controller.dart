@@ -5,6 +5,7 @@ import 'package:rayhan_test/data/models/product_model.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
 import '../data/models/category.dart';
+import '../routes/app_routes.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
@@ -17,7 +18,7 @@ class ShopsController extends GetxController {
   Rx<Restaurant?> restaurantSelect = Rx(null);
   void selectRestorent(Restaurant restaurant) {
     restaurantSelect(restaurant);
-    // Get.toNamed(AppRoutes.shopShopsScreen);
+    Get.toNamed(AppRoutes.shopShopsScreen);
   }
 
   RxInt countView() =>
@@ -148,7 +149,7 @@ class ShopsController extends GetxController {
           pageRestaurant,
           freeDelevry: filterOptions[1].isSelect,
           categoryId: 0,
-          type: 'shop',
+          type: 'Shop',
         ),
         {},
       );

@@ -13,6 +13,7 @@ import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/actions_button.dart';
 import '../../widgets/common/loading_indicator.dart';
+import '../../widgets/input_text.dart';
 import 'phone_field_widget.dart';
 
 class Login extends StatelessWidget {
@@ -62,7 +63,38 @@ class Login extends StatelessWidget {
                       SizedBox(height: Values.circle),
 
                       PhoneFieldWidget(controller: authController.phoneNumber),
+                      SizedBox(height: Values.spacerV * 1.5),
 
+                      Form(
+                        autovalidateMode: AutovalidateMode.onUserInteraction,
+
+                        child: InputText.inputStringValidatorIcon(
+                          'كلمة المرور',
+                          icon: Icons.lock_outline,
+                          margin: EdgeInsets.all(0),
+
+                          isPassword: true,
+
+                          authController.pass,
+                          onChanged: (p0) {
+                            authController.password.value = p0 ?? '';
+
+                            authController.isCompleteForm.value =
+                                authController.phoneNumber.text.length == 14 &&
+                                authController.rememberMe.value &&
+                                authController.password.value.length >= 6;
+                          },
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'الرجاء إدخال كلمة المرور';
+                            }
+                            if (value.length < 6) {
+                              return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
+                            }
+                            return null;
+                          },
+                        ),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

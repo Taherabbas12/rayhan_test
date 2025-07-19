@@ -175,14 +175,13 @@ class CartItemController extends GetxController {
       branchId: restaurant.id.toString(),
       taxPrice: taxValue,
       orderPrice: orderPriceValue,
-      userId: '1087', // يجب استبداله بمعرف المستخدم الفعلي
+      userId: '1087',
       addressId: 'addressid',
       totalPrice: totalWithDelivery,
       deliveryPrice: deliveryPriceValue,
       mainCategoryId: restaurant.categoryId,
       orderType: "Found",
-      deliveryDaySelected:
-          DateTime.now().toIso8601String(), // مثال على تاريخ التسليم
+      deliveryDaySelected: DateTime.now().toIso8601String(),
       receiveDaySelected: DateTime.now().toIso8601String(),
       seenDaySelected: DateTime.now().toIso8601String(),
       deliveryTimeSelected: DateTime.now().toIso8601String(),

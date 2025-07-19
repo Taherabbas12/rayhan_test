@@ -12,7 +12,7 @@ class HomeController extends GetxController {
   List<WidgetHome> widgetHomes = [
     WidgetHome('الطعام', ImagesUrl.imageResturant, AppRoutes.resturantsScreen),
     WidgetHome('الماركت', ImagesUrl.imageMarket, AppRoutes.marketScreen),
-    WidgetHome('المتاجر', ImagesUrl.imageMatajer, AppRoutes.resturantsScreen),
+    WidgetHome('المتاجر', ImagesUrl.imageMatajer, AppRoutes.shopsScreen),
     WidgetHome('الخدمات', ImagesUrl.imageServices, AppRoutes.servicesScreen),
   ];
   RxInt currentIndex = 0.obs;

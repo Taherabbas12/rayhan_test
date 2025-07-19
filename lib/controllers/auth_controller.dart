@@ -35,8 +35,10 @@ class AuthController extends GetxController {
       (birthDay.text.isNotEmpty && name.text.isNotEmpty).obs;
   final TextEditingController phoneNumber = TextEditingController();
   // تسجيل الدخول
-  final TextEditingController password = TextEditingController();
+  Rx<String> password = ''.obs;
+
   final TextEditingController name = TextEditingController();
+  final TextEditingController pass = TextEditingController();
   final TextEditingController birthDay = TextEditingController();
   final TextEditingController homeNo = TextEditingController();
   final TextEditingController buildingNo = TextEditingController();
@@ -62,8 +64,7 @@ class AuthController extends GetxController {
         "lat": lat.value.toString(),
         "lang": lang.value.toString(),
         "deviecidx": deviceID.value.toString(), // معرف الجهاز
-        "pass":
-            loginWithOtpStatus.value ? "123456" : password.text, // كلمة المرور
+        "pass": password.value,
         "name": name.text,
         "birthday": birthDay.text,
       },
@@ -117,7 +118,10 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     phoneNumber.addListener(() {
-      isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
+      isCompleteForm.value =
+          phoneNumber.text.length == 14 &&
+          rememberMe.value &&
+          password.value.length >= 6;
     });
   }
 
@@ -132,8 +136,12 @@ class AuthController extends GetxController {
     isLoading(true);
     await Future.delayed(Duration(seconds: 1));
     if (otpController.text == otpCode) {
-      await StorageController.storeData(dateOtp);
-      Get.toNamed(AppRoutes.register);
+      if (responseLogin != null) {
+        logger.e("responseLogin ${responseLogin!.data}   | ");
+        await StorageController.storeData(responseLogin!.data);
+        Get.toNamed(AppRoutes.login);
+      }
+      responseLogin;
       MessageSnak.message(
         'تم التحقق من ال OTP بنجاح',
         color: ColorApp.greenColor,
@@ -166,43 +174,72 @@ class AuthController extends GetxController {
   RxBool rememberMe = false.obs;
   void changeRememberMe(bool? value) {
     rememberMe.value = value!;
-    isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
+    isCompleteForm.value =
+        phoneNumber.text.length == 14 &&
+        rememberMe.value &&
+        password.value.length >= 6;
+    ;
   }
 
+  StateReturnData? responseLogin;
   // مفتاح النموذج
   var dateOtp;
   void submitFormLogin() async {
     isLoading(true);
 
     try {
-      otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
-      final StateReturnData response =
-          await ApiService.postData(ApiConstants.smsSendWhats, {
-            "recipient": "964${phoneNumber.value.text}",
-            "sender_id": "Rayhan",
-            "type": "whatsapp",
-            "message": otpCode,
-            "lang": "ar",
-          });
+      logger.i(
+        "phoneNumber ${phoneNumber.value.text} | password ${password.value} | rememberMe ${rememberMe.value}",
+      );
+      responseLogin = await ApiService.postData(
+        ApiConstants.login(
+          '0${phoneNumber.value.text.replaceAll(RegExp(r'\s+'), '')}',
+          password.value,
+        ),
+        {},
+      );
 
       logger.e("response $otpCode   | ");
-      logger.e("response ${response.data}   | ");
-      if (response.isStateSucess < 3) {
-        if (response.data['status'] == 'success') {
-          otpCode = response.data['data']['message'];
-          MessageSnak.message('تم إرسال OTP بنجاح', color: ColorApp.greenColor);
-          await Future.delayed(Duration(seconds: 2));
-          startTimer();
-          Get.toNamed(AppRoutes.otp);
-          isLoading(false);
-          dateOtp = response.data;
-          MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
+      logger.e("response ${responseLogin!.data}   | ");
+      if (responseLogin!.isStateSucess < 3) {
+        otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
+
+        final StateReturnData response =
+            await ApiService.postData(ApiConstants.smsSendWhats, {
+              "recipient": "964${phoneNumber.value.text}",
+              "sender_id": "Rayhan",
+              "type": "whatsapp",
+              "message": otpCode,
+              "lang": "ar",
+            });
+
+        logger.e("response $otpCode   | ");
+        logger.e("response ${response.data}   | ");
+        if (response.isStateSucess < 3) {
+          if (response.data['status'] == 'success') {
+            otpCode = response.data['data']['message'];
+            MessageSnak.message(
+              'تم إرسال OTP بنجاح',
+              color: ColorApp.greenColor,
+            );
+            await Future.delayed(Duration(seconds: 2));
+            startTimer();
+            Get.toNamed(AppRoutes.otp);
+            isLoading(false);
+            dateOtp = response.data;
+            MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
+          } else {
+            otpCode = '';
+          }
         } else {
-          otpCode = '';
+          MessageSnak.message(
+            'فشل في إرسال OTP تاكد من رقم الهاتف',
+            color: ColorApp.redColor,
+          );
         }
       } else {
         MessageSnak.message(
-          'فشل في إرسال OTP تاكد من رقم الهاتف',
+          'تاكد من صحة رقم الهاتف أوكلمة المرور',
           color: ColorApp.redColor,
         );
       }

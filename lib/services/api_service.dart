@@ -17,10 +17,10 @@ class ApiService {
         'Accept': 'application/json',
         // if (StorageController.checkLoginStatus())
         //   'Authorization': 'Bearer ${StorageController.getToken()}',
-        // 'Authorization':
-        //     'Bearer 249|bzKWe3XnKsg0UbJKjgVAQ0nFd5SosPbRzqoSLLUMbd52abba',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VyU3ViamVjdCIsImp0aSI6Ijc2Y2YxNWVlLWMyOWItNDg2MC1hODhkLTBiMDU4YjY3NWYyYyIsImlhdCI6IjcvMTMvMjAyNSA1OjM0OjEwIFBNIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJZb3VyQXVkaWVuY2UifQ._6fGCfpFIPWBCaEbGRbX4LBmxu-sB7j-ZmtgSm3rMno',
+            'Bearer 249|bzKWe3XnKsg0UbJKjgVAQ0nFd5SosPbRzqoSLLUMbd52abba',
+        // 'Authorization':
+        //     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VyU3ViamVjdCIsImp0aSI6Ijc2Y2YxNWVlLWMyOWItNDg2MC1hODhkLTBiMDU4YjY3NWYyYyIsImlhdCI6IjcvMTMvMjAyNSA1OjM0OjEwIFBNIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJZb3VyQXVkaWVuY2UifQ._6fGCfpFIPWBCaEbGRbX4LBmxu-sB7j-ZmtgSm3rMno',
         // 'Content-Type': 'multipart/form-data',
         'Content-Type': 'application/json',
       },
