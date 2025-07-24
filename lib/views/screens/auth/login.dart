@@ -65,36 +65,6 @@ class Login extends StatelessWidget {
                       PhoneFieldWidget(controller: authController.phoneNumber),
                       SizedBox(height: Values.spacerV * 1.5),
 
-                      Form(
-                        autovalidateMode: AutovalidateMode.onUserInteraction,
-
-                        child: InputText.inputStringValidatorIcon(
-                          'كلمة المرور',
-                          icon: Icons.lock_outline,
-                          margin: EdgeInsets.all(0),
-
-                          isPassword: true,
-
-                          authController.pass,
-                          onChanged: (p0) {
-                            authController.password.value = p0 ?? '';
-
-                            authController.isCompleteForm.value =
-                                authController.phoneNumber.text.length == 14 &&
-                                authController.rememberMe.value &&
-                                authController.password.value.length >= 6;
-                          },
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'الرجاء إدخال كلمة المرور';
-                            }
-                            if (value.length < 6) {
-                              return 'كلمة المرور يجب أن تكون 6 أحرف على الأقل';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

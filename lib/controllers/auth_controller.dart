@@ -34,11 +34,8 @@ class AuthController extends GetxController {
   RxBool isCompleteFormRegester() =>
       (birthDay.text.isNotEmpty && name.text.isNotEmpty).obs;
   final TextEditingController phoneNumber = TextEditingController();
-  // تسجيل الدخول
-  Rx<String> password = ''.obs;
 
   final TextEditingController name = TextEditingController();
-  final TextEditingController pass = TextEditingController();
   final TextEditingController birthDay = TextEditingController();
   final TextEditingController homeNo = TextEditingController();
   final TextEditingController buildingNo = TextEditingController();
@@ -64,7 +61,7 @@ class AuthController extends GetxController {
         "lat": lat.value.toString(),
         "lang": lang.value.toString(),
         "deviecidx": deviceID.value.toString(), // معرف الجهاز
-        "pass": password.value,
+        "pass": '123456',
         "name": name.text,
         "birthday": birthDay.text,
       },
@@ -118,10 +115,7 @@ class AuthController extends GetxController {
   void onInit() {
     super.onInit();
     phoneNumber.addListener(() {
-      isCompleteForm.value =
-          phoneNumber.text.length == 14 &&
-          rememberMe.value &&
-          password.value.length >= 6;
+      isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
     });
   }
 
@@ -139,7 +133,7 @@ class AuthController extends GetxController {
       if (responseLogin != null) {
         logger.e("responseLogin ${responseLogin!.data}   | ");
         await StorageController.storeData(responseLogin!.data);
-        Get.toNamed(AppRoutes.login);
+        Get.toNamed(AppRoutes.home);
       }
       responseLogin;
       MessageSnak.message(
@@ -174,10 +168,7 @@ class AuthController extends GetxController {
   RxBool rememberMe = false.obs;
   void changeRememberMe(bool? value) {
     rememberMe.value = value!;
-    isCompleteForm.value =
-        phoneNumber.text.length == 14 &&
-        rememberMe.value &&
-        password.value.length >= 6;
+    isCompleteForm.value = phoneNumber.text.length == 14 && rememberMe.value;
     ;
   }
 
@@ -189,12 +180,11 @@ class AuthController extends GetxController {
 
     try {
       logger.i(
-        "phoneNumber ${phoneNumber.value.text} | password ${password.value} | rememberMe ${rememberMe.value}",
+        "phoneNumber ${phoneNumber.value.text}  | rememberMe ${rememberMe.value}",
       );
       responseLogin = await ApiService.postData(
         ApiConstants.login(
           '0${phoneNumber.value.text.replaceAll(RegExp(r'\s+'), '')}',
-          password.value,
         ),
         {},
       );
