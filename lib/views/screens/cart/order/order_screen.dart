@@ -3,11 +3,11 @@ import 'package:get/get.dart';
 import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
-import '../../../controllers/cart_item_controller.dart';
-import '../../../utils/constants/color_app.dart';
-import '../../../utils/constants/style_app.dart';
-import '../../../utils/constants/values_constant.dart';
-import '../../widgets/actions_button.dart';
+import '../../../../controllers/cart_item_controller.dart';
+import '../../../../utils/constants/color_app.dart';
+import '../../../../utils/constants/style_app.dart';
+import '../../../../utils/constants/values_constant.dart';
+import '../../../widgets/actions_button.dart';
 
 class OrderScreen extends StatelessWidget {
   OrderScreen({super.key});

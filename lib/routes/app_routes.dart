@@ -20,7 +20,7 @@ import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
 import '../views/screens/market/view_category_details/category_details_screen.dart';
 import '../views/screens/notification/notification_screen.dart';
-import '../views/screens/order/order_screen.dart';
+import '../views/screens/cart/order/order_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/restaurant/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
