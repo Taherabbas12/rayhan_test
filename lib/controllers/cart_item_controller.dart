@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/data/models/user_model.dart';
 import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
@@ -8,6 +9,7 @@ import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
+import 'storage_controller.dart';
 
 class CartItemController extends GetxController {
   RxList<CartItem> cartItems = <CartItem>[].obs;
@@ -186,15 +188,18 @@ class CartItemController extends GetxController {
     //             "k1": item['k1'].toString(),
     //             "k2": item['k2'].toString(),
     //             "note": item['note'].toString(),
+
+    UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+
     final body = createOrderBody(
       branchId: restaurant.id.toString(),
       tax: taxValue,
       // orderPrice: orderPriceValue,
-      userId: '1087',
-      addressId: '123',
+      userId: userModel.id.toString(),
+      addressId: userModel.addressid,
       total: totalWithOutDelivery.toString(),
       deliveryPrice: deliveryPriceValue.toString(),
-      shopId: restaurant.categoryId,
+      shopId: restaurant.id.toString(),
       finalPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
       // orderType: "Found",
       shopType: "restaurant",
