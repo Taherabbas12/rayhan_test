@@ -60,14 +60,23 @@ class CartItemController extends GetxController {
     bool isBack = true,
   }) async {
     if (newItem.cartType == CartType.restaurant) {
-      if (currentCartType != null && currentCartType != newItem.cartType) {
-        MessageSnak.message('لا يمكنك خلط أنواع سلة مختلفة');
+      if (cartItems.isNotEmpty &&
+          currentCartType != null &&
+          currentCartType != newItem.cartType) {
+        MessageSnak.message(
+          '❗ لا يمكنك خلط أنواع سلة مختلفة',
+          color: Colors.red,
+        );
         return;
       }
 
-      if (currentVendorId != null && currentVendorId != newItem.vendorId) {
-        MessageSnak.message('لا يمكنك إضافة منتجات من مورد مختلف');
-
+      if (cartItems.isNotEmpty &&
+          currentVendorId != null &&
+          currentVendorId != newItem.vendorId) {
+        MessageSnak.message(
+          '❗ لا يمكنك إضافة منتجات من مورد مختلف',
+          color: Colors.red,
+        );
         return;
       }
     }

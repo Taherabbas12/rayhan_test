@@ -11,6 +11,12 @@ import 'storage_controller.dart';
 class MyRequestController extends GetxController {
   RxList<OrderModel> orders = RxList([]);
   RxBool isLoading = RxBool(false);
+  List<String> orderTypes = ['الحالية', 'المكتملة'];
+  RxString selectType = 'الحالية'.obs;
+  void changeType(String type) {
+    selectType.value = type;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -30,7 +36,8 @@ class MyRequestController extends GetxController {
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 
-        List<OrderModel> newOrders = OrderModel.fromJsonList(newVideosJson);
+        List<OrderModel> newOrders =
+            OrderModel.fromJsonList(newVideosJson).reversed.toList();
         orders.clear();
         orders.addAll(newOrders);
       }

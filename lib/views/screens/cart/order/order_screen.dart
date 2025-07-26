@@ -209,12 +209,11 @@ class OrderScreen extends StatelessWidget {
       double total = cartController.total.value;
       double delivery =
           cartController.selectedRestaurant.value?.deliveryPrice ?? 0;
-      double discount = 1000; // خصم المطعم
+      // double discount = 1000; // خصم المطعم
       double pointsDiscount = usePoints.value ? 2000 : 0;
       // double coupon = 4000;
       double serviceFee = 0;
-      double totalFinal =
-          total + delivery - discount - pointsDiscount + serviceFee;
+      double totalFinal = total + delivery - pointsDiscount + serviceFee;
 
       return Container(
         decoration: BoxDecoration(
@@ -238,7 +237,7 @@ class OrderScreen extends StatelessWidget {
                 children: [
                   _priceRow("سعر الطلب", total),
                   _priceRow("التوصيل", delivery),
-                  _priceRow("خصم المطعم", -discount),
+                  // _priceRow("خصم المطعم", -discount),
                   // _priceRow("خصم النقاط", -pointsDiscount),
                   // _priceRow("كوبون خصم", -coupon),
                   // _priceRow("أجور الخدمة", serviceFee),

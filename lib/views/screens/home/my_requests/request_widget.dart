@@ -32,64 +32,75 @@ class RequestWidget extends StatelessWidget {
             ),
             height: 80,
             width: 80,
-            child: imageCached(orderModel.image!),
+            child: imageCached(
+              orderModel.image!,
+              circle: Values.circle,
+              left: true,
+              down: true,
+              right: true,
+              top: true,
+            ),
           ),
           Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    svgImage(
-                      ImagesUrl.infoSquareIcon,
-                      padingValue: Values.circle * .5,
-                    ),
-                    Text('حالة الطلب : ', style: StringStyle.textLabilBold),
-                    Text(
-                      orderModel.status!,
-                      style: StringStyle.textLabilBold.copyWith(
-                        color: ColorApp.primaryColor,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: Values.circle),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      svgImage(
+                        ImagesUrl.infoSquareIcon,
+                        padingValue: Values.circle * .5,
                       ),
-                    ),
-                  ],
-                ),
-                Text(
-                  orderModel.shopName!,
-                  style: StringStyle.textButtom.copyWith(
-                    color: ColorApp.blackColor,
+                      Text('حالة الطلب : ', style: StringStyle.textLabilBold),
+                      Text(
+                        orderModel.status!,
+                        style: StringStyle.textLabilBold.copyWith(
+                          color: ColorApp.primaryColor,
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                Wrap(
-                  children: [
-                    svgImage(
-                      ImagesUrl.ticketIcon,
-                      padingValue: Values.circle * .5,
-                      hi: 15,
+                  Text(
+                    orderModel.shopName!,
+                    style: StringStyle.textButtom.copyWith(
+                      color: ColorApp.blackColor,
                     ),
-                    Text('رقم العملية : ', style: StringStyle.textLabilBold),
-                    Text(
-                      '${orderModel.orderNo}#',
-                      style: StringStyle.textLabilBold.copyWith(
-                        color: Color(0xff0CC25F),
+                  ),
+                  SizedBox(height: Values.circle * .5),
+                  Wrap(
+                    children: [
+                      svgImage(
+                        ImagesUrl.ticketIcon,
+                        padingValue: Values.circle * .5,
+                        hi: 15,
                       ),
-                    ),
-                    Row(
-                      children: [
-                        svgImage(
-                          ImagesUrl.copperDiamondFillIcon,
-                          padingValue: Values.circle * .5,
-                          hi: 15,
+                      Text('رقم العملية : ', style: StringStyle.textLabilBold),
+                      Text(
+                        '${orderModel.orderNo}#',
+                        style: StringStyle.textLabilBold.copyWith(
+                          color: Color(0xff0CC25F),
                         ),
-                        Text(
-                          orderModel.finalPrice!,
-                          style: StringStyle.textLabilBold,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ],
+                      ),
+                      Row(
+                        children: [
+                          svgImage(
+                            ImagesUrl.copperDiamondFillIcon,
+                            padingValue: Values.circle * .5,
+                            hi: 15,
+                          ),
+                          Text(
+                            '${formatCurrency(orderModel.finalPrice!)} د.ع',
+                            style: StringStyle.textLabilBold,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ],
