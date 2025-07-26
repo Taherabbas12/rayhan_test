@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
@@ -156,9 +157,8 @@ class CartItemController extends GetxController {
       2,
     ); // مثال على ضريبة 5%
     // final orderPriceValue = totalPriceValue.toStringAsFixed(2);
-    final deliveryPriceValue = restaurant.deliveryPrice.toStringAsFixed(2);
-    final totalWithDelivery = (totalPriceValue + restaurant.deliveryPrice)
-        .toStringAsFixed(2);
+    final deliveryPriceValue = restaurant.deliveryPrice;
+    final totalWithOutDelivery = totalPriceValue;
 
     final itemsList =
         cartItems.map((item) {
@@ -192,10 +192,10 @@ class CartItemController extends GetxController {
       // orderPrice: orderPriceValue,
       userId: '1087',
       addressId: '123',
-      total: totalWithDelivery,
-      deliveryPrice: deliveryPriceValue,
+      total: totalWithOutDelivery.toString(),
+      deliveryPrice: deliveryPriceValue.toString(),
       shopId: restaurant.categoryId,
-      finalPrice: totalWithDelivery + deliveryPriceValue,
+      finalPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
       // orderType: "Found",
       shopType: "restaurant",
       city: '123',
@@ -211,7 +211,7 @@ class CartItemController extends GetxController {
 
     try {
       final StateReturnData response = await ApiService.postData(
-        'https://rayhan.shop/api/PlaysorderController1',
+        ApiConstants.creatOrder,
         body,
       );
 
