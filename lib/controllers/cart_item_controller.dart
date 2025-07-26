@@ -5,7 +5,6 @@ import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
-import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 
@@ -156,7 +155,7 @@ class CartItemController extends GetxController {
     final taxValue = (totalPriceValue * 0.05).toStringAsFixed(
       2,
     ); // مثال على ضريبة 5%
-    final orderPriceValue = totalPriceValue.toStringAsFixed(2);
+    // final orderPriceValue = totalPriceValue.toStringAsFixed(2);
     final deliveryPriceValue = restaurant.deliveryPrice.toStringAsFixed(2);
     final totalWithDelivery = (totalPriceValue + restaurant.deliveryPrice)
         .toStringAsFixed(2);
@@ -165,35 +164,54 @@ class CartItemController extends GetxController {
         cartItems.map((item) {
           return {
             "price": (item.price2 > 0 ? item.price2 : item.price1).toString(),
-            "count": item.quantity.toString(),
-            "productId": item.productId,
+            "comnt": item.quantity.toString(),
+            "prod": item.productId,
+            "prodname": item.name,
+            "img": item.image,
+            "date": DateTime.now().toString(),
             "note": item.note,
+            "curncy": '',
+            "k1": '',
+            "k2": 'false',
           };
         }).toList();
 
+    //  "price": item['price'].toString(),
+    //             "comnt": item['count'].toString(),
+    //             "prod": item['prod'].toString(),
+    //             "prodname": item['prodname'].toString(),
+    //             "date": item['date'].toString(),
+    //             "curncy": item['curncy'].toString(),
+    //             "img": item['img'].toString(),
+    //             "k1": item['k1'].toString(),
+    //             "k2": item['k2'].toString(),
+    //             "note": item['note'].toString(),
     final body = createOrderBody(
       branchId: restaurant.id.toString(),
-      taxPrice: taxValue,
-      orderPrice: orderPriceValue,
+      tax: taxValue,
+      // orderPrice: orderPriceValue,
       userId: '1087',
-      addressId: 'addressid',
-      totalPrice: totalWithDelivery,
+      addressId: '123',
+      total: totalWithDelivery,
       deliveryPrice: deliveryPriceValue,
-      mainCategoryId: restaurant.categoryId,
-      orderType: "Found",
-      deliveryDaySelected: DateTime.now().toIso8601String(),
-      receiveDaySelected: DateTime.now().toIso8601String(),
-      seenDaySelected: DateTime.now().toIso8601String(),
-      deliveryTimeSelected: DateTime.now().toIso8601String(),
-      receiveTimeSelected: DateTime.now().toIso8601String(),
-      seenTimeSelected: DateTime.now().toIso8601String(),
+      shopId: restaurant.categoryId,
+      finalPrice: totalWithDelivery + deliveryPriceValue,
+      // orderType: "Found",
+      shopType: "restaurant",
+      city: '123',
+      location: '',
+      userName: 'A',
+      userPhone: '',
+      deviceId: '-----',
       orderNote: noteController.text.trim(),
       items: itemsList,
+      promoCode: '',
+      promoCodeName: '',
     );
 
     try {
       final StateReturnData response = await ApiService.postData(
-        'https://rayhan.shop/api/PlaysorderController1/CheckOrder',
+        'https://rayhan.shop/api/PlaysorderController1',
         body,
       );
 
@@ -216,49 +234,47 @@ class CartItemController extends GetxController {
 }
 
 Map<String, dynamic> createOrderBody({
-  required String branchId,
-  required String taxPrice,
-  required String orderPrice,
+  required String userName,
+  required String userPhone,
   required String userId,
-  required String addressId,
-  required String totalPrice,
+  required String total,
   required String deliveryPrice,
-  required String mainCategoryId,
-  required String orderType,
-  required String deliveryDaySelected,
-  required String receiveDaySelected,
-  String? seenDaySelected,
-  required String deliveryTimeSelected,
-  required String receiveTimeSelected,
-  String? seenTimeSelected,
+  required String finalPrice,
+  required String tax,
   required String orderNote,
+  required String addressId,
+  required String city, // building number
+  required String location, // apartment number
+  required String shopType,
+  required String branchId,
+  required String shopId,
   required List<Map<String, dynamic>> items,
+  String? promoCode,
+  String? promoCodeName,
+  String? deviceId,
 }) {
   return {
-    "branch": branchId,
-    "tax": taxPrice,
-    "orderPrice": orderPrice,
-    "userId": userId,
+    "name": userName,
+    "phone": userPhone,
+    "userx": userId,
+    "total": total,
+    "status": "new",
+    "count": items.length.toString(),
+    "note": orderNote,
+    "devicesuser": deviceId ?? "",
+    "ky1": deliveryPrice,
+    "ky2": finalPrice,
+    "ky3": promoCode ?? "",
+    "ky4": promoCodeName ?? "",
+    "date": DateTime.now().toIso8601String(),
+    "orderno": DateTime.now().millisecondsSinceEpoch.toString(),
+    "tax": tax,
     "addressId": addressId,
-    "totalPrice": totalPrice,
-    "deliveryPrice": deliveryPrice,
-    "mainCategoryId": mainCategoryId,
-    "orderType": orderType,
-    "deliveryDays": deliveryDaySelected,
-    "receiveDays": receiveDaySelected,
-    if (seenDaySelected != null) "seenDays": seenDaySelected,
-    "deliveryTime": deliveryTimeSelected.toString(),
-    "receiveTimes": receiveTimeSelected.toString(),
-    "seenTimes": seenTimeSelected == null ? "" : seenTimeSelected.toString(),
-    "orderNote": orderNote,
-    "items":
-        items.map((item) {
-          return {
-            "price": item['price'].toString(),
-            "count": item['count'].toString(),
-            "productId": item['productId'].toString(),
-            "note": item['note'].toString(),
-          };
-        }).toList(),
+    "city": city,
+    "location": location,
+    "shopType": shopType,
+    "branch": branchId,
+    "shopId": shopId,
+    "items": items,
   };
 }

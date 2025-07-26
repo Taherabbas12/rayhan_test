@@ -42,4 +42,6 @@ class ApiConstants {
   }) => 'Shop/ForUser?pageSize=50&page=1&categoryId=0&sort=true&type=Shop';
   // Services
   static const String serviceMainCategory = 'ServiceMainCategory';
+  // Order
+  static const String creatOrder = 'PlaysorderController1';
 }
