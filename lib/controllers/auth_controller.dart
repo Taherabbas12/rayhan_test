@@ -133,9 +133,9 @@ class AuthController extends GetxController {
       if (responseLogin != null) {
         logger.e("responseLogin ${responseLogin!.data}   | ");
         await StorageController.storeData(responseLogin!.data);
-        Get.toNamed(AppRoutes.home);
+        Get.offAndToNamed(AppRoutes.home);
       } else {
-        Get.toNamed(AppRoutes.register);
+        Get.offAndToNamed(AppRoutes.register);
       }
       responseLogin;
       MessageSnak.message(

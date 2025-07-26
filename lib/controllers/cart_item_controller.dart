@@ -201,21 +201,25 @@ class CartItemController extends GetxController {
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
 
     final body = createOrderBody(
-      branchId: restaurant.id.toString(),
+      branchId:
+          selectedCartType.value == 'المطاعم' ? restaurant.id.toString() : '0',
       tax: taxValue,
       // orderPrice: orderPriceValue,
       userId: userModel.id.toString(),
       addressId: userModel.addressid,
       total: totalWithOutDelivery.toString(),
       deliveryPrice: deliveryPriceValue.toString(),
-      shopId: restaurant.id.toString(),
+
+      shopId:
+          selectedCartType.value == 'المطاعم' ? restaurant.id.toString() : '',
       finalPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
+
       // orderType: "Found",
-      shopType: "restaurant",
-      city: '123',
+      shopType: selectedCartType.value == 'المطاعم' ? "restaurant" : '',
+      city: userModel.city ?? '',
       location: '',
-      userName: 'A',
-      userPhone: '',
+      userName: userModel.name,
+      userPhone: userModel.phone,
       deviceId: '-----',
       orderNote: noteController.text.trim(),
       items: itemsList,
