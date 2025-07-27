@@ -33,7 +33,7 @@ class RequestWidget extends StatelessWidget {
             height: 80,
             width: 80,
             child: imageCached(
-              orderModel.image!,
+              orderModel.image ?? 'url',
               circle: Values.circle,
               left: true,
               down: true,
