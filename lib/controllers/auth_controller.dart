@@ -83,18 +83,16 @@ class AuthController extends GetxController {
 
       logger.e("response ${response.data}   | ");
       if (response.isStateSucess < 3) {
+        ApiService.updateTokenString(response.data['token']);
         Get.toNamed(AppRoutes.home);
       } else {
         Get.toNamed(AppRoutes.home);
-        // MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
+        MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
       }
     } catch (e) {
       // logger.i("خطأ في تحميل البيانات: $e");
       Get.toNamed(AppRoutes.home);
     } finally {
-      ApiService.updateTokenString(
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VyU3ViamVjdCIsImp0aSI6Ijc2Y2YxNWVlLWMyOWItNDg2MC1hODhkLTBiMDU4YjY3NWYyYyIsImlhdCI6IjcvMTMvMjAyNSA1OjM0OjEwIFBNIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJZb3VyQXVkaWVuY2UifQ._6fGCfpFIPWBCaEbGRbX4LBmxu-sB7j-ZmtgSm3rMno',
-      );
       isLoading(false);
     }
 
@@ -214,7 +212,7 @@ class AuthController extends GetxController {
               'تم إرسال OTP بنجاح',
               color: ColorApp.greenColor,
             );
-            await Future.delayed(Duration(seconds: 2));
+            // await Future.delayed(Duration(seconds: 2));
             startTimer();
             Get.toNamed(AppRoutes.otp);
             isLoading(false);
@@ -249,7 +247,7 @@ class AuthController extends GetxController {
 
     MessageSnak.message('تم اعادة كلمة المرور   ', color: ColorApp.greenColor);
 
-    await Future.delayed(Duration(seconds: 1));
+    // await Future.delayed(Duration(seconds: 1));
     Get.toNamed(AppRoutes.home);
     isLoading(false);
   }
