@@ -13,7 +13,6 @@ import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/actions_button.dart';
 import '../../widgets/common/loading_indicator.dart';
-import '../../widgets/input_text.dart';
 import 'phone_field_widget.dart';
 
 class Login extends StatelessWidget {

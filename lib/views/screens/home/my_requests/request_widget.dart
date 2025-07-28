@@ -64,7 +64,7 @@ class RequestWidget extends StatelessWidget {
                     ],
                   ),
                   Text(
-                    orderModel.shopName!,
+                    orderModel.shopName ?? 'ريحان',
                     style: StringStyle.textButtom.copyWith(
                       color: ColorApp.blackColor,
                     ),

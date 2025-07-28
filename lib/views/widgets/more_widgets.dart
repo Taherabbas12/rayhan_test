@@ -3,10 +3,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:rayhan_test/data/models/cart_item.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
+import '../../controllers/cart_item_controller.dart';
+import '../../routes/app_routes.dart';
 import '../../utils/constants/color_app.dart';
 import '../../utils/constants/images_url.dart';
+import '../../utils/constants/style_app.dart';
 import '../../utils/constants/values_constant.dart';
 
 String calculateTimeDifference(String storedDateString) {
@@ -260,4 +264,52 @@ void showImagePicker({
       );
     },
   );
+}
+
+Widget? cartShowInScreenTotal(CartType cartType) {
+  final CartItemController cartItemController = Get.find<CartItemController>();
+  cartItemController.loadCart(cartType: cartType);
+  return cartItemController.cartItems.isNotEmpty
+      ? Padding(
+        padding: EdgeInsets.all(Values.spacerV * 2),
+        child: InkWell(
+          onTap: () {
+            Get.toNamed(AppRoutes.cartItemScreen);
+          },
+          child: Container(
+            padding: EdgeInsets.all(Values.circle * 1.5),
+            decoration: BoxDecoration(
+              border: Border.all(color: ColorApp.borderColor),
+              borderRadius: BorderRadius.circular(Values.circle * 1.6),
+              color: ColorApp.primaryColor,
+            ),
+
+            child: Obx(
+              () => Row(
+                children: [
+                  Icon(CupertinoIcons.cart, color: ColorApp.whiteColor),
+                  SizedBox(width: Values.circle),
+                  Text(
+                    '${cartItemController.cartItems.length} منتج في السلة ',
+                    style: StringStyle.headerStyle.copyWith(
+                      color: ColorApp.whiteColor,
+                    ),
+                  ),
+                  Spacer(),
+                  Text(
+                    '${formatCurrency(cartItemController.total.toString())} د.ع',
+                    style: StringStyle.headerStyle.copyWith(
+                      color: ColorApp.whiteColor,
+                    ),
+                  ),
+                  SizedBox(width: Values.circle),
+
+                  Icon(Icons.arrow_forward_ios, color: ColorApp.whiteColor),
+                ],
+              ),
+            ),
+          ),
+        ),
+      )
+      : null;
 }

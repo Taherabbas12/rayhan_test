@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../../../data/models/cart_item.dart';
 import '../../../utils/constants/color_app.dart';
+import '../../widgets/more_widgets.dart';
 import 'shop_list.dart';
 
 class ShopsScreen extends StatelessWidget {
@@ -16,6 +18,8 @@ class ShopsScreen extends StatelessWidget {
         title: Text('المتاجر'),
       ),
       body: ListView(children: [ShopLists()]),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: cartShowInScreenTotal(CartType.shop),
     );
   }
 }

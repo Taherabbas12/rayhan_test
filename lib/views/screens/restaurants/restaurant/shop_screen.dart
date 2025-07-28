@@ -8,8 +8,11 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
+import '../../../../controllers/cart_item_controller.dart';
 import '../../../../controllers/restaurant_controller.dart';
 import '../../../../controllers/shop_controller.dart';
+import '../../../../data/models/cart_item.dart';
+import '../../../../routes/app_routes.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
@@ -24,6 +27,8 @@ class ShopScreen extends StatelessWidget {
   final RestaurantController restaurantController =
       Get.find<RestaurantController>();
   ShopController shopController = Get.find<ShopController>();
+  final CartItemController cartItemController = Get.find<CartItemController>();
+
   @override
   Widget build(BuildContext context) {
     final restaurant = restaurantController.restaurantSelect.value!;
@@ -241,6 +246,9 @@ class ShopScreen extends StatelessWidget {
           SliverToBoxAdapter(child: SizedBox(height: Values.spacerV * 2)),
         ],
       ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: cartShowInScreenTotal(CartType.restaurant),
     );
   }
 

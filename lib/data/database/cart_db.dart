@@ -1,6 +1,7 @@
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
+import '../../services/error_message.dart';
 import '../models/cart_item.dart';
 import '../models/restaurant.dart';
 
@@ -74,6 +75,21 @@ class CartDb {
     return result.map((e) => CartItem.fromMap(e)).toList();
   }
 
+  Future<bool> isRestaurantDifferent(Restaurant restaurant) async {
+    final db = await instance.database;
+
+    final result = await db.query(
+      'selected_restaurant',
+      where: 'type = ?',
+      whereArgs: [restaurant.type],
+    );
+
+    if (result.isEmpty) return false; // لا يوجد مطعم مخزن
+
+    final existingId = result.first['id'];
+    return existingId != restaurant.id; // true إذا مختلف، false إذا نفسه
+  }
+
   Future<List<CartItem>> getItemsByCartType(String cartType) async {
     final db = await instance.database;
     final result = await db.query(
@@ -81,6 +97,7 @@ class CartDb {
       where: 'cartType = ?',
       whereArgs: [cartType],
     );
+    logger.e(result);
     return result.map((e) => CartItem.fromMap(e)).toList();
   }
 
@@ -104,20 +121,44 @@ class CartDb {
     await db.delete('cart', where: 'productId = ?', whereArgs: [productId]);
   }
 
-  Future<void> clearCart() async {
+  Future<void> clearCart(String cartType) async {
     final db = await instance.database;
-    await db.delete('cart');
+    await db.delete('cart', where: 'cartType = ?', whereArgs: [cartType]);
   }
 
   Future<void> saveRestaurant(Restaurant restaurant) async {
     final db = await instance.database;
-    await db.delete('selected_restaurant'); // احذف أي مطعم سابق
+    await db.delete(
+      'selected_restaurant',
+      where: 'type = ?',
+      whereArgs: [restaurant.type],
+    ); // احذف أي مطعم سابق
     await db.insert('selected_restaurant', _toMap(restaurant));
   }
 
-  Future<Restaurant?> getRestaurant() async {
+  Future<bool> isRestaurantTypeExists(String type) async {
     final db = await instance.database;
-    final result = await db.query('selected_restaurant');
+
+    final result = await db.query(
+      'selected_restaurant',
+      where: 'type = ?',
+      whereArgs: [type],
+      limit: 1, // لا داعي لجلب كل النتائج، واحدة تكفي
+    );
+    logger.e(result);
+    return result.isNotEmpty;
+  }
+
+  Future<Restaurant?> getRestaurant(String type) async {
+    final db = await instance.database;
+    final result = await db.query(
+      'selected_restaurant',
+      where: 'type = ?',
+      whereArgs: [type],
+      limit: 1,
+    ); // لا داعي لجلب كل النتائج، واحدة تكفي);
+    logger.f(result);
+
     if (result.isNotEmpty) {
       return Restaurant.fromJson({
         'shop': result.first,
@@ -127,9 +168,13 @@ class CartDb {
     return null;
   }
 
-  Future<void> clearRestaurant() async {
+  Future<void> clearRestaurant(String type) async {
     final db = await instance.database;
-    await db.delete('selected_restaurant');
+    await db.delete(
+      'selected_restaurant',
+      where: 'type = ?',
+      whereArgs: [type],
+    );
   }
 
   Map<String, dynamic> _toMap(Restaurant r) {

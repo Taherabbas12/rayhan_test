@@ -8,7 +8,9 @@ import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../../../controllers/market_controller.dart';
 import '../../../../controllers/market_product_controller.dart';
+import '../../../../data/models/cart_item.dart';
 import '../../../../utils/constants/values_constant.dart';
+import '../../../widgets/more_widgets.dart';
 import 'product_widget_grid.dart';
 import 'view_market_sub_categorey.dart';
 
@@ -89,6 +91,8 @@ class CategoryDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: cartShowInScreenTotal(CartType.mart),
     );
   }
 

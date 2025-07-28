@@ -1,3 +1,5 @@
+import 'cart_item.dart';
+
 class Restaurant {
   final int id;
   final String categoryId;
@@ -20,6 +22,8 @@ class Restaurant {
   final bool freeDelivery;
   final String openTime;
   final String closeTime;
+  CartType? currentCartType;
+  //local filter in cart(shop or Restaurant)
   final double starAvg;
 
   Restaurant({
@@ -32,6 +36,7 @@ class Restaurant {
     required this.isOpen,
     required this.active,
     required this.deliveryTime,
+    required this.currentCartType,
     required this.tag,
     required this.cover,
     required this.logo,
@@ -64,6 +69,7 @@ class Restaurant {
       cover: shop['cover'] ?? '',
       logo: shop['logo'] ?? '',
       password: shop['password'] ?? '',
+      currentCartType: null,
       phone: shop['phone'] ?? '',
       address: shop['address'] ?? '',
       date: DateTime.tryParse(shop['date'] ?? '') ?? DateTime.now(),
@@ -101,6 +107,7 @@ class Restaurant {
         'password': password,
         'phone': phone,
         'address': address,
+        'currentCartType': currentCartType,
         'date': date.toIso8601String(),
         'discount': discount,
         'deliveryPrice': deliveryPrice,

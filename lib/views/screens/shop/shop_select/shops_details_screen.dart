@@ -9,6 +9,7 @@ import 'package:rayhan_test/controllers/shops_controller.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 import '../../../../controllers/shop_controller.dart';
+import '../../../../data/models/cart_item.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
@@ -239,6 +240,9 @@ class ShopsDetailsScreen extends StatelessWidget {
           SliverToBoxAdapter(child: SizedBox(height: Values.spacerV * 2)),
         ],
       ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton: cartShowInScreenTotal(CartType.shop),
     );
   }
 

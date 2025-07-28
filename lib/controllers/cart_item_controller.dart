@@ -19,6 +19,10 @@ class CartItemController extends GetxController {
 
   List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت'];
   RxString selectedCartType = 'المطاعم'.obs;
+  void onOpenScreenCart() {
+    onAddressTypeChanged('المطاعم');
+    loadCart();
+  }
 
   void onAddressTypeChanged(String value) {
     selectedCartType.value = value;
@@ -31,7 +35,7 @@ class CartItemController extends GetxController {
     } else {
       currentCartType = null;
     }
-    loadCart(cartType: currentCartType ?? CartType.restaurant);
+    loadCart(cartType: currentCartType ?? CartType.shop);
     logger.e('Cart type changed to: $currentCartType');
   }
 
@@ -51,7 +55,9 @@ class CartItemController extends GetxController {
       currentCartType = items.first.cartType;
     }
 
-    selectedRestaurant.value = await CartDb.instance.getRestaurant();
+    selectedRestaurant.value = await CartDb.instance.getRestaurant(
+      cartType.name,
+    );
   }
 
   Future<void> addToCart(
@@ -59,25 +65,25 @@ class CartItemController extends GetxController {
     Restaurant? restaurant,
     bool isBack = true,
   }) async {
-    if (newItem.cartType == CartType.restaurant) {
-      if (cartItems.isNotEmpty &&
-          currentCartType != null &&
-          currentCartType != newItem.cartType) {
-        MessageSnak.message(
-          '❗ لا يمكنك خلط أنواع سلة مختلفة',
-          color: Colors.red,
-        );
-        return;
-      }
-
-      if (cartItems.isNotEmpty &&
-          currentVendorId != null &&
-          currentVendorId != newItem.vendorId) {
+    if (restaurant != null) {
+      // if (await CartDb.instance.isRestaurantTypeExists(restaurant.type)) {
+      //   MessageSnak.message(
+      //     '❗ لا يمكنك خلط أنواع سلة مختلفة',
+      //     color: Colors.red
+      //   );
+      //   return;
+      // }
+      if (await CartDb.instance.isRestaurantDifferent(restaurant)) {
         MessageSnak.message(
           '❗ لا يمكنك إضافة منتجات من مورد مختلف',
           color: Colors.red,
         );
         return;
+      }
+      if (!await CartDb.instance.isRestaurantTypeExists(restaurant.type)) {
+        logger.e(restaurant.toJson());
+        await CartDb.instance.saveRestaurant(restaurant);
+        selectedRestaurant.value = restaurant;
       }
     }
 
@@ -97,10 +103,6 @@ class CartItemController extends GetxController {
       currentCartType ??= newItem.cartType;
     }
 
-    if (selectedRestaurant.value == null && restaurant != null) {
-      await CartDb.instance.saveRestaurant(restaurant);
-      selectedRestaurant.value = restaurant;
-    }
     if (isBack) Get.back();
     MessageSnak.message(
       'تمت إضافة العنصر إلى السلة',
@@ -128,14 +130,16 @@ class CartItemController extends GetxController {
     if (cartItems.isEmpty) {
       currentVendorId = null;
       currentCartType = null;
+      if (selectedRestaurant.value != null) {
+        await CartDb.instance.clearRestaurant(selectedRestaurant.value!.type);
+      }
       selectedRestaurant.value = null;
-      await CartDb.instance.clearRestaurant();
     }
   }
 
-  Future<void> clearCart() async {
-    await CartDb.instance.clearCart();
-    await CartDb.instance.clearRestaurant();
+  Future<void> clearCart(String cartType) async {
+    await CartDb.instance.clearCart(cartType);
+    await CartDb.instance.clearRestaurant(selectedRestaurant.value!.type);
     cartItems.clear();
     currentVendorId = null;
     currentCartType = null;
@@ -156,19 +160,22 @@ class CartItemController extends GetxController {
   final TextEditingController couponController = TextEditingController();
 
   Future<void> submitOrderFromCart() async {
-    if (cartItems.isEmpty || selectedRestaurant.value == null) {
+    if (cartItems.isEmpty) {
       MessageSnak.message('السلة فارغة أو المطعم غير محدد');
       return;
     }
     isLoadingOrder(true);
+    Restaurant? restaurant;
+    if (selectedRestaurant.value != null) {
+      restaurant = selectedRestaurant.value!;
+    }
 
-    final restaurant = selectedRestaurant.value!;
     final totalPriceValue = total.value;
     final taxValue = (totalPriceValue * 0.05).toStringAsFixed(
       2,
     ); // مثال على ضريبة 5%
     // final orderPriceValue = totalPriceValue.toStringAsFixed(2);
-    final deliveryPriceValue = restaurant.deliveryPrice;
+    final deliveryPriceValue = restaurant?.deliveryPrice ?? 500;
     final totalWithOutDelivery = totalPriceValue;
 
     final itemsList =
@@ -201,8 +208,7 @@ class CartItemController extends GetxController {
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
 
     final body = createOrderBody(
-      branchId:
-          selectedCartType.value == 'المطاعم' ? restaurant.id.toString() : '0',
+      branchId: restaurant != null ? restaurant.id.toString() : '',
       tax: taxValue,
       // orderPrice: orderPriceValue,
       userId: userModel.id.toString(),
@@ -210,8 +216,7 @@ class CartItemController extends GetxController {
       total: totalWithOutDelivery.toString(),
       deliveryPrice: deliveryPriceValue.toString(),
 
-      shopId:
-          selectedCartType.value == 'المطاعم' ? restaurant.id.toString() : '',
+      shopId: restaurant != null ? restaurant.id.toString() : '',
       finalPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
 
       // orderType: "Found",
@@ -233,7 +238,7 @@ class CartItemController extends GetxController {
         body,
       );
 
-      logger.e('Order response Data: $body');
+      logger.e('Order (${selectedCartType.value}) response Data: $body');
       logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
         // Get.back();

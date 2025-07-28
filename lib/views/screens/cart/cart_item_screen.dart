@@ -15,6 +15,7 @@ class CartItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    cartItemController.onOpenScreenCart();
     return DefaultTabController(
       length: 2,
       child: Scaffold(
