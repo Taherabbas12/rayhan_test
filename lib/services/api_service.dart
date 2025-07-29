@@ -15,10 +15,11 @@ class ApiService {
       receiveTimeout: const Duration(seconds: 10),
       headers: {
         'Accept': 'application/json',
-        // if (StorageController.checkLoginStatus())
-        //   'Authorization': 'Bearer ${StorageController.getToken()}',
-        'Authorization':
-            'Bearer 249|bzKWe3XnKsg0UbJKjgVAQ0nFd5SosPbRzqoSLLUMbd52abba',
+        if (StorageController.checkLoginStatus())
+          'Authorization': 'Bearer ${StorageController.getToken()}',
+        if (!StorageController.checkLoginStatus())
+          'Authorization':
+              'Bearer 249|bzKWe3XnKsg0UbJKjgVAQ0nFd5SosPbRzqoSLLUMbd52abba',
         // 'Authorization':
         //     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJZb3VyU3ViamVjdCIsImp0aSI6Ijc2Y2YxNWVlLWMyOWItNDg2MC1hODhkLTBiMDU4YjY3NWYyYyIsImlhdCI6IjcvMTMvMjAyNSA1OjM0OjEwIFBNIiwiZXhwIjoyNTM0MDIzMDA4MDAsImlzcyI6IllvdXJJc3N1ZXIiLCJhdWQiOiJZb3VyQXVkaWVuY2UifQ._6fGCfpFIPWBCaEbGRbX4LBmxu-sB7j-ZmtgSm3rMno',
         // 'Content-Type': 'multipart/form-data',
@@ -30,6 +31,11 @@ class ApiService {
   static void updateToken() {
     _dio.options.headers['Authorization'] =
         'Bearer ${StorageController.getToken()}';
+  }
+
+  static void updateTokenLogin() {
+    _dio.options.headers['Authorization'] =
+        'Bearer 249|bzKWe3XnKsg0UbJKjgVAQ0nFd5SosPbRzqoSLLUMbd52abba';
   }
 
   static void updateTokenString(String token) {

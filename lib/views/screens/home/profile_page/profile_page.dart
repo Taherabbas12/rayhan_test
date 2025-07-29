@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 
 import '../../../../controllers/storage_controller.dart';
 import '../../../../data/models/user_model.dart';
+import '../../../../routes/app_routes.dart';
+import '../../../../services/api_service.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 
@@ -84,6 +87,25 @@ class ProfilePage extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(height: Values.circle * 2.4),
+              Container(
+                // margin: EdgeInsets.symmetric(horizontal: Values.spacerV * 2),
+                // padding: EdgeInsets.symmetric(vertical: Values.spacerV),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Values.circle),
+                  border: Border.all(color: ColorApp.borderColor),
+                ),
+                child: Column(
+                  children: [
+                    itemWidget(
+                      'المساعدة والدعم',
+                      CupertinoIcons.person_add,
+                      onTap: () {},
+                    ),
+                    logoutWidget('تسجيل الخروج', Icons.logout),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -113,6 +135,34 @@ class ProfilePage extends StatelessWidget {
             ),
             Spacer(),
             Icon(Icons.arrow_forward_ios, color: ColorApp.textSecondryColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget logoutWidget(String name, IconData icon) {
+    return InkWell(
+      borderRadius: BorderRadius.circular(Values.circle * .8),
+      onTap: () {
+        StorageController.removeData();
+        ApiService.updateTokenLogin();
+        Get.offAllNamed(AppRoutes.login);
+      },
+      child: Container(
+        // margin: EdgeInsets.symmetric(vertical: Values.circle),
+        padding: EdgeInsets.symmetric(
+          horizontal: Values.spacerV,
+          vertical: Values.circle * 2,
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: ColorApp.redColor),
+            SizedBox(width: Values.spacerV),
+            Text(
+              name,
+              style: StringStyle.textLabil.copyWith(color: ColorApp.redColor),
+            ),
           ],
         ),
       ),

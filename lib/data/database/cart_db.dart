@@ -121,9 +121,16 @@ class CartDb {
     await db.delete('cart', where: 'productId = ?', whereArgs: [productId]);
   }
 
-  Future<void> clearCart(String cartType) async {
+  Future<void> clearCart(String cartType, {String? type}) async {
     final db = await instance.database;
     await db.delete('cart', where: 'cartType = ?', whereArgs: [cartType]);
+    if (type != null) {
+      await db.delete(
+        'selected_restaurant',
+        where: 'type = ?',
+        whereArgs: [type],
+      );
+    }
   }
 
   Future<void> saveRestaurant(Restaurant restaurant) async {

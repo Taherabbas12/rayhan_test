@@ -5,6 +5,7 @@ import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
+import '../routes/app_routes.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
@@ -137,8 +138,8 @@ class CartItemController extends GetxController {
     }
   }
 
-  Future<void> clearCart(String cartType) async {
-    await CartDb.instance.clearCart(cartType);
+  Future<void> clearCart(String cartType, {String? type}) async {
+    await CartDb.instance.clearCart(cartType, type: type);
     await CartDb.instance.clearRestaurant(selectedRestaurant.value!.type);
     cartItems.clear();
     currentVendorId = null;
@@ -241,10 +242,11 @@ class CartItemController extends GetxController {
       logger.e('Order (${selectedCartType.value}) response Data: $body');
       logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
-        // Get.back();
-        // Get.back();
+        await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
+
+        Get.offAllNamed(AppRoutes.home);
+
         MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
-        // await clearCart(); // إفراغ السلة بعد الإرسال الناجح
       } else {
         MessageSnak.message('فشل إرسال الطلب');
       }

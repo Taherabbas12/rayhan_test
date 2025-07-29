@@ -15,11 +15,13 @@ import '../../widgets/actions_button.dart';
 import '../../widgets/common/loading_indicator.dart';
 import 'phone_field_widget.dart';
 
-class Login extends StatelessWidget {
+class Login extends GetView<AuthController> {
   Login({super.key});
-  AuthController authController = Get.find<AuthController>();
+  // AuthController authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
+    controller.phoneNumber.text = '';
+    controller.otpController.text = '';
     return Scaffold(
       body: Stack(
         children: [
@@ -61,7 +63,7 @@ class Login extends StatelessWidget {
                       Text('رقم الهاتف', style: StringStyle.headerStyle),
                       SizedBox(height: Values.circle),
 
-                      PhoneFieldWidget(controller: authController.phoneNumber),
+                      PhoneFieldWidget(controller: controller.phoneNumber),
                       SizedBox(height: Values.spacerV * 1.5),
 
                       Row(
@@ -79,8 +81,8 @@ class Login extends StatelessWidget {
                                   Values.circle * 0.6,
                                 ),
                               ),
-                              value: authController.rememberMe.value,
-                              onChanged: authController.changeRememberMe,
+                              value: controller.rememberMe.value,
+                              onChanged: controller.changeRememberMe,
                             ),
                           ),
                           Expanded(
@@ -134,16 +136,16 @@ class Login extends StatelessWidget {
                     elevation: 0,
                     'تأكيد',
                     () {
-                      if (authController.isCompleteForm.value) {
-                        authController.submitFormLogin();
+                      if (controller.isCompleteForm.value) {
+                        controller.submitFormLogin();
                       }
                     },
                     color:
-                        authController.isCompleteForm.value
+                        controller.isCompleteForm.value
                             ? ColorApp.primaryColor
                             : ColorApp.borderColor,
                     colorText:
-                        authController.isCompleteForm.value
+                        controller.isCompleteForm.value
                             ? ColorApp.whiteColor
                             : ColorApp.subColor,
                   ),
@@ -155,7 +157,7 @@ class Login extends StatelessWidget {
           ),
           Obx(
             () =>
-                authController.isLoading.value
+                controller.isLoading.value
                     ? BackdropFilter(
                       filter: ImageFilter.blur(
                         sigmaX: 2,
@@ -171,7 +173,7 @@ class Login extends StatelessWidget {
           ),
           Obx(
             () =>
-                authController.isLoading.value
+                controller.isLoading.value
                     ? Center(
                       child: Container(
                         height: 150,

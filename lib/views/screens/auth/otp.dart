@@ -3,13 +3,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../controllers/auth_controller.dart';
 import '../../../utils/constants/color_app.dart';
-import '../../../utils/constants/images_url.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/actions_button.dart';
@@ -56,53 +54,56 @@ class OTPScreen extends StatelessWidget {
             SizedBox(height: Values.spacerV),
 
             SizedBox(height: Values.spacerV * 2),
-            Pinput(
-              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-              keyboardType: TextInputType.number,
-              pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
-              length: 6, // عدد الأرقام في الرمز
-              controller: authController.otpController,
-              defaultPinTheme: PinTheme(
-                width: 84,
-                height: 65,
-                textStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Pinput(
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                keyboardType: TextInputType.number,
+                pinputAutovalidateMode: PinputAutovalidateMode.onSubmit,
+                length: 6, // عدد الأرقام في الرمز
+                controller: authController.otpController,
+                defaultPinTheme: PinTheme(
+                  width: 84,
+                  height: 65,
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: Colors.grey),
-                  borderRadius: BorderRadius.circular(8),
+                focusedPinTheme: PinTheme(
+                  width: 84,
+                  height: 65,
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    color: Colors.black,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: ColorApp.primaryColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
+                submittedPinTheme: PinTheme(
+                  width: 84,
+                  height: 65,
+                  textStyle: TextStyle(
+                    fontSize: 25,
+                    color: ColorApp.blackColor,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  decoration: BoxDecoration(
+                    // color: ColorApp.backgroundColorContent,
+                    border: Border.all(color: ColorApp.borderColor),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                onCompleted: (pin) => authController.submitFormOTP(),
               ),
-              focusedPinTheme: PinTheme(
-                width: 84,
-                height: 65,
-                textStyle: TextStyle(
-                  fontSize: 25,
-                  color: Colors.black,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: BoxDecoration(
-                  border: Border.all(color: ColorApp.primaryColor),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              submittedPinTheme: PinTheme(
-                width: 84,
-                height: 65,
-                textStyle: TextStyle(
-                  fontSize: 25,
-                  color: ColorApp.blackColor,
-                  fontWeight: FontWeight.w600,
-                ),
-                decoration: BoxDecoration(
-                  // color: ColorApp.backgroundColorContent,
-                  border: Border.all(color: ColorApp.borderColor),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onCompleted: (pin) => authController.submitFormOTP(),
             ),
             SizedBox(height: Values.spacerV * 3),
 
