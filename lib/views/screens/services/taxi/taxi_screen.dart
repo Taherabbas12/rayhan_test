@@ -33,8 +33,17 @@ class TaxiScreen extends StatelessWidget {
                 children: [InsideBismayah(), buildTaxiContent('خارج بسماية')],
               ),
             ),
-            nextButton(
-              onPressed: () => taxiController.setCompleteStartingPoint(true),
+            Obx(
+              () =>
+                  !taxiController.isCompleteStartingPoint.value
+                      ? nextButton(
+                        onPressed:
+                            () => taxiController.setCompleteStartingPoint(true),
+                      )
+                      : nextButton2(
+                        onPressed:
+                            () => taxiController.setCompleteEndPoint(true),
+                      ),
             ),
           ],
         ),
@@ -69,6 +78,41 @@ class TaxiScreen extends StatelessWidget {
                     : ColorApp.borderColor,
             colorText:
                 taxiController.selectedTaxiAddress.value == null
+                    ? ColorApp.subColor
+                    : ColorApp.whiteColor,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget nextButton2({required VoidCallback onPressed, String? text}) {
+    return SafeArea(
+      // bottom: false,
+      child: Container(
+        decoration: BoxDecoration(
+          color: ColorApp.whiteColor,
+          border: Border(top: BorderSide(color: ColorApp.borderColor)),
+        ),
+        padding: EdgeInsets.only(
+          left: Values.circle * 2.4,
+          right: Values.circle * 2.4,
+
+          top: Values.circle * 2.4,
+        ),
+
+        child: Obx(
+          () => BottonsC.action1(
+            text ?? 'التالي',
+            onPressed,
+            h: 58,
+            elevation: 0,
+            color:
+                taxiController.selectedTaxiAddress2.value != null
+                    ? ColorApp.primaryColor
+                    : ColorApp.borderColor,
+            colorText:
+                taxiController.selectedTaxiAddress2.value == null
                     ? ColorApp.subColor
                     : ColorApp.whiteColor,
           ),

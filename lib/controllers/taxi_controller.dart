@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:rayhan_test/routes/app_routes.dart';
 
 class TaxiController extends GetxController {
   RxBool isLoading = false.obs;
@@ -32,6 +33,12 @@ class TaxiController extends GetxController {
   void setCompleteStartingPoint(bool value) {
     isCompleteStartingPoint.value = value;
     textTitle.value = value ? textTitles[1] : textTitles[0];
+  }
+
+  void setCompleteEndPoint(bool value) {
+    Get.toNamed(AppRoutes.checkTripInformaition);
+    // isCompleteStartingPoint.value = value;
+    // textTitle.value = value ? textTitles[1] : textTitles[0];
   }
 
   // بيانات العنوان الأول (الانطلاق)

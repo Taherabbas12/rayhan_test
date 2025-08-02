@@ -24,6 +24,7 @@ import '../views/screens/cart/order/order_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/restaurant/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
+import '../views/screens/services/taxi/check_trip_informaition_screen.dart';
 import '../views/screens/services/taxi/taxi_screen.dart';
 import '../views/screens/shop/shop_select/shops_details_screen.dart';
 import '../views/screens/shop/shops_screen.dart';
@@ -45,9 +46,14 @@ class AppRoutes {
   static const orderScreen = '/Order-Screen';
   static const shopsScreen = '/Shops-Screen';
   static const shopShopsScreen = '/shop-Shops-Screen';
+  static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
 
   static final routes = [
     GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
+    GetPage(
+      name: checkTripInformaition,
+      page: () => CheckTripInformaitionScreen(),
+    ),
     GetPage(
       name: cartItemScreen,
       page: () => CartItemScreen(),

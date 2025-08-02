@@ -28,4 +28,6 @@ class ImagesUrl {
   static const infoSquareIcon = '${baseAssetSvg}Info_Square.svg';
   static const ticketIcon = '${baseAssetSvg}Ticket.svg';
   static const copperDiamondFillIcon = '${baseAssetSvg}copper-diamond-fill.svg';
+  static const startLocationIcon = '${baseAssetSvg}start_location.svg';
+  static const endLocationIcon = '${baseAssetSvg}end_location.svg';
 }
