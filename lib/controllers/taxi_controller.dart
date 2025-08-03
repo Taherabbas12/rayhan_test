@@ -1,7 +1,18 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
 
+import '../data/models/user_model.dart';
+import '../services/api_service.dart';
+import '../services/error_message.dart';
+import '../utils/constants/api_constants.dart';
+import '../utils/constants/color_app.dart';
+import '../views/widgets/message_snak.dart';
+import 'storage_controller.dart';
+
 class TaxiController extends GetxController {
+  TextEditingController startingPointController = TextEditingController();
+  TextEditingController endPointController = TextEditingController();
   RxBool isLoading = false.obs;
 
   // يتحكم في عرض واجهة الانطلاق أو الوصول
@@ -30,6 +41,16 @@ class TaxiController extends GetxController {
     setCompleteStartingPoint(true);
   }
 
+  String get startingPointFullText =>
+      startingPointController.text.isNotEmpty
+          ? startingPointController.text
+          : 'بناية ${selectedTaxi.value} , بلوك ${selectedTaxiAddress.value}';
+
+  String get endPointFullText =>
+      endPointController.text.isNotEmpty
+          ? endPointController.text
+          : 'بناية ${selectedTaxi2.value} , بلوك ${selectedTaxiAddress2.value}';
+
   void setCompleteStartingPoint(bool value) {
     isCompleteStartingPoint.value = value;
     textTitle.value = value ? textTitles[1] : textTitles[0];
@@ -37,6 +58,65 @@ class TaxiController extends GetxController {
 
   void setCompleteEndPoint(bool value) {
     Get.toNamed(AppRoutes.checkTripInformaition);
+    // isCompleteStartingPoint.value = value;
+    // textTitle.value = value ? textTitles[1] : textTitles[0];
+  }
+
+  RxBool isLoadingTaxiCreate = false.obs;
+  void submetOrderTaxi() async {
+    //    {
+    //   "from": "${addressModel!.buildingNo}|${addressModel!.blockNo}",
+    //   "to":"",//text
+    //   "status": "new",
+    //   "fromLat": "",//
+    //   "toLat": "",
+    //   "fromLong": "",
+    //   "toLong": "",
+    //   "userId":"",
+    //   "userPhone":"",
+    //   "userNote": "string",
+    //   "driverNote": "string",
+    //   "publicNote": "string",
+    //   "type": "taxi"
+    // }
+
+    try {
+      isLoadingTaxiCreate(true);
+      UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.creatTaxiOrders,
+        {
+          "from": startingPointFullText,
+          "to": endPointFullText,
+          "status": "new",
+          "fromLat": "0.0", // يجب استبداله بالإحداثيات الفعلية
+          "toLat": "0.0", // يجب استبداله بالإحداثيات الفعلية
+          "fromLong": "0.0", // يجب استبداله بالإحداثيات الفعلية
+          "toLong": "0.0", // يجب استبداله بالإحداثيات الفعلية
+          "userId": userModel.id, // يجب استبداله بمعرف المستخدم الفعلي
+          "userPhone": userModel.phone, // يجب استبداله برقم الهاتف الفعلي
+          "userNote": "",
+          "driverNote": "",
+          "publicNote": "",
+          "type": "taxi",
+        },
+      );
+      logger.e('Taxi Order response Data: ${response.data}');
+      if (response.isStateSucess < 3) {
+        Get.offAllNamed(AppRoutes.home);
+        MessageSnak.message(
+          'تم إرسال طلب التاكسي بنجاح',
+          color: ColorApp.greenColor,
+        );
+      } else {
+        MessageSnak.message('فشل إرسال طلب التاكسي');
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
+    } finally {
+      isLoadingTaxiCreate(false);
+    }
     // isCompleteStartingPoint.value = value;
     // textTitle.value = value ? textTitles[1] : textTitles[0];
   }
@@ -52,6 +132,7 @@ class TaxiController extends GetxController {
 
   void selectTaxiAddress(String address) {
     selectedTaxiAddress.value = address;
+    startingPointController.text = '';
   }
 
   // بيانات العنوان الثاني (الوصول)
@@ -65,6 +146,7 @@ class TaxiController extends GetxController {
 
   void selectTaxiAddress2(String address) {
     selectedTaxiAddress2.value = address;
+    endPointController.text = '';
   }
 
   // أنواع العناوين (للتبديل بين قائمة العناوين والاخيرة)

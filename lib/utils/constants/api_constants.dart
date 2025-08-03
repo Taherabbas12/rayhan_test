@@ -44,5 +44,7 @@ class ApiConstants {
   static const String serviceMainCategory = 'ServiceMainCategory';
   // Order
   static const String creatOrder = 'PlaysorderController1';
+
   static String getOrders(int id) => 'TbOrders/OrdersForUser?id=$id';
+  static const String creatTaxiOrders = 'TaxiOrders';
 }
