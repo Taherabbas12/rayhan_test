@@ -8,6 +8,7 @@ import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
 import 'inside_bismayah.dart';
+import 'outside_bismayah.dart';
 
 class TaxiScreen extends StatelessWidget {
   TaxiScreen({super.key});
@@ -30,7 +31,7 @@ class TaxiScreen extends StatelessWidget {
             const SizedBox(height: 10),
             Expanded(
               child: TabBarView(
-                children: [InsideBismayah(), buildTaxiContent('خارج بسماية')],
+                children: [InsideBismayah(), OutsideBismayah()],
               ),
             ),
             Obx(

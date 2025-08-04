@@ -100,7 +100,8 @@ class InsideBismayah extends StatelessWidget {
             () =>
                 taxiController.selectedAddressType.value ==
                         taxiController.addressType[0]
-                    ? RecentAddress()
+                    ? SizedBox()
+                    // ? RecentAddress()
                     : notRecentAddress(),
           ),
         ],
