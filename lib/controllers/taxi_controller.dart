@@ -13,7 +13,21 @@ import 'storage_controller.dart';
 class TaxiController extends GetxController {
   TextEditingController startingPointController = TextEditingController();
   TextEditingController endPointController = TextEditingController();
+  RxString startingPointText = ''.obs;
+  RxString endPointText = ''.obs;
   RxBool isLoading = false.obs;
+  @override
+  void onInit() {
+    super.onInit();
+
+    startingPointController.addListener(() {
+      startingPointText.value = startingPointController.value.text;
+    });
+
+    endPointController.addListener(() {
+      endPointText.value = endPointController.value.text;
+    });
+  }
 
   // يتحكم في عرض واجهة الانطلاق أو الوصول
   RxBool isCompleteStartingPoint = false.obs;

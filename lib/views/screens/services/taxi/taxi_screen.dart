@@ -70,15 +70,23 @@ class TaxiScreen extends StatelessWidget {
         child: Obx(
           () => BottonsC.action1(
             text ?? 'التالي',
-            onPressed,
+            () {
+              if (taxiController.selectedTaxiAddress.value == null &&
+                  taxiController.startingPointText.value.isEmpty) {
+              } else {
+                onPressed();
+              }
+            },
             h: 58,
             elevation: 0,
             color:
-                taxiController.selectedTaxiAddress.value != null
+                taxiController.selectedTaxiAddress.value != null ||
+                        taxiController.startingPointText.value.isNotEmpty
                     ? ColorApp.primaryColor
                     : ColorApp.borderColor,
             colorText:
-                taxiController.selectedTaxiAddress.value == null
+                taxiController.selectedTaxiAddress.value == null &&
+                        taxiController.startingPointText.value.isEmpty
                     ? ColorApp.subColor
                     : ColorApp.whiteColor,
           ),
@@ -105,15 +113,23 @@ class TaxiScreen extends StatelessWidget {
         child: Obx(
           () => BottonsC.action1(
             text ?? 'التالي',
-            onPressed,
+            () {
+              if (taxiController.selectedTaxiAddress2.value == null &&
+                  taxiController.endPointText.value.isEmpty) {
+              } else {
+                onPressed();
+              }
+            },
             h: 58,
             elevation: 0,
             color:
-                taxiController.selectedTaxiAddress2.value != null
+                taxiController.selectedTaxiAddress2.value != null ||
+                        taxiController.endPointText.value.isNotEmpty
                     ? ColorApp.primaryColor
                     : ColorApp.borderColor,
             colorText:
-                taxiController.selectedTaxiAddress2.value == null
+                taxiController.selectedTaxiAddress2.value == null &&
+                        taxiController.endPointText.value.isEmpty
                     ? ColorApp.subColor
                     : ColorApp.whiteColor,
           ),

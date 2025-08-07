@@ -34,31 +34,31 @@ class OutsideBismayah extends StatelessWidget {
                     isStart ? 'نقطة الانطلاق' : 'نقطة الوصول',
                   ),
             ),
-            SizedBox(height: Values.circle * 2),
+            // SizedBox(height: Values.circle * 2),
 
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: Values.circle * 2.4),
-              decoration: BoxDecoration(
-                color: ColorApp.borderColor.withAlpha(50),
-                borderRadius: BorderRadius.circular(Values.circle),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  recent(taxiController.addressType[0]),
-                  recent(taxiController.addressType[1]),
-                ],
-              ),
-            ),
-            SizedBox(height: Values.circle * 2),
-            Obx(
-              () =>
-                  taxiController.selectedAddressType.value ==
-                          taxiController.addressType[0]
-                      ? SizedBox()
-                      // ? RecentAddress()
-                      : notRecentAddress(),
-            ),
+            // Container(
+            //   margin: EdgeInsets.symmetric(horizontal: Values.circle * 2.4),
+            //   decoration: BoxDecoration(
+            //     color: ColorApp.borderColor.withAlpha(50),
+            //     borderRadius: BorderRadius.circular(Values.circle),
+            //   ),
+            //   child: Row(
+            //     mainAxisSize: MainAxisSize.min,
+            //     children: [
+            //       recent(taxiController.addressType[0]),
+            //       recent(taxiController.addressType[1]),
+            //     ],
+            //   ),
+            // ),
+            // SizedBox(height: Values.circle * 2),
+            // Obx(
+            //   () =>
+            //       taxiController.selectedAddressType.value ==
+            //               taxiController.addressType[0]
+            //           ? SizedBox()
+            //           // ? RecentAddress()
+            //           : notRecentAddress(),
+            // ),
           ],
         ),
       );
