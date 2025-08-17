@@ -35,26 +35,38 @@ class ImageSlider extends StatelessWidget {
           ),
           items:
               imageList.map((model) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Image.network(model.img, fit: BoxFit.fitWidth),
-                      Container(
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.black.withAlpha(100),
-                              Colors.transparent,
-                            ],
-                            begin: Alignment.bottomCenter,
-                            end: Alignment.topCenter,
-                          ),
-                        ),
-                      ),
-                    ],
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: ColorApp.borderColor.withAlpha(100),
+                      width: 1,
+                    ),
+                    image: DecorationImage(
+                      image: NetworkImage(model.img),
+                      fit: BoxFit.fitWidth,
+                    ),
                   ),
+
+                  //  ClipRRect(
+                  //   borderRadius: BorderRadius.circular(20),
+                  //   child: SizedBox(
+                  //     width: double.infinity,
+                  //     child: Image.network(),
+                  //   ),
+
+                  // Container(
+                  //   decoration: BoxDecoration(
+                  //     gradient: LinearGradient(
+                  //       colors: [
+                  //         Colors.black.withAlpha(100),
+                  //         Colors.transparent,
+                  //       ],
+                  //       begin: Alignment.bottomCenter,
+                  //       end: Alignment.topCenter,
+                  //     ),
+                  //   ),
+                  // ),
                 );
               }).toList(),
         ),
