@@ -22,6 +22,7 @@ class ApiConstants {
       'ShopCategory/ShopCategoriesFilter?shopId=$id';
   static String shopProducts(int id) =>
       'ShopProduct/ForUser?page=1&pageSize=150&categoryId=$id';
+  static const String searchRayhan = 'Search';
 
   static const String shopShowBanners = 'ShopShow';
   static String resturens(
@@ -40,6 +41,11 @@ class ApiConstants {
     int categoryId = 0,
     String type = 'restaurant',
   }) => 'Shop/ForUser?pageSize=50&page=1&categoryId=0&sort=true&type=Shop';
+  static String resturensOrShopSearch({
+    required String value,
+    String type = 'restaurant',
+  }) => 'Shop/Filter?type=name&value=$value&hisType=$type';
+
   // Services
   static const String serviceMainCategory = 'ServiceMainCategory';
   // Order

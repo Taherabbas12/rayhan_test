@@ -85,6 +85,7 @@ class ShopsController extends GetxController {
   }
 
   RxList<Restaurant> restaurants = RxList([]);
+  RxList<Restaurant> restaurantsSearch = RxList([]);
   var isAppBarVisible = true.obs;
   double previousOffset = 0.0;
   DateTime? lastTime;
@@ -164,6 +165,31 @@ class ShopsController extends GetxController {
       }
     } catch (e) {
       logger.i("خطأ في تحميل البيانات: $e");
+    } finally {
+      isLoadingRestaurant(false);
+    }
+  }
+
+  Future<void> fetchRestaurantSearch(String value) async {
+    isLoadingRestaurant.value = true;
+
+    try {
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.resturensOrShopSearch(type: 'Shop', value: value),
+        {},
+      );
+      logger.i(response.data);
+      if (response.isStateSucess < 3) {
+        List<dynamic> newVideosJson = response.data;
+
+        List<Restaurant> newRestaurantCategory = Restaurant.fromJsonList(
+          newVideosJson,
+        );
+        restaurantsSearch([]);
+        restaurantsSearch.addAll(newRestaurantCategory);
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل ا111لبيانات: $e");
     } finally {
       isLoadingRestaurant(false);
     }

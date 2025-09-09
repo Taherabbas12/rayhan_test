@@ -131,7 +131,7 @@ class TaxiScreen extends StatelessWidget {
                 taxiController.selectedTaxiAddress2.value == null &&
                         taxiController.endPointText.value.isEmpty
                     ? ColorApp.subColor
-                    : ColorApp.whiteColor,
+                    : ColorApp.whiteColor 
           ),
         ),
       ),
