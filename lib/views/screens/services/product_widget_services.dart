@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/views/widgets/more_widgets.dart';
 
 import '../../../../data/models/product_model.dart';
 import '../../../../utils/constants/color_app.dart';
@@ -30,7 +31,15 @@ class ProductWidgetServices extends StatelessWidget {
               width: Values.width,
               child: Padding(
                 padding: EdgeInsets.all(Values.spacerV),
-                child: Image.asset(product.image),
+                child:
+                    product.name == 'التكسي'
+                        ? Image.asset(product.image)
+                        : imageCached(
+                          product.image,
+                          circle: 6,
+                          down: true,
+                          top: true,
+                        ),
               ),
             ),
 

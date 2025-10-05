@@ -47,7 +47,12 @@ class ApiConstants {
   }) => 'Shop/Filter?type=name&value=$value&hisType=$type';
 
   // Services
+  static const String createServiceOrder = 'ServiceOrder/CreateServiceOrder';
   static const String serviceMainCategory = 'ServiceMainCategory';
+  static String serviceSubCategory(int id) =>
+      'ServiceSubCategory/ByMainCategory?id=$id';
+  static String serviceProductsOfSubCategores(int id) =>
+      'ServiceProduct/BySubCategory?pageSize=100&page=1&categoryId=$id&userType=customer';
   // Order
   static const String creatOrder = 'PlaysorderController1';
 

@@ -10,7 +10,7 @@ class CartItem {
   final String image;
   final String vendorId;
   final String vendorName;
-  final CartType cartType; // ⭐️ نوع السلة (مطعم/ماركت/متجر)
+  final CartType cartType;
 
   CartItem({
     this.id,
@@ -86,7 +86,7 @@ class CartItem {
   }
 }
 
-enum CartType { restaurant, shop, mart }
+enum CartType { restaurant, shop, mart, service, taxi }
 
 String cartTypeToString(CartType type) {
   switch (type) {
@@ -96,6 +96,10 @@ String cartTypeToString(CartType type) {
       return 'shop';
     case CartType.mart:
       return 'mart';
+    case CartType.service:
+      return 'service';
+    case CartType.taxi:
+      return 'taxi';
   }
 }
 
@@ -107,6 +111,10 @@ CartType cartTypeFromString(String value) {
       return CartType.shop;
     case 'mart':
       return CartType.mart;
+    case 'service':
+      return CartType.service;
+    case 'taxi':
+      return CartType.taxi;
     default:
       throw Exception('Invalid cart type');
   }

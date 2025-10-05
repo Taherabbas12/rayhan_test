@@ -2,97 +2,136 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../controllers/cart_item_controller.dart';
+import '../../../data/models/cart_item.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/actions_button.dart';
 import 'request_rayhan.dart';
+import 'service_rayhan.dart';
 
-class CartItemScreen extends StatelessWidget {
-  CartItemScreen({super.key});
-  CartItemController cartItemController = Get.find<CartItemController>();
+class CartItemScreen extends StatefulWidget {
+  const CartItemScreen({super.key});
+
+  @override
+  State<CartItemScreen> createState() => _CartItemScreenState();
+}
+
+class _CartItemScreenState extends State<CartItemScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController tabController;
+  final cartItemController = Get.find<CartItemController>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    // 🔹 إنشاء TabController يدويًا بدل DefaultTabController
+    tabController = TabController(length: 2, vsync: this);
+
+    // 🔹 إضافة listener عند تغيّر التبويب
+    tabController.addListener(() {
+      if (!tabController.indexIsChanging) {
+        if (tabController.index == 0) {
+          cartItemController.onOpenScreenCart();
+        } else if (tabController.index == 1) {
+          cartItemController.onOpenScreenCartService();
+        }
+      }
+    });
+
+    // تشغيل تهيئة السلة
+    cartItemController.onOpenScreenCart();
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    cartItemController.onOpenScreenCart();
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(title: const Text('السلة'), centerTitle: true),
-        body: Center(
-          child: Column(
-            children: [
-              const SizedBox(height: 10),
-              buildTaxiTabs(), // TabBar بدون أيقونات
-              const SizedBox(height: 10),
-
-              Expanded(
-                child: TabBarView(children: [RequestRayhan(), RequestRayhan()]),
+    return Scaffold(
+      appBar: AppBar(title: const Text('السلة'), centerTitle: true),
+      body: Center(
+        child: Column(
+          children: [
+            const SizedBox(height: 10),
+            buildTaxiTabs(),
+            const SizedBox(height: 10),
+            Expanded(
+              child: TabBarView(
+                controller: tabController,
+                children: [RequestRayhan(), ServiceRayhan()],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Container(
-          padding: EdgeInsets.symmetric(vertical: Values.circle),
-          decoration: BoxDecoration(
-            color: ColorApp.backgroundColor,
-            border: Border.all(color: ColorApp.borderColor.withAlpha(50)),
-          ),
-          child: Row(
-            children: [
-              SizedBox(width: Values.spacerV),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Container(
+        padding: EdgeInsets.symmetric(vertical: Values.circle),
+        decoration: BoxDecoration(
+          color: ColorApp.backgroundColor,
+          border: Border.all(color: ColorApp.borderColor.withAlpha(50)),
+        ),
+        child: Row(
+          children: [
+            SizedBox(width: Values.spacerV),
 
-              SizedBox(
-                width: Values.width * .3,
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Obx(
-                      () => Text(
-                        '(${cartItemController.countProduct}) عناصر',
-                        style: StringStyle.textLabil.copyWith(
-                          color: ColorApp.textSecondryColor,
-                        ),
+            SizedBox(
+              width: Values.width * .3,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Obx(
+                    () => Text(
+                      '(${cartItemController.countProduct}) عناصر',
+                      style: StringStyle.textLabil.copyWith(
+                        color: ColorApp.textSecondryColor,
                       ),
                     ),
-                    Obx(
-                      () => Text(
-                        '${cartItemController.total.toStringAsFixed(0)} د.ع',
-                        style: StringStyle.textLabil,
-                      ),
+                  ),
+                  Obx(
+                    () => Text(
+                      '${cartItemController.total.toStringAsFixed(0)} د.ع',
+                      style: StringStyle.textLabil,
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
+            ),
 
-              Expanded(
-                child: Obx(
-                  () => BottonsC.action1(
-                    h: 50,
-                    'التالي',
-                    () {
-                      if (cartItemController.total > 0) {
+            Expanded(
+              child: Obx(
+                () => BottonsC.action1(
+                  h: 50,
+                  'التالي',
+                  () {
+                    if (cartItemController.total > 0) {
+                      if (cartItemController.currentCartType ==
+                          CartType.service) {
+                        print('-----A---');
+
+                        // orderScreenService
+                        Get.toNamed(AppRoutes.orderScreenService);
+                      } else {
                         Get.toNamed(AppRoutes.orderScreen);
                       }
-                      // restaurantController.addToCart(
-                      //   product,
-                      //   noteController.text,
-                      //   quantity,
-                      // );
-                    },
-                    color:
-                        cartItemController.total > 0
-                            ? ColorApp.primaryColor
-                            : ColorApp.subColor,
-                  ),
+                    }
+                  },
+                  color:
+                      cartItemController.total > 0
+                          ? ColorApp.primaryColor
+                          : ColorApp.subColor,
                 ),
               ),
-              SizedBox(width: Values.spacerV),
-            ],
-          ),
+            ),
+            SizedBox(width: Values.spacerV),
+          ],
         ),
       ),
     );
@@ -110,6 +149,7 @@ class CartItemScreen extends StatelessWidget {
           child: Divider(color: ColorApp.borderColor, height: 0, thickness: 2),
         ),
         TabBar(
+          controller: tabController, // ✅ نربط الكنترولر هنا
           indicator: UnderlineTabIndicator(
             borderRadius: BorderRadius.only(
               topLeft: Radius.circular(Values.spacerV * 5),
@@ -130,10 +170,9 @@ class CartItemScreen extends StatelessWidget {
             color: ColorApp.subColor,
             fontSize: 16,
           ),
-
           indicatorAnimation: TabIndicatorAnimation.elastic,
           splashBorderRadius: BorderRadius.circular(Values.circle),
-          tabs: [Tab(text: 'طلبات ريحان'), Tab(text: 'خدمات ريحان')],
+          tabs: const [Tab(text: 'طلبات ريحان'), Tab(text: 'خدمات ريحان')],
         ),
       ],
     );

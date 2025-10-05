@@ -33,7 +33,7 @@ class Product {
       active: json['active'] ?? false,
       count: json['count'] ?? '0',
       image: json['image'] ?? json['img1'] ?? '',
-      price1: _parseDouble(json['price1']),
+      price1: _parseDouble(json['price1'] ?? json['oldPrice']),
       price2: _parseDouble(json['price2']),
       shopType: json['shopType'] ?? '',
     );

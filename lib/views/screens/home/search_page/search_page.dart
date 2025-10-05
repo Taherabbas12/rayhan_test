@@ -71,7 +71,7 @@ class SearchPage extends StatelessWidget {
               indicatorWeight: 3,
               tabs: [
                 Tab(text: 'المتاجر'),
-                Tab(text: 'الطعام'), // كما طلبت بالضبط
+                Tab(text: 'الطعام'),
 
                 Tab(text: 'الماركت'),
               ],

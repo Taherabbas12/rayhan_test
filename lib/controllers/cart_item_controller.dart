@@ -19,10 +19,15 @@ class CartItemController extends GetxController {
   Rx<Restaurant?> selectedRestaurant = Rx<Restaurant?>(null);
 
   List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت'];
+  List<String> cartServiceType = ['التكسي', 'الخدمات'];
   RxString selectedCartType = 'المطاعم'.obs;
   void onOpenScreenCart() {
     onAddressTypeChanged('المطاعم');
     loadCart();
+  }
+
+  void onOpenScreenCartService() {
+    onAddressTypeChanged('الخدمات');
   }
 
   void onAddressTypeChanged(String value) {
@@ -33,6 +38,8 @@ class CartItemController extends GetxController {
       currentCartType = CartType.shop;
     } else if (value == 'الماركت') {
       currentCartType = CartType.mart;
+    } else if (value == 'الخدمات') {
+      currentCartType = CartType.service;
     } else {
       currentCartType = null;
     }

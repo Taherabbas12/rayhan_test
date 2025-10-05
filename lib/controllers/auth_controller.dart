@@ -84,14 +84,14 @@ class AuthController extends GetxController {
       logger.e("response ${response.data}   | ");
       if (response.isStateSucess < 3) {
         ApiService.updateTokenString(response.data['token']);
-        Get.toNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.home);
       } else {
-        Get.toNamed(AppRoutes.home);
+        // Get.toNamed(AppRoutes.home);
         MessageSnak.message('فشل في تسجيل المستخدم', color: ColorApp.redColor);
       }
     } catch (e) {
       // logger.i("خطأ في تحميل البيانات: $e");
-      Get.toNamed(AppRoutes.home);
+      // Get.toNamed(AppRoutes.home);
     } finally {
       isLoading(false);
     }
@@ -131,9 +131,9 @@ class AuthController extends GetxController {
       if (responseLogin != null) {
         logger.e("responseLogin ${responseLogin!.data}   | ");
         await StorageController.storeData(responseLogin!.data);
-        Get.offAndToNamed(AppRoutes.home);
+        Get.offAllNamed(AppRoutes.home);
       } else {
-        Get.offAndToNamed(AppRoutes.register);
+        Get.offAllNamed(AppRoutes.register);
       }
       responseLogin;
       MessageSnak.message(
@@ -248,7 +248,7 @@ class AuthController extends GetxController {
     MessageSnak.message('تم اعادة كلمة المرور   ', color: ColorApp.greenColor);
 
     // await Future.delayed(Duration(seconds: 1));
-    Get.toNamed(AppRoutes.home);
+    Get.offAllNamed(AppRoutes.home);
     isLoading(false);
   }
 
