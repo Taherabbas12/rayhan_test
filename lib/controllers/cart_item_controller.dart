@@ -157,8 +157,6 @@ class CartItemController extends GetxController {
       ApiConstants.tbAddresses,
     );
 
-    logger.e('USER  response: ${userModel.toJson()}');
-    logger.e('Order response: ${response.data}');
     if (response.isStateSucess < 3) {
       List<AddressModel> addressList = AddressModel.fromJsonList(response.data);
       final userAddresses =
@@ -170,8 +168,6 @@ class CartItemController extends GetxController {
         // ✅ أول عنوان يخص المستخدم
         final selected = userAddresses.first;
         selectedAddress.value = selected.toString();
-        // print(userModel.toJson());
-        // selectedAddress = userModel.city != null ? userModel.city!.obs : ''.obs;
       }
     }
   }
@@ -416,16 +412,16 @@ class CartItemController extends GetxController {
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
 
     final body = createOrderServiceBody(
-      branch: restaurant != null ? restaurant.id.toString() : '',
-      mainCategoryId: '',
+      branch: '42',
+      mainCategoryId: '4',
       orderPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
       totalPrice: totalWithOutDelivery.toString(),
-      deliveryDays: taxValue,
+      deliveryDays: selectedDay.value,
       receiveDays: selectedDay.value,
       deliveryTime: selectedTime.value,
       seenDays: '',
       seenTimes: '',
-      images: itemsList.isNotEmpty ? images : null,
+      images: [],
 
       tax: taxValue,
       userId: userModel.id.toString(),
@@ -433,11 +429,13 @@ class CartItemController extends GetxController {
       deliveryPrice: deliveryPriceValue.toString(),
       orderNote: noteController.text.trim(),
       items: itemsList,
+      // items: [],
     );
-
+    print(body);
+    logger.e(body);
     try {
       final StateReturnData response = await ApiService.postData(
-        ApiConstants.creatOrder,
+        ApiConstants.createServiceOrder,
         body,
       );
 
@@ -523,11 +521,11 @@ Map<String, dynamic> createOrderServiceBody({
   String receiveTimes = "",
   String seenTimes = "",
   String orderNote = "",
-  List? images, // 👈 صور الطلب
+  List? images,
   required List<Map<String, dynamic>> items,
 }) {
   return {
-    "branch": branch,
+    "branch": '42',
     "tax": tax,
     "orderPrice": orderPrice,
     "userId": userId,
@@ -543,19 +541,10 @@ Map<String, dynamic> createOrderServiceBody({
     "receiveTimes": receiveTimes,
     "seenTimes": seenTimes,
     "orderNote": orderNote,
-    "items":
-        items.map((item) {
-          return {
-            "price": item["price"] ?? "",
-            "count": item["count"] ?? "",
-            "productId": item["productId"] ?? "",
-            "note": item["note"] ?? "",
-          };
-        }).toList(),
+    "items": items,
     "images":
         images != null
             ? images.map((img) {
-              // 👇 دعم نوعين: File أو String
               if (img is String) return img;
               if (img.path != null) return img.path;
               return img.toString();
