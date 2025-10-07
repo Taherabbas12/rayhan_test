@@ -104,7 +104,10 @@ class OrderScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              Text("البلوك A1، الطابق 4، شقة 56"),
+              Text(
+                cartController.selectedAddress.value,
+                style: TextStyle(color: Colors.grey),
+              ),
             ],
           ),
         ),

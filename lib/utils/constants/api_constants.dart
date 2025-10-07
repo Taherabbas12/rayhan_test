@@ -58,4 +58,5 @@ class ApiConstants {
 
   static String getOrders(int id) => 'TbOrders/OrdersForUser?id=$id';
   static const String creatTaxiOrders = 'TaxiOrders';
+  static const String tbAddresses = 'TbAddresses';
 }

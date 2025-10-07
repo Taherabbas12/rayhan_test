@@ -16,7 +16,8 @@ import '../views/screens/auth/otp.dart';
 import '../views/screens/auth/register.dart';
 import '../views/screens/auth/register_complete.dart';
 import '../views/screens/cart/cart_item_screen.dart';
-import '../views/screens/cart/order/order_screen_service.dart';
+import '../views/screens/cart/order/service_order/order_screen_service.dart';
+import '../views/screens/cart/order/service_order/order_form_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/market/market_screen.dart';
 import '../views/screens/market/view_category_details/category_details_screen.dart';
@@ -48,6 +49,7 @@ class AppRoutes {
   static const orderScreenService = '/Order-Screen-Service';
   static const shopsScreen = '/Shops-Screen';
   static const shopShopsScreen = '/shop-Shops-Screen';
+  static const orderFormScreen = '/Order-FormS-creen';
   static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
   // static const serviceOrderView = '/serviceOrder';
   static final routes = [
@@ -57,6 +59,7 @@ class AppRoutes {
     //   // binding: ServiceOrdersBinding(),
     // ),
     GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
+    GetPage(name: orderFormScreen, page: () => OrderFormScreen()),
     GetPage(
       name: checkTripInformaition,
       page: () => CheckTripInformaitionScreen(),

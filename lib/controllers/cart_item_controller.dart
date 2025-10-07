@@ -1,8 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:rayhan_test/data/models/user_model.dart';
 import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
+import '../data/models/address_model.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
 import '../routes/app_routes.dart';
@@ -17,6 +21,100 @@ class CartItemController extends GetxController {
   String? currentVendorId;
   CartType? currentCartType;
   Rx<Restaurant?> selectedRestaurant = Rx<Restaurant?>(null);
+
+  RxString orderNote = "".obs;
+
+  final ImagePicker _picker = ImagePicker();
+  Rx<File?> selectedImage = Rx<File?>(null);
+  RxString selectedDay = "".obs;
+  RxString selectedTime = "".obs;
+
+  final RxList<File> images = <File>[].obs;
+  UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+
+  RxString selectedAddress = ''.obs;
+
+  /// ✅ اختيار مصدر الصورة (كاميرا - معرض - ملفات متعددة)
+  Future<void> pickImages(BuildContext context) async {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (_) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.camera_alt, color: Colors.green),
+                title: const Text("التقاط صورة بالكاميرا"),
+                onTap: () async {
+                  final picked = await _picker.pickImage(
+                    source: ImageSource.camera,
+                    imageQuality: 75,
+                  );
+                  if (picked != null) images.add(File(picked.path));
+                  Get.back();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library, color: Colors.green),
+                title: const Text("اختيار من المعرض"),
+                onTap: () async {
+                  final pickedFiles = await _picker.pickMultiImage(
+                    imageQuality: 75,
+                  );
+                  if (pickedFiles.isNotEmpty) {
+                    images.addAll(pickedFiles.map((e) => File(e.path)));
+                  }
+                  Get.back();
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.close, color: Colors.red),
+                title: const Text("إلغاء"),
+                onTap: () => Get.back(),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  /// ✅ التحقق قبل الإرسال
+  bool validate() {
+    if (selectedDay.isEmpty) {
+      Get.snackbar(
+        "تنبيه",
+        "يرجى اختيار يوم التواجد",
+        backgroundColor: Colors.red.shade50,
+      );
+      return false;
+    }
+    if (selectedTime.isEmpty) {
+      Get.snackbar(
+        "تنبيه",
+        "يرجى اختيار الوقت",
+        backgroundColor: Colors.red.shade50,
+      );
+      return false;
+    }
+
+    return true;
+  }
+
+  // رفع الصورة
+  Future<void> pickImage() async {
+    final picked = await _picker.pickImage(source: ImageSource.gallery);
+    if (picked != null) selectedImage.value = File(picked.path);
+  }
+
+  // تنفيذ الطلب
+  void submitOrder() {
+    if (!validate()) return;
+    Get.toNamed(AppRoutes.orderScreenService);
+  }
 
   List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت'];
   List<String> cartServiceType = ['التكسي', 'الخدمات'];
@@ -51,6 +149,31 @@ class CartItemController extends GetxController {
   void onInit() {
     super.onInit();
     loadCart(cartType: currentCartType ?? CartType.restaurant);
+    getAddressUser();
+  }
+
+  void getAddressUser() async {
+    final StateReturnData response = await ApiService.getData(
+      ApiConstants.tbAddresses,
+    );
+
+    logger.e('USER  response: ${userModel.toJson()}');
+    logger.e('Order response: ${response.data}');
+    if (response.isStateSucess < 3) {
+      List<AddressModel> addressList = AddressModel.fromJsonList(response.data);
+      final userAddresses =
+          addressList
+              .where((address) => address.userid == userModel.id.toString())
+              .toList();
+
+      if (userAddresses.isNotEmpty) {
+        // ✅ أول عنوان يخص المستخدم
+        final selected = userAddresses.first;
+        selectedAddress.value = selected.toString();
+        // print(userModel.toJson());
+        // selectedAddress = userModel.city != null ? userModel.city!.obs : ''.obs;
+      }
+    }
   }
 
   Future<void> loadCart({CartType cartType = CartType.restaurant}) async {
@@ -263,6 +386,78 @@ class CartItemController extends GetxController {
       isLoadingOrder(false);
     }
   }
+
+  Future<void> submitOrderServiceFromCart() async {
+    if (cartItems.isEmpty) {
+      MessageSnak.message('السلة فارغة');
+      return;
+    }
+    isLoadingOrder(true);
+    Restaurant? restaurant;
+    if (selectedRestaurant.value != null) {
+      restaurant = selectedRestaurant.value!;
+    }
+
+    final totalPriceValue = total.value;
+    final taxValue = (totalPriceValue * 0.05).toStringAsFixed(2);
+    final deliveryPriceValue = restaurant?.deliveryPrice ?? 500;
+    final totalWithOutDelivery = totalPriceValue;
+
+    final itemsList =
+        cartItems.map((item) {
+          return {
+            "price": (item.price2 > 0 ? item.price2 : item.price1).toString(),
+            "count": item.quantity.toString(),
+            "productId": item.productId,
+            "note": item.note,
+          };
+        }).toList();
+
+    UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+
+    final body = createOrderServiceBody(
+      branch: restaurant != null ? restaurant.id.toString() : '',
+      mainCategoryId: '',
+      orderPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
+      totalPrice: totalWithOutDelivery.toString(),
+      deliveryDays: taxValue,
+      receiveDays: selectedDay.value,
+      deliveryTime: selectedTime.value,
+      seenDays: '',
+      seenTimes: '',
+      images: itemsList.isNotEmpty ? images : null,
+
+      tax: taxValue,
+      userId: userModel.id.toString(),
+      addressId: userModel.addressid,
+      deliveryPrice: deliveryPriceValue.toString(),
+      orderNote: noteController.text.trim(),
+      items: itemsList,
+    );
+
+    try {
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.creatOrder,
+        body,
+      );
+
+      logger.e('Order (${selectedCartType.value}) response Data: $body');
+      logger.e('Order response: ${response.data}');
+      if (response.isStateSucess < 3) {
+        await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
+
+        Get.offAllNamed(AppRoutes.home);
+
+        MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
+      } else {
+        MessageSnak.message('فشل إرسال الطلب');
+      }
+    } catch (e) {
+      MessageSnak.message('حدث خطأ أثناء إرسال الطلب: $e');
+    } finally {
+      isLoadingOrder(false);
+    }
+  }
 }
 
 Map<String, dynamic> createOrderBody({
@@ -308,5 +503,63 @@ Map<String, dynamic> createOrderBody({
     "branch": branchId,
     "shopId": shopId,
     "items": items,
+  };
+}
+
+Map<String, dynamic> createOrderServiceBody({
+  required String branch,
+  required String tax,
+  required String orderPrice,
+  required String userId,
+  required String addressId,
+  required String totalPrice,
+  required String deliveryPrice,
+  required String mainCategoryId,
+  String orderType = "Found",
+  String deliveryDays = "",
+  String receiveDays = "",
+  String seenDays = "",
+  String deliveryTime = "",
+  String receiveTimes = "",
+  String seenTimes = "",
+  String orderNote = "",
+  List? images, // 👈 صور الطلب
+  required List<Map<String, dynamic>> items,
+}) {
+  return {
+    "branch": branch,
+    "tax": tax,
+    "orderPrice": orderPrice,
+    "userId": userId,
+    "addressId": addressId,
+    "totalPrice": totalPrice,
+    "deliveryPrice": deliveryPrice,
+    "mainCategoryId": mainCategoryId,
+    "orderType": orderType,
+    "deliveryDays": deliveryDays,
+    "receiveDays": receiveDays,
+    "seenDays": seenDays,
+    "deliveryTime": deliveryTime,
+    "receiveTimes": receiveTimes,
+    "seenTimes": seenTimes,
+    "orderNote": orderNote,
+    "items":
+        items.map((item) {
+          return {
+            "price": item["price"] ?? "",
+            "count": item["count"] ?? "",
+            "productId": item["productId"] ?? "",
+            "note": item["note"] ?? "",
+          };
+        }).toList(),
+    "images":
+        images != null
+            ? images.map((img) {
+              // 👇 دعم نوعين: File أو String
+              if (img is String) return img;
+              if (img.path != null) return img.path;
+              return img.toString();
+            }).toList()
+            : [],
   };
 }

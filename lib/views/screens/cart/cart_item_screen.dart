@@ -117,7 +117,8 @@ class _CartItemScreenState extends State<CartItemScreen>
                         print('-----A---');
 
                         // orderScreenService
-                        Get.toNamed(AppRoutes.orderScreenService);
+                        // orderFormScreen
+                        Get.toNamed(AppRoutes.orderFormScreen);
                       } else {
                         Get.toNamed(AppRoutes.orderScreen);
                       }
