@@ -15,6 +15,7 @@ import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
 import 'storage_controller.dart';
+import 'package:dio/dio.dart' as dio;
 
 class CartItemController extends GetxController {
   RxList<CartItem> cartItems = <CartItem>[].obs;
