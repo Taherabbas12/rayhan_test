@@ -267,7 +267,9 @@ class CartItemController extends GetxController {
 
   Future<void> clearCart(String cartType, {String? type}) async {
     await CartDb.instance.clearCart(cartType, type: type);
-    await CartDb.instance.clearRestaurant(selectedRestaurant.value!.type);
+    if (selectedRestaurant.value != null) {
+      await CartDb.instance.clearRestaurant(selectedRestaurant.value!.type);
+    }
     cartItems.clear();
     currentVendorId = null;
     currentCartType = null;
@@ -443,8 +445,9 @@ class CartItemController extends GetxController {
       logger.e('Order (${selectedCartType.value}) response Data: $body');
       logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
+        print('clear cart');
         await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
-
+        print('clear cart');
         Get.offAllNamed(AppRoutes.home);
 
         MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);

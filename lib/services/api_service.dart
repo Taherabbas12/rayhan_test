@@ -61,8 +61,8 @@ class ApiService {
   static Future<StateReturnData> postData(String endpoint, dynamic data) async {
     try {
       final response = await _dio.post(endpoint, data: data);
-      // logger.i(response.data);
-      // logger.i('State Code : ${response.statusCode}');
+      logger.i(response.data);
+      logger.i('State Code : ${response.statusCode}');
 
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data);
