@@ -4,6 +4,7 @@ import '../controllers/home_controller.dart';
 import '../controllers/market_controller.dart';
 import '../controllers/market_product_controller.dart';
 import '../controllers/my_request_controller.dart';
+import '../controllers/my_request_services_controller.dart';
 import '../controllers/restaurant_controller.dart';
 import '../controllers/shop_controller.dart';
 import '../controllers/shops_controller.dart';
@@ -21,6 +22,10 @@ class HomeBinding extends Bindings {
     );
     Get.lazyPut<CartItemController>(() => CartItemController(), fenix: true);
     Get.lazyPut<MyRequestController>(() => MyRequestController(), fenix: true);
+    Get.lazyPut<MyRequestServicesController>(
+      () => MyRequestServicesController(),
+      fenix: true,
+    );
     Get.lazyPut<RestaurantController>(
       () => RestaurantController(),
       fenix: true,

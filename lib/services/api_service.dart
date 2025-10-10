@@ -46,14 +46,14 @@ class ApiService {
   static Future<StateReturnData> getData(String endpoint) async {
     try {
       final response = await _dio.get(endpoint);
-
+      print(endpoint);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
-        return StateReturnData(1, response.data); // إرجاع البيانات كـ Map
+        return StateReturnData(1, response.data);
       }
       return StateReturnData(2, response.data);
     } catch (e) {
       logger.i('Error in Post request: $e');
-      return StateReturnData(3, {}); // إرجاع خريطة فارغة في حال الخطأ
+      return StateReturnData(3, {});
     }
   }
 

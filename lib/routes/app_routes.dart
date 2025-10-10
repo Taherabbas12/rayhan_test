@@ -6,6 +6,7 @@ import '../bindings/cart_item_binding.dart';
 import '../bindings/home_binding.dart';
 import '../bindings/market_binding.dart';
 import '../bindings/market_product_binding.dart';
+import '../bindings/notification_binding.dart';
 import '../bindings/restaurant_binding.dart';
 import '../bindings/services_binding.dart';
 import '../bindings/shop_binding.dart';
@@ -79,7 +80,11 @@ class AppRoutes {
     GetPage(name: otp, page: () => OTPScreen(), binding: LoginBinding()),
     GetPage(name: home, page: () => HomeScreen(), binding: HomeBinding()),
     GetPage(name: shopScreen, page: () => ShopScreen(), binding: ShopBinding()),
-    GetPage(name: notificationScreen, page: () => NotificationScreen()),
+    GetPage(
+      name: notificationScreen,
+      page: () => NotificationScreen(),
+      binding: NotificationBinding(),
+    ),
     GetPage(name: taxiScreen, page: () => TaxiScreen(), binding: TaxiBinding()),
     GetPage(
       name: categoryDetailsScreen,

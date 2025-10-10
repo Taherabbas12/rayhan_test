@@ -57,6 +57,11 @@ class ApiConstants {
   static const String creatOrder = 'PlaysorderController1';
 
   static String getOrders(int id) => 'TbOrders/OrdersForUser?id=$id';
+  static String getOrdersServices(int id, String status) =>
+      'ServiceOrder/ForUser?userId=1065&pageSize=1000&page=1&status=$status';
   static const String creatTaxiOrders = 'TaxiOrders';
   static const String tbAddresses = 'TbAddresses';
+
+  // Notification
+  static String getNotifications(int userId) => 'TbNotes/userx/$userId';
 }

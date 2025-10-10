@@ -8,6 +8,7 @@ import '../../../../utils/constants/style_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import 'categores_orders.dart';
 import 'request_widget.dart';
+import 'services/view_service.dart';
 
 class MyRequestsPage extends StatelessWidget {
   MyRequestsPage({super.key});
@@ -26,7 +27,7 @@ class MyRequestsPage extends StatelessWidget {
               children: [
                 requestRayhan(),
                 // 2
-                requestRayhan(),
+                ViewService(),
               ],
             ),
           ),
