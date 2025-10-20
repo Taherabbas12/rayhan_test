@@ -361,6 +361,7 @@ class CartItemController extends GetxController {
       promoCode: '',
       promoCodeName: '',
     );
+    logger.e(body);
 
     try {
       final StateReturnData response = await ApiService.postData(
