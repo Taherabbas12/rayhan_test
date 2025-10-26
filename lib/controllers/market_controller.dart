@@ -55,7 +55,7 @@ class MarketController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.marketCatagorys,
       );
-      logger.e('Market categories response: ${response.data}');
+      // logger.e('Market categories response: ${response.data}');
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 
@@ -75,7 +75,7 @@ class MarketController extends GetxController {
         selectCategories(marketCategories[0]);
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
     }
     isLoadingStart(false);
     isLoading.value = false;
@@ -97,7 +97,7 @@ class MarketController extends GetxController {
         sliderImageModel.addAll(newRestaurantCategory);
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
     } finally {
       isLoadingSliderImageModel(false);
     }
@@ -114,7 +114,7 @@ class MarketController extends GetxController {
         ApiConstants.searchRayhan,
         {"name": value.tr},
       );
-      logger.e("respaaa onse : ${response.data}");
+      // logger.e("respaaa onse : ${response.data}");
       if (response.isStateSucess < 3) {
         List<dynamic> newJson = response.data;
 
@@ -124,7 +124,7 @@ class MarketController extends GetxController {
         productsSearch.addAll(newShopCategores);
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
     }
 
     isLoadingProductSearch.value = false;

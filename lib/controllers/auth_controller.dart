@@ -81,7 +81,7 @@ class AuthController extends GetxController {
         data,
       );
 
-      logger.e("response ${response.data}   | ");
+      // logger.e("response ${response.data}   | ");
       if (response.isStateSucess < 3) {
         ApiService.updateTokenString(response.data['token']);
         Get.offAllNamed(AppRoutes.home);
@@ -129,7 +129,7 @@ class AuthController extends GetxController {
     await Future.delayed(Duration(seconds: 1));
     if (otpController.text == otpCode) {
       if (responseLogin != null) {
-        logger.e("responseLogin ${responseLogin!.data}   | ");
+        // logger.e("responseLogin ${responseLogin!.data}   | ");
         await StorageController.storeData(responseLogin!.data);
         Get.offAllNamed(AppRoutes.home);
       } else {
@@ -179,9 +179,9 @@ class AuthController extends GetxController {
     isLoading(true);
 
     try {
-      logger.i(
-        "phoneNumber ${phoneNumber.value.text}  | rememberMe ${rememberMe.value}",
-      );
+      // logger.i(
+      //   "phoneNumber ${phoneNumber.value.text}  | rememberMe ${rememberMe.value}",
+      // );
       responseLogin = await ApiService.postData(
         ApiConstants.login(
           '0${phoneNumber.value.text.replaceAll(RegExp(r'\s+'), '')}',
@@ -189,8 +189,8 @@ class AuthController extends GetxController {
         {},
       );
 
-      logger.e("response $otpCode   | ");
-      logger.e("response ${responseLogin!.data}   | ");
+      // logger.e("response $otpCode   | ");
+      // logger.e("response ${responseLogin!.data}   | ");
       if (responseLogin!.isStateSucess < 3) {
         otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
 
@@ -203,8 +203,8 @@ class AuthController extends GetxController {
               "lang": "ar",
             });
 
-        logger.e("response $otpCode   | ");
-        logger.e("response ${response.data}   | ");
+        // logger.e("response $otpCode   | ");
+        // logger.e("response ${response.data}   | ");
         if (response.isStateSucess < 3) {
           if (response.data['status'] == 'success') {
             otpCode = response.data['data']['message'];
@@ -234,7 +234,7 @@ class AuthController extends GetxController {
         );
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
     }
 
     isLoading(false);

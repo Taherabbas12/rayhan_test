@@ -3,6 +3,7 @@ import '../controllers/cart_item_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/market_controller.dart';
 import '../controllers/market_product_controller.dart';
+import '../controllers/my_address_controller.dart';
 import '../controllers/my_request_controller.dart';
 import '../controllers/my_request_services_controller.dart';
 import '../controllers/restaurant_controller.dart';
@@ -12,6 +13,7 @@ import '../controllers/shops_controller.dart';
 class HomeBinding extends Bindings {
   @override
   void dependencies() {
+    Get.lazyPut<MyAddressController>(() => MyAddressController(), fenix: true);
     Get.lazyPut<HomeController>(() => HomeController(), fenix: true);
     Get.lazyPut<MarketController>(() => MarketController(), fenix: true);
     Get.lazyPut<ShopsController>(() => ShopsController(), fenix: true);

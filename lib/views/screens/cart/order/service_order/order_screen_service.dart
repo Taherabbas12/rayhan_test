@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../../controllers/cart_item_controller.dart';
+import '../../../../../controllers/my_address_controller.dart';
 import '../../../../../utils/constants/color_app.dart';
 import '../../../../../utils/constants/style_app.dart';
 import '../../../../../utils/constants/values_constant.dart';
 import '../../../../widgets/actions_button.dart';
+import '../../../../widgets/more_widgets.dart';
 
 class OrderScreenService extends StatelessWidget {
   OrderScreenService({super.key});
@@ -219,31 +221,41 @@ class OrderScreenService extends StatelessWidget {
     );
   }
 
+  final MyAddressController myAddressController =
+      Get.find<MyAddressController>();
+
   // 🏠 العنوان
   Widget _buildAddressSection() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          children: [
-            Text("منزل أهلي", style: StringStyle.headerStyle),
-            const SizedBox(width: 8),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-              decoration: BoxDecoration(
-                color: ColorApp.subColor.withOpacity(.2),
-                borderRadius: BorderRadius.circular(10),
+    return Obx(
+      () => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Text(myAddressController.addressSelect.value?.nickName ?? '...'),
+              SizedBox(width: Values.circle * .5),
+              Container(
+                padding: const EdgeInsets.all(5),
+                decoration: BoxDecoration(
+                  color: ColorApp.subColor.withAlpha(70),
+                  borderRadius: BorderRadius.circular(Values.circle),
+                ),
+                child: Text("الافتراضي"),
               ),
-              child: const Text("الافتراضي"),
-            ),
-          ],
-        ),
-        const SizedBox(height: 6),
-        Text(
-          cartController.selectedAddress.value,
-          style: TextStyle(color: Colors.grey),
-        ),
-      ],
+              Spacer(),
+              BottonsC.actionIcon(
+                Icons.edit,
+                'تعديل العنوان',
+                showAddressPicker,
+              ),
+            ],
+          ),
+          Text(
+            myAddressController.addressSelect.value?.toString() ?? '...',
+            style: TextStyle(color: Colors.grey),
+          ),
+        ],
+      ),
     );
   }
 

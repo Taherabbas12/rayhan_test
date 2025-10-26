@@ -4,15 +4,19 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../../../controllers/cart_item_controller.dart';
+import '../../../../controllers/my_address_controller.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/style_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/actions_button.dart';
+import '../../../widgets/more_widgets.dart';
 
 class OrderScreen extends StatelessWidget {
   OrderScreen({super.key});
 
   final CartItemController cartController = Get.find<CartItemController>();
+  final MyAddressController myAddressController =
+      Get.find<MyAddressController>();
 
   final RxBool usePoints = false.obs;
 
@@ -86,29 +90,41 @@ class OrderScreen extends StatelessWidget {
             ),
             border: Border.all(color: Colors.grey.shade300),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 6),
-              Row(
-                children: [
-                  Text("منزل أهلي"),
-                  SizedBox(width: Values.circle * .5),
-                  Container(
-                    padding: const EdgeInsets.all(5),
-                    decoration: BoxDecoration(
-                      color: ColorApp.subColor.withAlpha(70),
-                      borderRadius: BorderRadius.circular(Values.circle),
+          child: Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 6),
+                Row(
+                  children: [
+                    Text(
+                      myAddressController.addressSelect.value?.nickName ??
+                          '...',
                     ),
-                    child: Text("الافتراضي"),
-                  ),
-                ],
-              ),
-              Text(
-                cartController.selectedAddress.value,
-                style: TextStyle(color: Colors.grey),
-              ),
-            ],
+                    SizedBox(width: Values.circle * .5),
+                    Container(
+                      padding: const EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: ColorApp.subColor.withAlpha(70),
+                        borderRadius: BorderRadius.circular(Values.circle),
+                      ),
+                      child: Text("الافتراضي"),
+                    ),
+                    Spacer(),
+                    BottonsC.actionIcon(
+                      Icons.edit,
+                      'تعديل العنوان',
+                      showAddressPicker,
+                    ),
+                  ],
+                ),
+
+                Text(
+                  myAddressController.addressSelect.value?.toString() ?? '...',
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
           ),
         ),
       ],

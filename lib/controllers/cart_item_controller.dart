@@ -14,6 +14,7 @@ import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
+import 'my_address_controller.dart';
 import 'storage_controller.dart';
 import 'package:dio/dio.dart' as dio;
 
@@ -143,35 +144,35 @@ class CartItemController extends GetxController {
       currentCartType = null;
     }
     loadCart(cartType: currentCartType ?? CartType.shop);
-    logger.e('Cart type changed to: $currentCartType');
+    // logger.e('Cart type changed to: $currentCartType');
   }
 
   @override
   void onInit() {
     super.onInit();
     loadCart(cartType: currentCartType ?? CartType.restaurant);
-    getAddressUser();
+    // getAddressUser();
   }
 
-  void getAddressUser() async {
-    final StateReturnData response = await ApiService.getData(
-      ApiConstants.tbAddresses,
-    );
+  // void getAddressUser() async {
+  //   final StateReturnData response = await ApiService.getData(
+  //     ApiConstants.tbAddresses,
+  //   );
 
-    if (response.isStateSucess < 3) {
-      List<AddressModel> addressList = AddressModel.fromJsonList(response.data);
-      final userAddresses =
-          addressList
-              .where((address) => address.userid == userModel.id.toString())
-              .toList();
+  //   if (response.isStateSucess < 3) {
+  //     List<AddressModel> addressList = AddressModel.fromJsonList(response.data);
+  //     final userAddresses =
+  //         addressList
+  //             .where((address) => address.userid == userModel.id.toString())
+  //             .toList();
 
-      if (userAddresses.isNotEmpty) {
-        // ✅ أول عنوان يخص المستخدم
-        final selected = userAddresses.first;
-        selectedAddress.value = selected.toString();
-      }
-    }
-  }
+  //     if (userAddresses.isNotEmpty) {
+  //       // ✅ أول عنوان يخص المستخدم
+  //       final selected = userAddresses.first;
+  //       selectedAddress.value = selected.toString();
+  //     }
+  //   }
+  // }
 
   Future<void> loadCart({CartType cartType = CartType.restaurant}) async {
     final items = await CartDb.instance.getItemsByCartType(
@@ -209,7 +210,7 @@ class CartItemController extends GetxController {
         return;
       }
       if (!await CartDb.instance.isRestaurantTypeExists(restaurant.type)) {
-        logger.e(restaurant.toJson());
+        // logger.e(restaurant.toJson());
         await CartDb.instance.saveRestaurant(restaurant);
         selectedRestaurant.value = restaurant;
       }
@@ -342,7 +343,7 @@ class CartItemController extends GetxController {
       tax: taxValue,
       // orderPrice: orderPriceValue,
       userId: userModel.id.toString(),
-      addressId: userModel.addressid,
+
       total: totalWithOutDelivery.toString(),
       deliveryPrice: deliveryPriceValue.toString(),
 
@@ -361,7 +362,7 @@ class CartItemController extends GetxController {
       promoCode: '',
       promoCodeName: '',
     );
-    logger.e(body);
+    // .e(body);
 
     try {
       final StateReturnData response = await ApiService.postData(
@@ -369,8 +370,8 @@ class CartItemController extends GetxController {
         body,
       );
 
-      logger.e('Order (${selectedCartType.value}) response Data: $body');
-      logger.e('Order response: ${response.data}');
+      // logger.e('Order (${selectedCartType.value}) response Data: $body');
+      // logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
         await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
 
@@ -429,22 +430,22 @@ class CartItemController extends GetxController {
 
       tax: taxValue,
       userId: userModel.id.toString(),
-      addressId: userModel.addressid,
+
       deliveryPrice: deliveryPriceValue.toString(),
       orderNote: noteController.text.trim(),
       items: itemsList,
       // items: [],
     );
     print(body);
-    logger.e(body);
+    // logger.e(body);
     try {
       final StateReturnData response = await ApiService.postData(
         ApiConstants.createServiceOrder,
         body,
       );
 
-      logger.e('Order (${selectedCartType.value}) response Data: $body');
-      logger.e('Order response: ${response.data}');
+      // logger.e('Order (${selectedCartType.value}) response Data: $body');
+      // logger.e('Order response: ${response.data}');
       if (response.isStateSucess < 3) {
         print('clear cart');
         await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
@@ -472,7 +473,7 @@ Map<String, dynamic> createOrderBody({
   required String finalPrice,
   required String tax,
   required String orderNote,
-  required String addressId,
+
   required String city, // building number
   required String location, // apartment number
   required String shopType,
@@ -483,6 +484,8 @@ Map<String, dynamic> createOrderBody({
   String? promoCodeName,
   String? deviceId,
 }) {
+  final controller = Get.find<MyAddressController>();
+
   return {
     "name": userName,
     "phone": userPhone,
@@ -499,7 +502,7 @@ Map<String, dynamic> createOrderBody({
     "date": DateTime.now().toIso8601String(),
     "orderno": DateTime.now().millisecondsSinceEpoch.toString(),
     "tax": tax,
-    "addressId": addressId,
+    "addressId": controller.addressSelect.value!.id,
     "city": city,
     "location": location,
     "shopType": shopType,
@@ -514,7 +517,7 @@ Map<String, dynamic> createOrderServiceBody({
   required String tax,
   required String orderPrice,
   required String userId,
-  required String addressId,
+
   required String totalPrice,
   required String deliveryPrice,
   required String mainCategoryId,
@@ -529,12 +532,14 @@ Map<String, dynamic> createOrderServiceBody({
   List? images,
   required List<Map<String, dynamic>> items,
 }) {
+  final controller = Get.find<MyAddressController>();
+
   return {
     "branch": '42',
     "tax": tax,
     "orderPrice": orderPrice,
     "userId": userId,
-    "addressId": addressId,
+    "addressId": controller.addressSelect.value!.id,
     "totalPrice": totalPrice,
     "deliveryPrice": deliveryPrice,
     "mainCategoryId": mainCategoryId,

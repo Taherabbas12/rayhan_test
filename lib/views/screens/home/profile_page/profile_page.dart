@@ -53,14 +53,14 @@ class ProfilePage extends StatelessWidget {
                     itemWidget(
                       'عناويني',
                       Icons.location_on_outlined,
-                      onTap: () {},
+                      onTap: () => Get.toNamed(AppRoutes.myAddressScreen),
                     ),
-                    itemWidget('المفضلة', Icons.favorite_border, onTap: () {}),
-                    itemWidget(
-                      'القسائم والمكافاَت',
-                      Icons.card_giftcard_rounded,
-                      onTap: () {},
-                    ),
+                    // itemWidget('المفضلة', Icons.favorite_border, onTap: () {}),
+                    // itemWidget(
+                    //   'القسائم والمكافاَت',
+                    //   Icons.card_giftcard_rounded,
+                    //   onTap: () {},
+                    // ),
                   ],
                 ),
               ),

@@ -74,7 +74,7 @@ class MarketProductController extends GetxController {
       print('_______222A');
 
       print(response.data);
-      logger.e("response  $id: ${response.data.toString()}");
+      // logger.e("response  $id: ${response.data.toString()}");
 
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
@@ -93,7 +93,7 @@ class MarketProductController extends GetxController {
         );
       }
     } catch (e) {
-      logger.i("خطأ في تحميل البيانات: $e");
+      // logger.i("خطأ في تحميل البيانات: $e");
     }
     isLoadingStart(false);
     isLoading.value = false;
@@ -112,7 +112,7 @@ class MarketProductController extends GetxController {
       print(idCategores);
       print(subCategorie);
 
-      logger.e("response $idCategores : ${response.data}");
+      // logger.e("response $idCategores : ${response.data}");
       if (response.isStateSucess < 3) {
         List<dynamic> newJson = response.data['products'];
 

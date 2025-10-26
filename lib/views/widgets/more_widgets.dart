@@ -7,11 +7,13 @@ import 'package:rayhan_test/data/models/cart_item.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../controllers/cart_item_controller.dart';
+import '../../controllers/my_address_controller.dart';
 import '../../routes/app_routes.dart';
 import '../../utils/constants/color_app.dart';
 import '../../utils/constants/images_url.dart';
 import '../../utils/constants/style_app.dart';
 import '../../utils/constants/values_constant.dart';
+import '../screens/my_address/add_address_screen.dart';
 
 String calculateTimeDifference(String storedDateString) {
   try {
@@ -312,5 +314,93 @@ Widget? cartShowInScreenTotal(CartType cartType) {
               ),
             )
             : SizedBox(),
+  );
+}
+
+void showAddressPicker() {
+  final controller = Get.find<MyAddressController>();
+
+  showModalBottomSheet(
+    context: Get.context!,
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+    ),
+    builder: (context) {
+      return Obx(() {
+        if (controller.addresses.isEmpty) {
+          return const Padding(
+            padding: EdgeInsets.all(20),
+            child: Text("لا توجد عناوين محفوظة"),
+          );
+        }
+
+        return SizedBox(
+          height: Get.height * 0.6,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16),
+                child: Text(
+                  "اختر عنوانًا",
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: controller.addresses.length,
+                  itemBuilder: (context, index) {
+                    final address = controller.addresses[index];
+                    return ListTile(
+                      title: Text(
+                        address.nickName.isNotEmpty
+                            ? address.nickName
+                            : "عنوان بدون اسم",
+                      ),
+                      subtitle: Text(
+                        "بلوك ${address.blockNo}، بناية ${address.buildingNo}، منزل ${address.homeNo}",
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      onTap: () {
+                        // ✅ اختيار العنوان
+                        controller.addressSelect(address);
+                        Get.back(); // إغلاق الـ BottomSheet
+                      },
+                      selected:
+                          controller.addressSelect.value?.id == address.id,
+                      selectedTileColor: Colors.green.shade50,
+                    );
+                  },
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.all(Values.circle),
+                width: double.infinity,
+                height: 50,
+                child: OutlinedButton.icon(
+                  onPressed: () => Get.to(() => AddAddressScreen()),
+                  icon: const Icon(Icons.add, color: Colors.green),
+                  label: const Text(
+                    "إضافة عنوان جديد",
+                    style: TextStyle(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    side: const BorderSide(color: Colors.green),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 50),
+            ],
+          ),
+        );
+      });
+    },
   );
 }
