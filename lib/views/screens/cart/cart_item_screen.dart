@@ -59,13 +59,16 @@ class _CartItemScreenState extends State<CartItemScreen>
         child: Column(
           children: [
             const SizedBox(height: 10),
-            buildTaxiTabs(),
+            // buildTaxiTabs(),
             const SizedBox(height: 10),
             Expanded(
-              child: TabBarView(
-                controller: tabController,
-                children: [RequestRayhan(), ServiceRayhan()],
-              ),
+              child:
+                  //  TabBarView(
+                  //   controller: tabController,
+                  //   children: [
+                  RequestRayhan(),
+              //  ServiceRayhan()],
+              // ),
             ),
           ],
         ),

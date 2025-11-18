@@ -3,7 +3,7 @@ class ApiConstants {
   static String baseUrlImage = 'https://rayhan.shop/api/storage/';
   // Auth User
   static String login(String phone) => 'Login/loginWithOtp?phone=$phone';
-
+  static String updateUser(String id) => "/user/update/$id";
   static String smsSendWhats =
       'https://gateway.standingtech.com/api/v4/sms/send';
 

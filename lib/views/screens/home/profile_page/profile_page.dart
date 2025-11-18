@@ -40,6 +40,19 @@ class ProfilePage extends StatelessWidget {
                 ),
               ),
               SizedBox(height: Values.circle * 2.4),
+              InkWell(
+                onTap: () => Get.toNamed(AppRoutes.editProfile),
+                child: Text(
+                  "تعديل بيانات الحساب",
+                  style: TextStyle(
+                    color: ColorApp.primaryColor,
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold,
+                    // decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              SizedBox(height: Values.spacerV),
 
               Container(
                 // margin: EdgeInsets.symmetric( ),

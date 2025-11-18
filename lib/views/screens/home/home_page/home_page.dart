@@ -37,6 +37,7 @@ class HomePage extends StatelessWidget {
                 restaurantController.sliderImageModel.isEmpty
                     ? SizedBox()
                     : ImageSlider(
+                      h: Values.width * .8,
                       imageList: restaurantController.sliderImageModel,
                     ),
           ),
@@ -57,7 +58,6 @@ class HomePage extends StatelessWidget {
               splashColor: ColorApp.iconHomeColor,
               onTap: home.toPage,
               child: Container(
-                
                 margin: EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   color: ColorApp.iconHomeColor,

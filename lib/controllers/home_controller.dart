@@ -31,7 +31,8 @@ class HomeController extends GetxController {
   List<HomeView> homeViews = [
     HomeView('الرئيسية', ImagesUrl.homeIcon, () => HomePage()),
     HomeView('طلباتي', ImagesUrl.paperIcon, () => MyRequestsPage()),
-    HomeView('البحث', ImagesUrl.searchIcon, () => SearchPage()),
+    // HomeView('البحث', ImagesUrl.searchIcon, () => SearchPage()),
+    HomeView('المفضلة', ImagesUrl.ticketIcon, () => SearchPage()),
     HomeView('الحساب', ImagesUrl.profileIcon, () => ProfilePage()),
   ];
 }

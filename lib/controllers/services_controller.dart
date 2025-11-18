@@ -83,9 +83,7 @@ class ServicesController extends GetxController {
   void selectSection(Category category) {
     servicesCategorie.value = category;
     logger.e(servicesCategorie.value!.toJson());
-    if (category.type == 'taxi' ||
-        servicesCategorie.value!.type == 'all' ||
-        servicesCategorie.value!.type == 'iron') {
+    if (category.type == 'taxi' || servicesCategorie.value!.type == 'all') {
       //
       products.clear();
       products.add(Product(name: 'التكسي', image: ImagesUrl.imageTaxi));

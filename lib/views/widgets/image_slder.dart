@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:rayhan_test/services/error_message.dart';
 
 import '../../data/models/slider_image_model.dart';
 import '../../utils/constants/color_app.dart';
@@ -8,8 +9,9 @@ import '../../utils/constants/values_constant.dart';
 
 class ImageSlider extends StatelessWidget {
   final List<SliderImageModel> imageList;
+  double? h;
 
-  ImageSlider({super.key, required this.imageList}) {
+  ImageSlider({super.key, required this.imageList, this.h}) {
     Get.put(SliderController());
   }
 
@@ -23,7 +25,8 @@ class ImageSlider extends StatelessWidget {
         CarouselSlider(
           carouselController: controller.carouselController,
           options: CarouselOptions(
-            height: Values.width * .4,
+            // height: Values.width * .4,
+            height: h ?? Values.width * .4,
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 0.9,
@@ -44,7 +47,7 @@ class ImageSlider extends StatelessWidget {
                     ),
                     image: DecorationImage(
                       image: NetworkImage(model.img),
-                      fit: BoxFit.fitWidth,
+                      fit: h != null ? BoxFit.fitHeight : BoxFit.fitWidth,
                     ),
                   ),
 

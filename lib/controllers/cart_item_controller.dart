@@ -118,7 +118,7 @@ class CartItemController extends GetxController {
     Get.toNamed(AppRoutes.orderScreenService);
   }
 
-  List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت'];
+  List<String> cartType = ['المطاعم', 'المتاجر', 'الماركت', 'الخدمات'];
   List<String> cartServiceType = ['التكسي', 'الخدمات'];
   RxString selectedCartType = 'المطاعم'.obs;
   void onOpenScreenCart() {

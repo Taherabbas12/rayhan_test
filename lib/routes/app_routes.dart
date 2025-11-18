@@ -20,6 +20,7 @@ import '../views/screens/cart/cart_item_screen.dart';
 import '../views/screens/cart/order/service_order/order_screen_service.dart';
 import '../views/screens/cart/order/service_order/order_form_screen.dart';
 import '../views/screens/home/home_screen.dart';
+import '../views/screens/home/profile_page/edit_profile_page.dart';
 import '../views/screens/market/market_screen.dart';
 import '../views/screens/market/view_category_details/category_details_screen.dart';
 import '../views/screens/my_address/my_address_screen.dart';
@@ -54,6 +55,7 @@ class AppRoutes {
   static const orderFormScreen = '/Order-FormS-creen';
   static const myAddressScreen = '/My-Address-Screen';
   static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
+  static const String editProfile = '/edit-profile';
   // static const serviceOrderView = '/serviceOrder';
   static final routes = [
     // GetPage(
@@ -61,6 +63,7 @@ class AppRoutes {
     //   page: () => ServiceOrderView(),
     //   // binding: ServiceOrdersBinding(),
     // ),
+    GetPage(name: AppRoutes.editProfile, page: () => EditProfilePage()),
     GetPage(name: myAddressScreen, page: () => MyAddressesScreen()),
     GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
     GetPage(name: orderFormScreen, page: () => OrderFormScreen()),

@@ -11,6 +11,7 @@ import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import '../../widgets/more_widgets.dart';
 import 'cart_item_widget.dart';
+import 'service_rayhan.dart';
 
 class RequestRayhan extends StatelessWidget {
   RequestRayhan({super.key});
@@ -18,126 +19,165 @@ class RequestRayhan extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: Values.circle * 2.4),
-            decoration: BoxDecoration(
-              color: ColorApp.borderColor.withAlpha(50),
-              borderRadius: BorderRadius.circular(Values.circle),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                recent(cartItemController.cartType[0]),
-                recent(cartItemController.cartType[1]),
-                recent(cartItemController.cartType[2]),
-              ],
-            ),
-          ),
-          SizedBox(height: Values.spacerV),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
 
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Values.spacerV * 1.3),
-            child: Obx(
-              () => Text(
-                '${cartItemController.selectedCartType.value} الذي تم تحديد الطلبات منه',
-                style: StringStyle.headerStyle.copyWith(
-                  color: ColorApp.blackColor,
-                ),
-                textAlign: TextAlign.right,
+      children: [
+        Container(
+          margin: EdgeInsets.symmetric(horizontal: Values.circle * 2.4),
+          decoration: BoxDecoration(
+            color: ColorApp.borderColor.withAlpha(50),
+            borderRadius: BorderRadius.circular(Values.circle),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              recent(cartItemController.cartType[0]),
+              recent(cartItemController.cartType[1]),
+              recent(cartItemController.cartType[2]),
+              recent(cartItemController.cartType[3]),
+            ],
+          ),
+        ),
+        SizedBox(height: Values.spacerV),
+        cartItemController.selectedCartType.value != 'الخدمات'
+            ? Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Values.spacerV * 1.3,
+                    ),
+                    child: Obx(
+                      () => Text(
+                        '${cartItemController.selectedCartType.value} الذي تم تحديد الطلبات منه',
+                        style: StringStyle.headerStyle.copyWith(
+                          color: ColorApp.blackColor,
+                        ),
+                        textAlign: TextAlign.right,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: Values.circle),
+                  Obx(
+                    () =>
+                        cartItemController.selectedRestaurant.value != null &&
+                                cartItemController.currentCartType ==
+                                    CartType.restaurant &&
+                                cartItemController
+                                        .selectedRestaurant
+                                        .value!
+                                        .type ==
+                                    'restaurant'
+                            ? Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: Values.spacerV,
+                                vertical: Values.circle,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: ColorApp.borderColor),
+                                color: Color(0xffFAFAFA),
+                                borderRadius: BorderRadius.circular(
+                                  Values.circle,
+                                ),
+                                boxShadow: ShadowValues.shadowValues,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 3,
+                                vertical: 3,
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 64,
+                                    height: 64,
+                                    child: imageCached(
+                                      cartItemController
+                                          .selectedRestaurant
+                                          .value!
+                                          .logo,
+                                      right: true,
+                                    ),
+                                  ),
+                                  SizedBox(width: Values.spacerV),
+                                  Text(
+                                    cartItemController
+                                        .selectedRestaurant
+                                        .value!
+                                        .name,
+                                    style: StringStyle.textLabil.copyWith(
+                                      color: ColorApp.blackColor,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                            )
+                            : Container(),
+                  ),
+                  Obx(
+                    () =>
+                        cartItemController.selectedRestaurant.value != null &&
+                                cartItemController.currentCartType ==
+                                    CartType.shop &&
+                                cartItemController
+                                        .selectedRestaurant
+                                        .value!
+                                        .type ==
+                                    'shop'
+                            ? Container(
+                              margin: EdgeInsets.symmetric(
+                                horizontal: Values.spacerV,
+                                vertical: Values.circle,
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: ColorApp.borderColor),
+                                color: Color(0xffFAFAFA),
+                                borderRadius: BorderRadius.circular(
+                                  Values.circle,
+                                ),
+                                boxShadow: ShadowValues.shadowValues,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 3,
+                                vertical: 3,
+                              ),
+                              child: Row(
+                                children: [
+                                  SizedBox(
+                                    width: 64,
+                                    height: 64,
+                                    child: imageCached(
+                                      cartItemController
+                                          .selectedRestaurant
+                                          .value!
+                                          .logo,
+                                      right: true,
+                                    ),
+                                  ),
+                                  SizedBox(width: Values.spacerV),
+                                  Text(
+                                    cartItemController
+                                        .selectedRestaurant
+                                        .value!
+                                        .name,
+                                    style: StringStyle.textLabil.copyWith(
+                                      color: ColorApp.blackColor,
+                                    ),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ],
+                              ),
+                            )
+                            : Container(),
+                  ),
+                  buildCartItems(),
+                ],
               ),
-            ),
-          ),
-          SizedBox(height: Values.circle),
-          Obx(
-            () =>
-                cartItemController.selectedRestaurant.value != null &&
-                        cartItemController.currentCartType ==
-                            CartType.restaurant &&
-                        cartItemController.selectedRestaurant.value!.type ==
-                            'restaurant'
-                    ? Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: Values.spacerV,
-                        vertical: Values.circle,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorApp.borderColor),
-                        color: Color(0xffFAFAFA),
-                        borderRadius: BorderRadius.circular(Values.circle),
-                        boxShadow: ShadowValues.shadowValues,
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 64,
-                            height: 64,
-                            child: imageCached(
-                              cartItemController.selectedRestaurant.value!.logo,
-                              right: true,
-                            ),
-                          ),
-                          SizedBox(width: Values.spacerV),
-                          Text(
-                            cartItemController.selectedRestaurant.value!.name,
-                            style: StringStyle.textLabil.copyWith(
-                              color: ColorApp.blackColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(),
-          ),
-          Obx(
-            () =>
-                cartItemController.selectedRestaurant.value != null &&
-                        cartItemController.currentCartType == CartType.shop &&
-                        cartItemController.selectedRestaurant.value!.type ==
-                            'shop'
-                    ? Container(
-                      margin: EdgeInsets.symmetric(
-                        horizontal: Values.spacerV,
-                        vertical: Values.circle,
-                      ),
-                      decoration: BoxDecoration(
-                        border: Border.all(color: ColorApp.borderColor),
-                        color: Color(0xffFAFAFA),
-                        borderRadius: BorderRadius.circular(Values.circle),
-                        boxShadow: ShadowValues.shadowValues,
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 3, vertical: 3),
-                      child: Row(
-                        children: [
-                          SizedBox(
-                            width: 64,
-                            height: 64,
-                            child: imageCached(
-                              cartItemController.selectedRestaurant.value!.logo,
-                              right: true,
-                            ),
-                          ),
-                          SizedBox(width: Values.spacerV),
-                          Text(
-                            cartItemController.selectedRestaurant.value!.name,
-                            style: StringStyle.textLabil.copyWith(
-                              color: ColorApp.blackColor,
-                            ),
-                            textAlign: TextAlign.right,
-                          ),
-                        ],
-                      ),
-                    )
-                    : Container(),
-          ),
-          buildCartItems(),
-        ],
-      ),
+            )
+            : ServiceRayhan(),
+      ],
     );
   }
 

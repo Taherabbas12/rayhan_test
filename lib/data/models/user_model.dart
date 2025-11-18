@@ -1,13 +1,13 @@
 class UserModel {
   final int id;
   final int shopId;
-  final String name;
+  String name;
   final String? city;
   final bool admin;
   final dynamic staff;
   final bool star;
   final String token;
-  final String phone;
+  String phone;
   final String? img;
   final bool active;
   final String date;
@@ -29,7 +29,7 @@ class UserModel {
   final dynamic ordernow;
   final String? note1;
   final String? note2;
-  final String birthday;
+  String birthday;
   final dynamic six;
   final String addressid;
   final String? carName;
