@@ -339,7 +339,7 @@ class CartItemController extends GetxController {
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
 
     final body = createOrderBody(
-      branchId: restaurant != null ? restaurant.id.toString() : '',
+      branchId: restaurant != null ? restaurant.id.toString() : '0',
       tax: taxValue,
       // orderPrice: orderPriceValue,
       userId: userModel.id.toString(),

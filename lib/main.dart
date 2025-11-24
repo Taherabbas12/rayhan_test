@@ -2,6 +2,7 @@
 
 // import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get_secure_storage/get_secure_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -21,6 +22,10 @@ void main() async {
     password: Values.passwordStorage,
     container: Values.pathContiner,
   );
+  await SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 
   runApp(
     // DevicePreview(
@@ -59,8 +64,7 @@ class MyApp extends StatelessWidget {
       defaultTransition: Transition.cupertino,
       theme: ThemeData(
         useMaterial3: true,
-        textTheme: GoogleFonts.cairoTextTheme(),
-        // textTheme: GoogleFonts.readexProTextTheme(),
+        textTheme: GoogleFonts.notoKufiArabicTextTheme(),
         fontFamily: 'Noto Kufi Arabic',
         scaffoldBackgroundColor: ColorApp.backgroundColor,
         appBarTheme: AppBarTheme(

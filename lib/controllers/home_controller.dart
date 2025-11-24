@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 
 import '../routes/app_routes.dart';
 import '../utils/constants/images_url.dart';
+import '../views/screens/home/favorites/favorites_page.dart';
 import '../views/screens/home/home_page/home_page.dart';
 import '../views/screens/home/my_requests/my_requests_page.dart';
 import '../views/screens/home/profile_page/profile_page.dart';
@@ -32,7 +33,7 @@ class HomeController extends GetxController {
     HomeView('الرئيسية', ImagesUrl.homeIcon, () => HomePage()),
     HomeView('طلباتي', ImagesUrl.paperIcon, () => MyRequestsPage()),
     // HomeView('البحث', ImagesUrl.searchIcon, () => SearchPage()),
-    HomeView('المفضلة', ImagesUrl.ticketIcon, () => SearchPage()),
+    HomeView('المفضلة', ImagesUrl.ticketIcon, () => FavoritesPage()),
     HomeView('الحساب', ImagesUrl.profileIcon, () => ProfilePage()),
   ];
 }
