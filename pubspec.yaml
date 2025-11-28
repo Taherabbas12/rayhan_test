@@ -34,6 +34,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
   flutter_native_splash: ^2.4.7
+  flutter_launcher_icons: ^0.14.4
 
 # -----------------------------
 # 🚀 إعدادات شاشة السبلاتش
@@ -43,23 +44,28 @@ flutter_native_splash:
   ios: true
   web: false
 
-  # الخلفية
   color: "#FFFFFF"
-
-  # اللوجو
   image: assets/images/logo_start.png
 
   ios_content_mode: scaleAspectFit
 
-  # الوضع الداكن
   color_dark: "#FFFFFF"
   image_dark: assets/images/logo_android12_ready.png
 
   android_12:
     image: assets/images/logo_android12_ready.png
     image_dark: assets/images/logo_android12_ready.png
-    # icon_background_color: "#FFFFFF"
-    # icon_background_color_dark: "#FFFFFF"
+
+# -----------------------------
+# 🚀 إعدادات أيقونة التطبيق
+# -----------------------------
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo_android12_ready.png"
+  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_foreground: "assets/images/logo_android12_ready.png"
+  remove_alpha_ios: true
 
 flutter:
   uses-material-design: true
