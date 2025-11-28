@@ -56,7 +56,7 @@ class RequestWidget extends StatelessWidget {
                       ),
                       Text('حالة الطلب : ', style: StringStyle.textLabilBold),
                       Text(
-                        orderModel.status!,
+                        getStatusName(orderModel.status!),
                         style: StringStyle.textLabilBold.copyWith(
                           color: ColorApp.primaryColor,
                         ),

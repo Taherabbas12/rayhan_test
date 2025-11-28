@@ -14,7 +14,29 @@ import '../../utils/constants/images_url.dart';
 import '../../utils/constants/style_app.dart';
 import '../../utils/constants/values_constant.dart';
 import '../screens/my_address/add_address_screen.dart';
-
+getStatusName(v) {
+  if (v == 'new') {
+    return 'طلب جديد';
+  } else if (v == 'get') {
+    return 'مقبول';
+  } else if (v == 'reg') {
+    return 'مرفوض';
+  } else if (v == 'subling') {
+    return 'قيد التجهيز';
+  } else if (v == 'delevery') {
+    return 'قيد التوصيل';
+  } else if (v == 'return') {
+    return 'طلب راجع';
+  } else if (v == 'sublied') {
+    return 'تم التجهيز';
+  } else if (v == 'audit') {
+    return 'مدقق';
+  } else if (v == 'done') {
+    return 'طلب مكتمل';
+  } else {
+    return '';
+  }
+}
 String calculateTimeDifference(String storedDateString) {
   try {
     // Define the format of the stored date

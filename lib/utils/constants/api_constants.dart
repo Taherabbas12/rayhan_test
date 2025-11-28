@@ -23,6 +23,7 @@ class ApiConstants {
   static String shopProducts(int id) =>
       'ShopProduct/ForUser?page=1&pageSize=150&categoryId=$id';
   static const String searchRayhan = 'Search';
+  static const String getAllDataHome = 'Values';
 
   static const String shopShowBanners = 'ShopShow';
   static String resturens(

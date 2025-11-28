@@ -224,7 +224,7 @@ class RestaurantController extends GetxController {
         ApiConstants.resturensOrShopSearch(value: value),
         {},
       );
-      logger.i(response.data);
+      // logger.i(response.data);
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 

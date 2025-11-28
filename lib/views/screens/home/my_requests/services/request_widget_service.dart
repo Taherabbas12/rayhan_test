@@ -5,7 +5,6 @@ import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/views/widgets/common/svg_show.dart';
 import 'package:rayhan_test/views/widgets/more_widgets.dart';
 
-import '../../../../../data/models/order_model.dart';
 import '../../../../../data/models/order_service_model.dart';
 import '../../../../../utils/constants/color_app.dart';
 import '../../../../../utils/constants/values_constant.dart';
@@ -73,7 +72,7 @@ class RequestWidgetService extends StatelessWidget {
                       ),
                       Text('حالة الطلب : ', style: StringStyle.textLabilBold),
                       Text(
-                        orderModel.status,
+                        getStatusName(orderModel.status),
                         style: StringStyle.textLabilBold.copyWith(
                           color: ColorApp.primaryColor,
                         ),

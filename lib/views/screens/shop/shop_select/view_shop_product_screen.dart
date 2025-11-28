@@ -102,7 +102,7 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                     children: [
                       if (product.price2 > 0)
                         Text(
-                          '${product.price1.toStringAsFixed(0)} د.ع',
+                          '${formatCurrency(product.price1.toString())} د.ع',
                           style: const TextStyle(
                             fontSize: 16,
                             decoration: TextDecoration.lineThrough,
@@ -111,7 +111,7 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                         ),
                       const SizedBox(width: 8),
                       Text(
-                        '${(product.price2 > 0 ? product.price2 : product.price1).toStringAsFixed(0)} د.ع',
+                        '${(product.price2 > 0 ? formatCurrency(product.price2.toString()) : formatCurrency(product.price1.toString()))} د.ع',
                         style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -211,7 +211,7 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                     ),
                   ),
                   Text(
-                    '${totalPrice.toStringAsFixed(0)} د.ع',
+                    '${formatCurrency(totalPrice.toString())} د.ع',
                     style: StringStyle.textLabil,
                   ),
                 ],

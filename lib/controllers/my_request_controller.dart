@@ -32,7 +32,7 @@ class MyRequestController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.getOrders(userModel.id),
       );
-      logger.e(response.data);
+      // logger.e(response.data);
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 

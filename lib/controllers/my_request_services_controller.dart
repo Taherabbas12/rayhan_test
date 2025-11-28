@@ -38,9 +38,9 @@ class MyRequestServicesController extends GetxController {
         ApiConstants.getOrdersServices(userModel.id, selectType.value.nameEn),
         {},
       );
-      logger.e(response.data);
+      // logger.e(response.data);
       if (response.isStateSucess < 3) {
-        print(response.data);
+        // print(response.data);
         if (response.data is List) {
           List<dynamic> newOrdersJson = response.data;
 

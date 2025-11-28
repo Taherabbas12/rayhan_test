@@ -128,18 +128,22 @@ class AuthController extends GetxController {
     isLoading(true);
     await Future.delayed(Duration(seconds: 1));
     if (otpController.text == otpCode) {
-      if (responseLogin != null) {
-        // logger.e("responseLogin ${responseLogin!.data}   | ");
-        await StorageController.storeData(responseLogin!.data);
-        Get.offAllNamed(AppRoutes.home);
-      } else {
+      try {
+        if (responseLogin != null) {
+          // logger.e("responseLogin ${responseLogin!.data}   | ");
+          await StorageController.storeData(responseLogin!.data);
+          Get.offAllNamed(AppRoutes.home);
+        } else {
+          Get.offAllNamed(AppRoutes.register);
+        }
+        responseLogin;
+        MessageSnak.message(
+          'تم التحقق من ال OTP بنجاح',
+          color: ColorApp.greenColor,
+        );
+      } catch (e) {
         Get.offAllNamed(AppRoutes.register);
       }
-      responseLogin;
-      MessageSnak.message(
-        'تم التحقق من ال OTP بنجاح',
-        color: ColorApp.greenColor,
-      );
     } else {
       MessageSnak.message('رمز OTP غير صحيح', color: ColorApp.redColor);
     }
@@ -189,50 +193,53 @@ class AuthController extends GetxController {
         {},
       );
 
+      // logger.w('0${phoneNumber.value.text.replaceAll(RegExp(r'\s+'), '')}');
+      // logger.w("response $otpCode   | ");
+      // logger.w("response ${responseLogin!.data}   | ");
+      // if (responseLogin!.isStateSucess < 3) {
+      otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
+
+      final StateReturnData response =
+          await ApiService.postData(ApiConstants.smsSendWhats, {
+            "recipient": "964${phoneNumber.value.text}",
+            "sender_id": "Rayhan",
+            "type": "whatsapp",
+            "message": otpCode,
+            "lang": "ar",
+          });
+
       // logger.e("response $otpCode   | ");
-      // logger.e("response ${responseLogin!.data}   | ");
-      if (responseLogin!.isStateSucess < 3) {
-        otpCode = '${DateTime.now().millisecondsSinceEpoch % 1000000}';
-
-        final StateReturnData response =
-            await ApiService.postData(ApiConstants.smsSendWhats, {
-              "recipient": "964${phoneNumber.value.text}",
-              "sender_id": "Rayhan",
-              "type": "whatsapp",
-              "message": otpCode,
-              "lang": "ar",
-            });
-
-        // logger.e("response $otpCode   | ");
-        // logger.e("response ${response.data}   | ");
-        if (response.isStateSucess < 3) {
-          if (response.data['status'] == 'success') {
-            otpCode = response.data['data']['message'];
-            MessageSnak.message(
-              'تم إرسال OTP بنجاح',
-              color: ColorApp.greenColor,
-            );
-            // await Future.delayed(Duration(seconds: 2));
-            startTimer();
-            Get.toNamed(AppRoutes.otp);
-            isLoading(false);
-            dateOtp = response.data;
-            MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
-          } else {
-            otpCode = '';
-          }
+      // logger.e("response ${response.data}   | ");
+      if (response.isStateSucess < 3) {
+        if (response.data['status'] == 'success') {
+          otpCode = response.data['data']['message'];
+          // await Future.delayed(Duration(seconds: 2));
+          startTimer();
+          Get.toNamed(AppRoutes.otp);
+          isLoading(false);
+          dateOtp = response.data;
+          // Future.delayed(Duration(milliseconds: 500), () {
+          //   // MessageSnak.message('تم إرسال  OTP', color: ColorApp.greenColor);
+          //   // MessageSnak.message(
+          //   //   'تم إرسال OTP بنجاح',
+          //   //   color: ColorApp.greenColor,
+          //   // );
+          // });
         } else {
-          MessageSnak.message(
-            'فشل في إرسال OTP تاكد من رقم الهاتف',
-            color: ColorApp.redColor,
-          );
+          otpCode = '';
         }
       } else {
         MessageSnak.message(
-          'تاكد من صحة رقم الهاتف أوكلمة المرور',
+          'فشل في إرسال OTP تاكد من رقم الهاتف',
           color: ColorApp.redColor,
         );
       }
+      // } else {
+      //   MessageSnak.message(
+      //     'تاكد من صحة رقم الهاتف أوكلمة المرور',
+      //     color: ColorApp.redColor,
+      //   );
+      // }
     } catch (e) {
       // logger.i("خطأ في تحميل البيانات: $e");
     }

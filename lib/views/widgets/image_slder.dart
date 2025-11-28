@@ -26,7 +26,7 @@ class ImageSlider extends StatelessWidget {
           carouselController: controller.carouselController,
           options: CarouselOptions(
             // height: Values.width * .4,
-            height: h ?? Values.width * .4,
+            height: h ?? Values.width * .3,
             autoPlay: true,
             enlargeCenterPage: true,
             viewportFraction: 0.9,
@@ -40,7 +40,7 @@ class ImageSlider extends StatelessWidget {
               imageList.map((model) {
                 return Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(25),
                     border: Border.all(
                       color: ColorApp.borderColor.withAlpha(100),
                       width: 1,

@@ -157,7 +157,7 @@ class ProductWidgetGrid extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    "${product.price2 > 0 ? product.price2 : product.price1} د.ع",
+                    "${product.price2 > 0 ? formatCurrency(product.price2.toString()) : formatCurrency(product.price1.toString())} د.ع",
                     style: StringStyle.textLabilBold.copyWith(
                       color: ColorApp.primaryColor,
                     ),

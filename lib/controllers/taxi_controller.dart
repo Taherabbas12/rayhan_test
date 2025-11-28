@@ -116,7 +116,7 @@ class TaxiController extends GetxController {
           "type": "taxi",
         },
       );
-      logger.e('Taxi Order response Data: ${response.data}');
+      // logger.e('Taxi Order response Data: ${response.data}');
       if (response.isStateSucess < 3) {
         Get.offAllNamed(AppRoutes.home);
         MessageSnak.message(

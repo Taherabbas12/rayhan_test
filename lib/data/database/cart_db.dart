@@ -97,7 +97,7 @@ class CartDb {
       where: 'cartType = ?',
       whereArgs: [cartType],
     );
-    logger.e(result);
+    // logger.e(result);
     return result.map((e) => CartItem.fromMap(e)).toList();
   }
 
@@ -152,7 +152,7 @@ class CartDb {
       whereArgs: [type],
       limit: 1, // لا داعي لجلب كل النتائج، واحدة تكفي
     );
-    logger.e(result);
+    // logger.e(result);
     return result.isNotEmpty;
   }
 
@@ -164,7 +164,7 @@ class CartDb {
       whereArgs: [type],
       limit: 1,
     ); // لا داعي لجلب كل النتائج، واحدة تكفي);
-    logger.f(result);
+    // logger.f(result);
 
     if (result.isNotEmpty) {
       return Restaurant.fromJson({

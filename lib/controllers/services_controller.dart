@@ -63,7 +63,7 @@ class ServicesController extends GetxController {
       // fetchProductsOfSubCategores(product.id);
       Get.to(() => ServiceViewScreen(product: product));
     }
-    logger.e(product.toJson());
+    // logger.e(product.toJson());
   }
 
   RxList<Category> servicesCategories = RxList([]);
@@ -82,7 +82,7 @@ class ServicesController extends GetxController {
 
   void selectSection(Category category) {
     servicesCategorie.value = category;
-    logger.e(servicesCategorie.value!.toJson());
+    // logger.e(servicesCategorie.value!.toJson());
     if (category.type == 'taxi' || servicesCategorie.value!.type == 'all') {
       //
       products.clear();
@@ -101,7 +101,7 @@ class ServicesController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.serviceMainCategory,
       );
-      logger.e(response.data);
+      // logger.e(response.data);
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 
@@ -131,7 +131,7 @@ class ServicesController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.serviceMainCategory,
       );
-      logger.e(response.data);
+      // logger.e(response.data);
       if (response.isStateSucess < 3) {
         List<dynamic> newVideosJson = response.data;
 
@@ -163,29 +163,29 @@ class ServicesController extends GetxController {
         ApiConstants.serviceSubCategory(id),
       );
 
-      logger.i('استجابة الفئات الفرعية: ${response.data}');
+      // logger.i('استجابة الفئات الفرعية: ${response.data}');
 
       if (response.isStateSucess < 3) {
         List<dynamic> serviceSubCategoryList = response.data ?? [];
 
-        logger.i('عدد الفئات الفرعية: ${serviceSubCategoryList.length}');
+        // logger.i('عدد الفئات الفرعية: ${serviceSubCategoryList.length}');
 
         if (serviceSubCategoryList.isNotEmpty) {
           // 🔹 الخطوة 2: تنفيذ جميع الطلبات الفرعية بالتوازي
           final results = await Future.wait(
             serviceSubCategoryList.map((e) async {
               try {
-                logger.i('Subcategory item: $e');
-                logger.e(
-                  'Subcategory URL: ${ApiConstants.serviceProductsOfSubCategores(e['id'])}',
-                );
+                // logger.i('Subcategory item: $e');
+                // logger.e(
+                //   'Subcategory URL: ${ApiConstants.serviceProductsOfSubCategores(e['id'])}',
+                // );
                 final StateReturnData responseSub = await ApiService.postData(
                   ApiConstants.serviceProductsOfSubCategores(e['id']),
                   {},
                 );
 
                 if (responseSub.isStateSucess < 3) {
-                  logger.i('✅ فئة فرعية ${e['id']} -> ${responseSub.data}');
+                  // logger.i('✅ فئة فرعية ${e['id']} -> ${responseSub.data}');
                   return responseSub.data;
                 } else {
                   logger.w('⚠️ فشل في جلب منتجات الفئة الفرعية ${e['id']}');
@@ -205,13 +205,13 @@ class ServicesController extends GetxController {
           final List<dynamic> allProducts =
               validResults.expand((item) => item!).toList();
 
-          logger.i('📦 إجمالي عدد المنتجات بعد الدمج: ${allProducts.length}');
-          logger.f('0000000000');
-          logger.f(validResults);
-          logger.f('0000000000');
+          // logger.i('📦 إجمالي عدد المنتجات بعد الدمج: ${allProducts.length}');
+          // logger.f('0000000000');
+          // logger.f(validResults);
+          // logger.f('0000000000');
           products.addAll(Product.fromJsonList(allProducts));
 
-          logger.i('📦 إجمالي المنتجات المحمّلة: ${products.length}');
+          // logger.i('📦 إجمالي المنتجات المحمّلة: ${products.length}');
 
           // يمكنك هنا حفظها داخل observable مثلاً:
           // productsList.assignAll(allProducts);
