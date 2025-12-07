@@ -156,15 +156,25 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: 194,
 
-                      child: imageCached(restaurant.cover, circle: 18),
+                      child: imageCached(
+                        restaurant.cover,
+                        circle: Values.circle * .8,
+                        boxFit: BoxFit.cover,
+                        down: true,
+                        top: true,
+                      ),
                     ),
 
                     // اللوقو Positioned
                     Positioned(
-                      top: 2,
-                      right: 2,
+                      top: 5,
+                      right: 5,
+
                       child: Container(
+                        height: 56,
+                        width: 56,
                         padding: EdgeInsets.all(6),
+
                         decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(12),
@@ -176,9 +186,13 @@ class HomePage extends StatelessWidget {
                           ],
                         ),
                         child: SizedBox(
-                          height: 56,
-                          width: 56,
-                          child: imageCached(restaurant.logo, circle: 10),
+                          child: imageCached(
+                            restaurant.logo,
+                            circle: Values.circle,
+                            boxFit: BoxFit.cover,
+                            down: true,
+                            top: true,
+                          ),
                         ),
                       ),
                     ),

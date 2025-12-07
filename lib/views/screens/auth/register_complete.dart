@@ -105,8 +105,89 @@ class RegisterComplete extends StatelessWidget {
                           },
                         );
                   }),
+                
+                
+                
+                
+                
+                
                 ],
               ),
+
+           SizedBox(height: Values.spacerV),
+              Row(
+                children: [
+                  Obx(() {
+                    final selectedTaxi =
+                        authController.selectedTaxiAddress.value;
+                    final selectedRoof =
+                        authController.selectedTaxiRoofNo.value;
+
+                    return selectedTaxi == null
+                        ? const Expanded(child: SizedBox())
+                        : Expanded(
+                          child: inputDropDown(
+                            hintText: 'اختر الطابق',
+                            labelText: 'الطابق',
+                            items:
+                                roofNo
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+
+                            /// ✔ حل المشكلة هنا
+                            initialValue:
+                                roofNo.contains(selectedRoof)
+                                    ? selectedRoof
+                                    : null,
+
+                            onChanged: (value) {
+                              authController.selectTaxiRoofNo(value);
+                            },
+                          ),
+                        );
+                  }),
+                  SizedBox(width: Values.circle * 2),
+                  Obx(() {
+                    final selectedRoof =
+                        authController.selectedTaxiRoofNo.value;
+                    final selectedHome =
+                        authController.selectedTaxiHomeNo.value;
+
+                    return selectedRoof == null
+                        ? const Expanded(child: SizedBox())
+                        : Expanded(
+                          child: inputDropDown(
+                            hintText: 'الشقة',
+                            labelText: 'رقم الشقة',
+                            items:
+                                homeNo
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ) 
+                                    )
+                                    .toList(),
+
+                            /// ✔ التصحيح هنا أيضاً
+                            initialValue:
+                                homeNo.contains(selectedHome)
+                                    ? selectedHome
+                                    : null,
+
+                            onChanged: (value) {
+                              authController.selectTaxiHomeNo(value as String);
+                            },
+                          ),
+                        );
+                  }),
+                ],
+              )
             ],
           ),
         ),

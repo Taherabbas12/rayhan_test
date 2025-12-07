@@ -16,7 +16,6 @@ class PhoneFieldWidget extends StatelessWidget {
     this.w = 60,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -120,7 +119,7 @@ class _AutoWidthPhoneInputState extends State<AutoWidthPhoneInput> {
           controller: widget.controller,
           keyboardType: TextInputType.phone,
           inputFormatters: [
-            LengthLimitingTextInputFormatter(16),
+            LengthLimitingTextInputFormatter(17),
             PhoneNumberFormatter(),
           ],
           style: StringStyle.headerStyle,
@@ -142,8 +141,17 @@ class PhoneNumberFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    final digitsOnly = newValue.text.replaceAll(RegExp(r'\D'), '');
+    // إزالة أي شيء غير رقم
+    String digitsOnly = newValue.text.replaceAll(RegExp(r'\D'), '');
 
+    // إذا بدأ بـ 0 يجب أن يكون المجموع 11 فقط
+    if (digitsOnly.startsWith('0')) {
+      if (digitsOnly.length > 11) {
+        digitsOnly = digitsOnly.substring(0, 11);
+      }
+    }
+
+    // تنسيق التجميع كما كان عندك
     String formatted = '';
     if (digitsOnly.length <= 3) {
       formatted = digitsOnly;

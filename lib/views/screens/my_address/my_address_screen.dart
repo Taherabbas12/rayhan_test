@@ -1,18 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../controllers/home_get_all_controller.dart';
 import '../../../controllers/my_address_controller.dart';
+import '../../../controllers/storage_controller.dart';
+import '../../../data/models/user_model.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import 'add_address_screen.dart';
 
-class MyAddressesScreen extends StatelessWidget {
+class MyAddressesScreen extends StatefulWidget {
   MyAddressesScreen({super.key});
 
-  final MyAddressController controller = Get.find<MyAddressController>();
+  @override
+  State<MyAddressesScreen> createState() => _MyAddressesScreenState();
+}
 
+class _MyAddressesScreenState extends State<MyAddressesScreen> {
+  final MyAddressController controller = Get.find<MyAddressController>();
+  HomeGetAllController homeGetAllController = Get.find<HomeGetAllController>();
   @override
   Widget build(BuildContext context) {
+    UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -60,6 +70,14 @@ class MyAddressesScreen extends StatelessWidget {
                         border: Border.all(color: ColorApp.borderColor),
                       ),
                       child: ListTile(
+                        onTap: () async {
+                          await StorageController.updateDataAddressId(
+                            address.id,
+                          );
+                          userModel.addressid = address.id.toString();
+                          await homeGetAllController.getAddress();
+                          setState(() {});
+                        },
                         contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 10,
@@ -86,7 +104,7 @@ class MyAddressesScreen extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            if (index == 0)
+                            if (userModel.addressid == address.id.toString())
                               Container(
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,

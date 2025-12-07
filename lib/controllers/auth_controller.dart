@@ -18,14 +18,31 @@ class AuthController extends GetxController {
   // بيانات العنوان الأول (الانطلاق)
   Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
   Rx<String?> selectedTaxiAddress = Rx<String?>(null);
+  Rx<String?> selectedTaxiRoofNo = Rx<String?>(null);
+  Rx<String?> selectedTaxiHomeNo = Rx<String?>(null);
 
   void selectTaxi(Taxi taxi) {
     selectedTaxiAddress.value = null;
+       selectedTaxiRoofNo.value = null;
+    selectedTaxiHomeNo.value = null;
     selectedTaxi.value = taxi;
   }
 
   void selectTaxiAddress(String address) {
+    selectedTaxiRoofNo.value = null;
+    selectedTaxiHomeNo.value = null;
     selectedTaxiAddress.value = address;
+    
+    
+  }
+  void selectTaxiRoofNo(String roofNo) {
+    selectedTaxiHomeNo.value = null;
+    selectedTaxiRoofNo.value = roofNo;
+   
+
+  }
+  void selectTaxiHomeNo(String homeNo) {
+    selectedTaxiHomeNo.value = homeNo;
   }
 
   // خصائص
@@ -66,9 +83,9 @@ class AuthController extends GetxController {
         "birthday": birthDay.text,
       },
       "tbAddress": {
-        "homeNo": homeNo.text, // رقم المنزل
+        "homeNo": selectedTaxiHomeNo, // رقم المنزل
         "buildingNo": buildingNo.text, // رقم البناية
-        "roofNo": roofNo.text, // رقم السطح
+        "roofNo": selectedTaxiRoofNo, // رقم السطح
         "blockNo": blockNo.text, // رقم القطعة
         "nickName": nickName.text,
         "inBasmaya": "true",

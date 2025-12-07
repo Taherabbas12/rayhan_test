@@ -190,6 +190,35 @@ List<Taxi> taxiAddresses = [
   Taxi(name: 'B8', addresses: List.generate(12, (index) => '${index + 1}')),
 ];
 
+List<String> homeNo = [
+  'G',
+  '1',
+  '2',  
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9' 
+];
+
+
+List<String> roofNo = [
+  
+  '1',
+  '2',  
+  '3',
+  '4',
+  '5',
+  '6',
+  '7',
+  '8',
+  '9',
+  '10',
+  '11',
+  '12'
+];
 // الموديل المستخدم للعناوين
 class Taxi {
   String name;

@@ -31,7 +31,7 @@ class UserModel {
   final String? note2;
   String birthday;
   final dynamic six;
-  final String addressid;
+  String addressid;
   final String? carName;
   final String? carNo;
   final String pass;
@@ -112,7 +112,7 @@ class UserModel {
     note2: json['note2'],
     birthday: json['birthday'] ?? '',
     six: json['six'],
-    addressid: json['addressid'] ?? '',
+    addressid: json['addressid'].toString()  ,
     carName: json['carName'],
     carNo: json['carNo'],
     pass: json['pass'] ?? '',

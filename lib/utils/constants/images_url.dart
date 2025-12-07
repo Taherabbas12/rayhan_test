@@ -12,6 +12,7 @@ class ImagesUrl {
   static const imageServices = '${baseAssetPNG}services.png';
   static const imageTaxi = '${baseAssetPNG}taxi.png';
   static const imageIraq = '${baseAssetPNG}Flag_of_Iraq.png';
+  static const imageFrame = '${baseAssetPNG}Frame.png';
 
   //Icons SVG
 

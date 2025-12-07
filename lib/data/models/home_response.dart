@@ -19,7 +19,7 @@ class HomeResponseModel {
   factory HomeResponseModel.fromJson(Map<String, dynamic> json) {
     return HomeResponseModel(
       forNow:
-          (json["forNow"] as List)
+          (json["customShops"] as List)
               .map((item) => Restaurant.fromJson(item))
               .toList(),
       freeDelivery: json['freeDelivery'] ?? [],

@@ -5,8 +5,8 @@ import 'dart:ui';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:rayhan_test/views/widgets/message_snak.dart';
-import '../../../controllers/auth_controller.dart';
+ import '../../../controllers/auth_controller.dart';
+import '../../../routes/app_routes.dart';
 import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/images_url.dart';
 import '../../../utils/constants/style_app.dart';
@@ -104,8 +104,9 @@ class Login extends GetView<AuthController> {
                                           TapGestureRecognizer()
                                             // هنا يمكنك تحديد ما يحدث عند النقر على النص
                                             ..onTap =
-                                                () => MessageSnak.message(
-                                                  'لم يتم اضافة الشروط والاحكام بعد',
+                                                () =>  Get.toNamed(
+                                                  AppRoutes
+                                                      .termsAndConditionsPage,
                                                 ),
                                     ),
                                     TextSpan(

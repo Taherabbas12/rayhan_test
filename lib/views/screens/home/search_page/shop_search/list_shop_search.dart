@@ -5,9 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 import '../../../../../controllers/shops_controller.dart';
 import '../../../../../data/models/restaurant.dart';
 import '../../../../../utils/constants/color_app.dart';
+import '../../../../../utils/constants/images_url.dart';
 import '../../../../../utils/constants/shadow_values.dart';
 import '../../../../../utils/constants/style_app.dart';
 import '../../../../../utils/constants/values_constant.dart';
@@ -24,18 +26,44 @@ class ListShopSearch extends StatelessWidget {
       child: OrientationBuilder(
         builder: (context, orientation) {
           return Obx(
-            () => MasonryGridView.count(
-              crossAxisCount: restaurantController.countView().value,
-              physics: PageScrollPhysics(),
-              crossAxisSpacing: 10,
-              shrinkWrap: true,
+            () =>
+                restaurantController.isLoadingRestaurant.value
+                    ? LoadingIndicator()
+                    : restaurantController.restaurantsSearch.isEmpty
+                    ? Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: Values.circle * 2.4,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Image.asset(ImagesUrl.imageFrame, width: 250),
+                          SizedBox(height: Values.circle * 4),
+                          Text('لا يوجد نتائج', style: StringStyle.titleApp),
+                          SizedBox(height: Values.circle),
 
-              itemBuilder:
-                  (context, index) => viewRetaurant(
-                    restaurantController.restaurantsSearch[index],
-                  ),
-              itemCount: restaurantController.restaurantsSearch.length,
-            ),
+                          Text(
+                            'عذراً، لم يتم العثور على الكلمة الرئيسية التي أدخلتها، يرجى التحقق مرة أخرى أو البحث باستخدام كلمة رئيسية أخرى.',
+                            style: StringStyle.textLabil.copyWith(
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                    : MasonryGridView.count(
+                      crossAxisCount: restaurantController.countView().value,
+                      physics: PageScrollPhysics(),
+                      crossAxisSpacing: 10,
+                      shrinkWrap: true,
+
+                      itemBuilder:
+                          (context, index) => viewRetaurant(
+                            restaurantController.restaurantsSearch[index],
+                          ),
+                      itemCount: restaurantController.restaurantsSearch.length,
+                    ),
           );
         },
       ),

@@ -59,6 +59,13 @@ class StorageController {
     return getSecureStorage.read(Values.keyStorageTheme) == null;
   }
 
+  static Future<void> updateDataAddressId(int id) async {
+    //  .i(data);
+    var data2 = await getSecureStorage.read(Values.keyStorage);
+    data2['addressid'] = id.toString();
+    await getSecureStorage.write(Values.keyStorage, data2);
+  }
+
   static Future<void> updateData(Map data) async {
     //  .i(data);
     var data2 = await getSecureStorage.read(Values.keyStorage);

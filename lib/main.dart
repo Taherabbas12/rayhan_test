@@ -67,7 +67,6 @@ class MyApp extends StatelessWidget {
             GetPage(name: '/decider', page: () => const DeciderPage()),
           ] +
           AppRoutes.routes,
-
       builder: (context, child) {
         final mediaQuery = MediaQuery.of(context);
         double textScaleFactor = mediaQuery.size.width / 400;
@@ -95,7 +94,9 @@ class DeciderPage extends StatelessWidget {
     final loggedIn = StorageController.checkLoginStatus();
 
     Future.microtask(() {
-      Get.offAllNamed(loggedIn ? AppRoutes.home : AppRoutes.login);
+      Get.offAllNamed(
+        loggedIn ? AppRoutes.home : AppRoutes.rayhanWelcomeScreen,
+      );
     });
 
     return const Scaffold(body: SizedBox());

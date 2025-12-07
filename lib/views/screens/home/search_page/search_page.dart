@@ -56,9 +56,9 @@ class SearchPage extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 10),
+          const SizedBox(height: 12),
 
-          // التابات
+          // التابات مع خط سفلي كامل
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 20),
             decoration: BoxDecoration(
@@ -66,28 +66,56 @@ class SearchPage extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
               border: Border.all(color: ColorApp.borderColor),
             ),
-            child: const TabBar(
-              isScrollable: false,
-              indicatorWeight: 3,
-              tabs: [
-                Tab(text: 'المتاجر'),
-                Tab(text: 'الطعام'),
+            child: Column(
+              children: [
+                Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      bottom: BorderSide(color: ColorApp.borderColor),
+                    ),
+                  ),
+                  child: TabBar(
+                    indicatorPadding: EdgeInsets.zero,
+                    labelPadding: EdgeInsets.zero,
+                    isScrollable: false,
 
-                Tab(text: 'الماركت'),
+                    // توزيع جميع التابات بالتساوي
+                    tabs: [
+                      Tab(text: 'المتاجر'),
+                      Tab(text: 'الطعام'),
+                      Tab(text: 'الماركت'),
+                    ],
+
+                    // لون التاب المحدد
+                    labelColor: Colors.black,
+                    unselectedLabelColor: Colors.grey,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    // الخط السفلي للتاب المحدد
+                    indicator: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: Color(0xFF005BBB), width: 3),
+                      ),
+                    ),
+                  ),
+                ),
+
+                // خط سفلي على طول التابات بالكامل
+                // Container(
+                //   width: double.infinity,
+                //   height: 2,
+                //   color: ColorApp.borderColor,
+                // ),
               ],
             ),
           ),
 
           const SizedBox(height: 10),
 
-          // محتوى كل تبويب
           Expanded(
             child: TabBarView(
               children: [
                 ListRayhanSearch(),
-
                 ListRestaurentSearch(),
-
                 ListShopSearch(),
               ],
             ),
