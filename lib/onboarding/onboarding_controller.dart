@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
+import 'package:rayhan_test/routes/app_routes.dart';
+
+import '../controllers/storage_controller.dart';
 
 class OnBoardingController extends GetxController {
   PageController pageController = PageController();
@@ -25,7 +28,9 @@ class OnBoardingController extends GetxController {
   }
 
   void finish() {
+    StorageController.storeStartApp();
     // هنا يمكنك تحويل المستخدم إلى صفحة تسجيل الدخول أو الرئيسية
-    Get.offNamed('/login');
+    // Get.offNamed('/login');
+    Get.offNamed(AppRoutes.home);
   }
 }

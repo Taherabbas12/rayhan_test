@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/services/error_message.dart';
 
 import '../data/models/user_model.dart';
 import '../services/api_service.dart';
@@ -41,7 +42,7 @@ class ProfileEditController extends GetxController {
         ApiConstants.updateUser(user.id.toString()),
         data,
       );
-
+      logger.w(response.data);
       if (response.isStateSucess < 3) {
         // تحديث التخزين
         user.name = nameController.text;

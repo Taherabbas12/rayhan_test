@@ -13,10 +13,16 @@ class HomeGetAllController extends GetxController {
   RxBool isLoading = false.obs;
 
   // الأقسام
-  RxList<Restaurant> forNowShop = RxList([]);
-  RxList<ShowsItemModel> shows = RxList([]);
-  RxList<SliderImageModel> sliderImageModel = RxList([]);
-  RxInt freeDeliveryCount = 0.obs;
+  HomeResponseModel allData = HomeResponseModel(
+    forNow: <Restaurant>[].obs,
+    shows: <ShowsItemModel>[].obs,
+    sliderImageModel: <SliderImageModel>[].obs,
+    freeDeliveryCount: 0,
+    freeDelivery: <Restaurant>[].obs,
+  );
+  // RxList<ShowsItemModel> shows = RxList([]);
+  // RxList<SliderImageModel> sliderImageModel = RxList([]);
+  // RxInt freeDeliveryCount = 0.obs;
   Rx<AddressModel?> adddress = Rx(null);
 
   @override
@@ -35,14 +41,22 @@ class HomeGetAllController extends GetxController {
       );
       // logger.w(response.data);
       if (response.isStateSucess < 3) {
-        final data = HomeResponseModel.fromJson(response.data);
+        final HomeResponseModel allDataTemp = HomeResponseModel.fromJson(
+          response.data,
+        );
+
+        allData.forNow.assignAll(allDataTemp.forNow);
+        allData.freeDelivery.assignAll(allDataTemp.freeDelivery);
+        allData.shows.assignAll(allDataTemp.shows);
+        allData.sliderImageModel.assignAll(allDataTemp.sliderImageModel);
+        allData.freeDeliveryCount = allDataTemp.freeDeliveryCount;
 
         // تحديث الـ RxList
-        forNowShop.assignAll(data.forNow);
-        shows.assignAll(data.shows);
+        // allData.assignAll(data);
+        // shows.assignAll(data.shows);
         // logger.e(forNowShop.first.toJson());
-        sliderImageModel.assignAll(data.sliderImageModel);
-        freeDeliveryCount.value = data.freeDeliveryCount;
+        // sliderImageModel.assignAll(data.sliderImageModel);
+        // freeDeliveryCount.value = data.freeDeliveryCount;
         // ___________________
         getAddress();
         // ___________________

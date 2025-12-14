@@ -194,21 +194,23 @@ class CartItemController extends GetxController {
     Restaurant? restaurant,
     bool isBack = true,
   }) async {
+    logger.e('Adding to cart: 111');
     if (restaurant != null) {
       // if (await CartDb.instance.isRestaurantTypeExists(restaurant.type)) {
       //   MessageSnak.message(
-      //     '❗ لا يمكنك خلط أنواع سلة مختلفة',
-      //     color: Colors.red
+      //     'لا يمكنك خلط أنواع سلة مختلفة',
+      //     color: Colors.red,
       //   );
       //   return;
       // }
       if (await CartDb.instance.isRestaurantDifferent(restaurant)) {
         MessageSnak.message(
-          '❗ لا يمكنك إضافة منتجات من مورد مختلف',
+          'لا يمكنك إضافة منتجات من مورد مختلف',
           color: Colors.red,
         );
         return;
       }
+      logger.e(newItem.toMap());
       if (!await CartDb.instance.isRestaurantTypeExists(restaurant.type)) {
         // logger.e(restaurant.toJson());
         await CartDb.instance.saveRestaurant(restaurant);
@@ -219,6 +221,7 @@ class CartItemController extends GetxController {
     final index = cartItems.indexWhere(
       (item) => item.productId == newItem.productId,
     );
+
     if (index != -1) {
       final existing = cartItems[index];
       await updateItemQuantity(

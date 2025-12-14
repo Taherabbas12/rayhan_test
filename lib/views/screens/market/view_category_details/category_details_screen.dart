@@ -69,8 +69,12 @@ class CategoryDetailsScreen extends StatelessWidget {
                                 crossAxisCount:
                                     marketProductController.countView().value,
 
-                                crossAxisSpacing: 10,
+                                // crossAxisCount:
+                                //     marketProductController.countView().value,
+
+                                // crossAxisSpacing: 10,
                                 shrinkWrap: true,
+                                crossAxisSpacing: 10,
 
                                 itemBuilder:
                                     (context, index) => ProductWidgetGrid(

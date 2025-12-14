@@ -37,58 +37,128 @@ class HomePage extends StatelessWidget {
                   homeController.widgetHomes.map((e) => homeView(e)).toList(),
             ),
           ),
-          SizedBox(height: Values.spacerV * 2),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: Values.circle * 3),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'الرائج الان',
-                  style: StringStyle.titleApp.copyWith(fontSize: 20),
-                ),
-                Text(
-                  'عرض الكل',
-                  style: StringStyle.textLabil.copyWith(
-                    color: ColorApp.primaryColor,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(height: Values.spacerV * 2),
-
           Obx(
             () =>
-                homeGetAllController.forNowShop.isEmpty
+                homeGetAllController.allData.forNow.isEmpty
                     ? SizedBox()
-                    : SizedBox(
-                      height: 265,
+                    : Column(
+                      children: [
+                        SizedBox(height: Values.spacerV * 2),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Values.circle * 3,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'الرائج الان',
+                                style: StringStyle.titleApp.copyWith(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              // Text(
+                              //   'عرض الكل',
+                              //   style: StringStyle.textLabil.copyWith(
+                              //     color: ColorApp.primaryColor,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: Values.spacerV * 2),
 
-                      width: Values.width,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
+                        SizedBox(
+                          height: 265,
 
-                        itemBuilder:
-                            (context, index) =>
-                                index == 0
-                                    ? SizedBox(width: 20)
-                                    : viewRetaurant(
-                                      homeGetAllController.forNowShop[index -
-                                          1],
-                                    ),
-                        itemCount: homeGetAllController.forNowShop.length + 1,
-                      ),
+                          width: Values.width,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+
+                            itemBuilder:
+                                (context, index) =>
+                                    index == 0
+                                        ? SizedBox(width: 20)
+                                        : viewRetaurant(
+                                          homeGetAllController
+                                              .allData
+                                              .forNow[index - 1],
+                                        ),
+                            itemCount:
+                                homeGetAllController.allData.forNow.length + 1,
+                          ),
+                        ),
+
+                        SizedBox(height: Values.circle),
+                      ],
                     ),
           ),
+          Obx(
+            () =>
+                homeGetAllController.allData.freeDelivery.isEmpty
+                    ? SizedBox()
+                    : Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: Values.circle * 3,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'توصيل مجاني',
+                                style: StringStyle.titleApp.copyWith(
+                                  fontSize: 20,
+                                ),
+                              ),
+                              // Text(
+                              //   'عرض الكل',
+                              //   style: StringStyle.textLabil.copyWith(
+                              //     color: ColorApp.primaryColor,
+                              //   ),
+                              // ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: Values.spacerV * 2),
+
+                        SizedBox(
+                          height: 265,
+
+                          width: Values.width,
+                          child: ListView.builder(
+                            scrollDirection: Axis.horizontal,
+
+                            itemBuilder:
+                                (context, index) =>
+                                    index == 0
+                                        ? SizedBox(width: 20)
+                                        : viewRetaurant(
+                                          homeGetAllController
+                                              .allData
+                                              .forNow[index - 1],
+                                        ),
+                            itemCount:
+                                homeGetAllController
+                                    .allData
+                                    .freeDelivery
+                                    .length +
+                                1,
+                          ),
+                        ),
+                      ],
+                    ),
+          ),
+
           SizedBox(height: Values.circle * .7),
           Obx(
             () =>
-                homeGetAllController.sliderImageModel.isEmpty
+                homeGetAllController.allData.sliderImageModel.isEmpty
                     ? SizedBox()
                     : ImageSlider(
                       // h: Values.width * .4,
-                      imageList: homeGetAllController.sliderImageModel,
+                      imageList: homeGetAllController.allData.sliderImageModel,
                     ),
           ),
 
@@ -142,7 +212,11 @@ class HomePage extends StatelessWidget {
         // color: ColorApp.greenColor,
         padding: EdgeInsets.all(Values.circle * .2),
         child: GestureDetector(
-          onTap: () => shopsController.selectRestorent(restaurant),
+          onTap:
+              () =>
+                  restaurant.type == 'shop'
+                      ? shopsController.selectRestorent(restaurant)
+                      : restaurantController.selectRestorent(restaurant),
           child: Padding(
             // color: ColorApp.greenColor,
             padding: EdgeInsets.all(Values.circle * .4),

@@ -26,6 +26,7 @@ class ApiConstants {
   static const String getAllDataHome = 'Values';
 
   static const String shopShowBanners = 'ShopShow';
+
   static String resturens(
     int page, {
     bool sort = true,

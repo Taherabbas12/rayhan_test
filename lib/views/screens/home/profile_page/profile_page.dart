@@ -7,6 +7,7 @@ import '../../../../controllers/storage_controller.dart';
 import '../../../../data/models/user_model.dart';
 import '../../../../routes/app_routes.dart';
 import '../../../../services/api_service.dart';
+// import '../../../../services/error_message.dart';
 import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 
@@ -16,7 +17,7 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
-
+    // logger.w(StorageController.getCheckLogin());
     return SafeArea(
       child: SingleChildScrollView(
         child: Padding(

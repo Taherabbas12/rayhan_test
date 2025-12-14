@@ -1,12 +1,14 @@
+import 'package:get/get.dart';
+
 import 'restaurant.dart';
 import 'slider_image_model.dart';
 
 class HomeResponseModel {
-  final List<Restaurant> forNow;
-  final List<dynamic> freeDelivery; // لم ترسل تركيبه، نخليه ديناميك مؤقتًا
-  final List<ShowsItemModel> shows;
-  final List<SliderImageModel> sliderImageModel;
-  final int freeDeliveryCount;
+  final RxList<Restaurant> forNow;
+  final RxList<Restaurant> freeDelivery; // لم ترسل تركيبه، نخليه ديناميك مؤقتًا
+  final RxList<ShowsItemModel> shows;
+  final RxList<SliderImageModel> sliderImageModel;
+  int freeDeliveryCount;
 
   HomeResponseModel({
     required this.forNow,
@@ -21,18 +23,32 @@ class HomeResponseModel {
       forNow:
           (json["customShops"] as List)
               .map((item) => Restaurant.fromJson(item))
-              .toList(),
-      freeDelivery: json['freeDelivery'] ?? [],
+              .toList()
+              .obs,
+      freeDelivery:
+          (json["freeDelivery"] as List)
+              .map((item) => Restaurant.fromJson(item))
+              .toList()
+              .obs,
       shows:
-          (json['shows'] as List<dynamic>?)
-              ?.map((e) => ShowsItemModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ((json['shows'] as List<dynamic>?)
+                      ?.map(
+                        (e) =>
+                            ShowsItemModel.fromJson(e as Map<String, dynamic>),
+                      )
+                      .toList() ??
+                  [])
+              .obs,
       sliderImageModel:
-          (json['shows'] as List<dynamic>?)
-              ?.map((e) => SliderImageModel.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+          ((json['shows'] as List<dynamic>?)
+                      ?.map(
+                        (e) => SliderImageModel.fromJson(
+                          e as Map<String, dynamic>,
+                        ),
+                      )
+                      .toList() ??
+                  [])
+              .obs,
       freeDeliveryCount: json['freeDeliveryCount'] ?? 0,
     );
   }

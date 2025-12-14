@@ -50,13 +50,19 @@ class RequestRayhan extends StatelessWidget {
                       horizontal: Values.spacerV * 1.3,
                     ),
                     child: Obx(
-                      () => Text(
-                        '${cartItemController.selectedCartType.value} الذي تم تحديد الطلبات منه',
-                        style: StringStyle.headerStyle.copyWith(
-                          color: ColorApp.blackColor,
-                        ),
-                        textAlign: TextAlign.right,
-                      ),
+                      () =>
+                          cartItemController.selectedCartType.value ==
+                                      'الماركت' ||
+                                  cartItemController.selectedCartType.value ==
+                                      'الخدمات'
+                              ? SizedBox()
+                              : Text(
+                                '${cartItemController.selectedCartType.value} الذي تم تحديد الطلبات منه',
+                                style: StringStyle.headerStyle.copyWith(
+                                  color: ColorApp.blackColor,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
                     ),
                   ),
                   SizedBox(height: Values.circle),

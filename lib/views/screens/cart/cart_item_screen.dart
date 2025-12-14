@@ -1,7 +1,9 @@
 // ignore_for_file: must_be_immutable
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/views/widgets/message_snak.dart';
 import '../../../controllers/cart_item_controller.dart';
+import '../../../controllers/storage_controller.dart';
 import '../../../data/models/cart_item.dart';
 import '../../../routes/app_routes.dart';
 import '../../../utils/constants/color_app.dart';
@@ -114,6 +116,15 @@ class _CartItemScreenState extends State<CartItemScreen>
                   h: 50,
                   'التالي',
                   () {
+                    final loggedIn = StorageController.checkLoginStatus();
+                    if (!loggedIn) {
+                      MessageSnak.message(
+                        'يرجى تسجيل الدخول للمتابعة',
+                        color: Colors.red,
+                      );
+                      return;
+                    }
+
                     if (cartItemController.total > 0) {
                       if (cartItemController.currentCartType ==
                           CartType.service) {

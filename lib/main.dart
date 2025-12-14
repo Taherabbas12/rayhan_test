@@ -15,7 +15,7 @@ import 'utils/constants/values_constant.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await initializeDateFormatting('ar', null); // 🔥 مهم جداً
+  await initializeDateFormatting('ar', null);
 
   await GetSecureStorage.init(
     password: Values.passwordStorage,
@@ -92,10 +92,13 @@ class DeciderPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loggedIn = StorageController.checkLoginStatus();
+    final getStartApp = StorageController.getStartApp();
 
     Future.microtask(() {
       Get.offAllNamed(
-        loggedIn ? AppRoutes.home : AppRoutes.rayhanWelcomeScreen,
+        loggedIn || getStartApp
+            ? AppRoutes.home
+            : AppRoutes.rayhanWelcomeScreen,
       );
     });
 

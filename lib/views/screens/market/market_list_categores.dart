@@ -29,10 +29,11 @@ class MarketListCategores extends StatelessWidget {
       child: OrientationBuilder(
         builder: (context, orientation) {
           return Obx(
-            () => MasonryGridView.count(
-              crossAxisCount: marketController.countView().value,
-              mainAxisSpacing: 10,
-
+            () => GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: marketController.countView().value,
+                childAspectRatio: 0.75,
+              ),
               physics: PageScrollPhysics(),
 
               // crossAxisSpacing: 10,
@@ -102,6 +103,7 @@ Widget viewCategory(Category category, MarketController marketController) {
             ),
             Text(
               category.name,
+              textAlign: TextAlign.center,
               style: StringStyle.textLabil.copyWith(
                 // color:
                 //     restaurantCategoryController.selectCategories.value ==

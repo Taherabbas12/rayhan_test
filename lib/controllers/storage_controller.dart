@@ -42,8 +42,22 @@ class StorageController {
     return data ?? {};
   }
 
+  static bool getCheckLogin() {
+    var data = getSecureStorage.read(Values.keyStorage);
+    return data != null;
+  }
+
   static Future<void> storeData(Map data) async {
     await getSecureStorage.write(Values.keyStorage, data);
+  }
+
+  static Future<void> storeStartApp() async {
+    await getSecureStorage.write(Values.startAppValue, true);
+  }
+
+  static bool getStartApp() {
+    var data = getSecureStorage.read(Values.startAppValue) ?? false;
+    return data;
   }
 
   static Future<void> storeDataTheme(bool isDark) async {

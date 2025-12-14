@@ -6,6 +6,7 @@ class Values {
   static String passwordStorage = "rayhan_password";
   static String pathContiner = "rayhan_container";
   static String keyStorage = "tokenValue";
+  static String   startAppValue = "startAppValue";
   static String keyStorageTheme = "ThemeValue";
   static double height = 0;
   static double width = 0;
