@@ -22,8 +22,9 @@ class MarketProductController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-
-    fetchSubCategores(marketController.selectCategories.value!.id);
+    if (marketController.selectCategories.value != null) {
+      fetchSubCategores(marketController.selectCategories.value!.id);
+    }
   }
 
   RxInt countView() =>

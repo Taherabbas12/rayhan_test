@@ -3,8 +3,10 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/controllers/shops_controller.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/utils/constants/values_constant.dart';
+import '../../../../controllers/favorites_controller.dart';
 import '../../../../data/models/product_model.dart';
 import '../../../../utils/constants/color_app.dart';
+import '../../../../utils/constants/images_url.dart';
 import '../../../widgets/actions_button.dart';
 import '../../../widgets/input_text.dart';
 import '../../../widgets/more_widgets.dart';
@@ -22,6 +24,9 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
   int quantity = 1;
   final TextEditingController noteController = TextEditingController();
   ShopsController restaurantController = Get.find<ShopsController>();
+
+  FavoritesController favController = Get.find<FavoritesController>();
+
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -59,6 +64,7 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                       ),
                       Spacer(),
                       const SizedBox(width: 10),
+
                       // BottonsC.actionIconWithOutColor(
                       //   Icons.favorite_border,
                       //   circle: 50,
@@ -69,6 +75,38 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                       //   color: ColorApp.primaryColor,
                       // ),
                       // const SizedBox(width: 10),
+                      Obx(() {
+                        bool isFavorite = favController.allFavorites.any(
+                          (e) => e.id == product.id,
+                        );
+
+                        return BottonsC.actionSvgWithOutColor(
+                          isFavorite
+                              ? ImagesUrl.heartIcon
+                              : ImagesUrl.heartBorderIcon,
+                          circle: 50,
+                          'مفضلة',
+                          () => favController.toggleFavorite(
+                            product: product,
+                            vendor: VendorInfo(
+                              id:
+                                  restaurantController
+                                      .restaurantSelect
+                                      .value!
+                                      .id,
+                              name:
+                                  restaurantController
+                                      .restaurantSelect
+                                      .value!
+                                      .name,
+                            ),
+                          ),
+                          size: 25,
+                          colorBackgraond: ColorApp.whiteColor,
+                          color: ColorApp.primaryColor,
+                        );
+                      }),
+                      SizedBox(width: Values.circle),
                       BottonsC.actionIconWithOutColor(
                         Icons.shopping_cart_outlined,
                         circle: 50,

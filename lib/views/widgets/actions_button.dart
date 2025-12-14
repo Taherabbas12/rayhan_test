@@ -251,4 +251,43 @@ class BottonsC {
       ),
     );
   }
+
+  static Widget actionSvgWithOutColor(
+    String svgUrl,
+    String name,
+    void Function()? onPressed, {
+    Color color = ColorApp.backgroundColorContent,
+    Color colorBackgraond = ColorApp.whiteColor,
+    Color colorBorder = ColorApp.whiteColor,
+    double circle = 4,
+    double size = 35,
+    Key? key,
+  }) {
+    return Container(
+      key: key,
+      width: (size + 20),
+      height: (size + 20),
+      // margin: EdgeInsets.symmetric(horizontal: Values.circle * 0.2),
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        color: colorBackgraond,
+        border: Border.all(color: colorBorder),
+        borderRadius: BorderRadius.circular(circle),
+      ),
+      child: IconButton(
+        padding: const EdgeInsets.all(0),
+        onPressed: onPressed,
+        icon: svgImage(svgUrl, hi: size, wi: size, color: color),
+        tooltip: name,
+        color: ColorApp.whiteColor,
+      ),
+    );
+  }
 }
+
+
+// favController.favoriteProducts
+//             .any((e) => e.productId == item.productId)
+//         ? Icons.favorite
+//         : Icons.favorite_border,
+//     color: Colors.red,

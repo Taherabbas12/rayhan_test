@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
+import 'package:rayhan_test/utils/constants/images_url.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
 import 'package:rayhan_test/utils/constants/values_constant.dart';
 
+import '../../../../controllers/favorites_controller.dart';
 import '../../../../controllers/market_product_controller.dart';
 import '../../../../data/models/product_model.dart';
 import '../../../../utils/constants/color_app.dart';
@@ -25,6 +27,8 @@ class _ProductDetailsScreenState extends State<ViewProductScreen> {
   final TextEditingController noteController = TextEditingController();
   MarketProductController marketProductController =
       Get.find<MarketProductController>();
+  FavoritesController favController = Get.find<FavoritesController>();
+
   @override
   Widget build(BuildContext context) {
     final product = widget.product;
@@ -37,7 +41,6 @@ class _ProductDetailsScreenState extends State<ViewProductScreen> {
       body: SafeArea(
         child: ListView(
           children: [
-            // صورة المنتج + ايقونات
             Stack(
               children: [
                 SizedBox(
@@ -62,15 +65,26 @@ class _ProductDetailsScreenState extends State<ViewProductScreen> {
                       ),
                       Spacer(),
                       const SizedBox(width: 10),
-                      // BottonsC.actionIconWithOutColor(
-                      //   Icons.favorite_border,
-                      //   circle: 50,
-                      //   'مفضلة',
-                      //   () {},
-                      //   size: 25,
-                      //   colorBackgraond: ColorApp.whiteColor,
-                      //   color: ColorApp.primaryColor,
-                      // ),
+                      Obx(() {
+                        bool isFavorite = favController.allFavorites.any(
+                          (e) => e.id == product.id,
+                        );
+
+                        return BottonsC.actionSvgWithOutColor(
+                          isFavorite
+                              ? ImagesUrl.heartIcon
+                              : ImagesUrl.heartBorderIcon,
+                          circle: 50,
+                          'مفضلة',
+                          () => favController.toggleFavorite(
+                            product: product,
+                            vendor: VendorInfo(id: 0, name: ''),
+                          ),
+                          size: 25,
+                          colorBackgraond: ColorApp.whiteColor,
+                          color: ColorApp.primaryColor,
+                        );
+                      }),
                       const SizedBox(width: 10),
                       BottonsC.actionIconWithOutColor(
                         Icons.shopping_cart_outlined,

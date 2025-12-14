@@ -11,6 +11,7 @@ import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/values_constant.dart';
 import 'cart_item_controller.dart';
+import 'favorites_controller.dart';
 
 class ShopsController extends GetxController {
   CartItemController cartItemController = Get.find<CartItemController>();
@@ -29,7 +30,11 @@ class ShopsController extends GetxController {
     String note,
     int quantity, {
     bool isBack = true,
+    VendorInfo? vendor,
   }) {
+    if (vendor != null) {
+      restaurantSelect.value = restaurants.firstWhere((e) => vendor.id == e.id);
+    }
     cartItemController.addToCart(
       CartItem(
         vendorName: restaurantSelect.value!.name,

@@ -4,7 +4,7 @@ import 'package:get/get_connect/http/src/utils/utils.dart';
 
 import '../routes/app_routes.dart';
 import '../utils/constants/images_url.dart';
-import '../views/screens/home/favorites/favorites_page.dart';
+import '../views/screens/home/favorites/favorites_screen.dart';
 import '../views/screens/home/guest_profile_page.dart';
 import '../views/screens/home/home_page/home_page.dart';
 import '../views/screens/home/my_requests/my_requests_page.dart';

@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/utils/constants/images_url.dart';
 import 'package:rayhan_test/utils/constants/style_app.dart';
+import 'package:rayhan_test/views/widgets/common/svg_show.dart';
 
 import '../../../../controllers/storage_controller.dart';
 import '../../../../data/models/user_model.dart';
@@ -69,6 +71,7 @@ class ProfilePage extends StatelessWidget {
                       Icons.location_on_outlined,
                       onTap: () => Get.toNamed(AppRoutes.myAddressScreen),
                     ),
+                    itemWidgetFavorite(),
                     // itemWidget('المفضلة', Icons.favorite_border, onTap: () {}),
                     // itemWidget(
                     //   'القسائم والمكافاَت',
@@ -143,6 +146,42 @@ class ProfilePage extends StatelessWidget {
             SizedBox(width: Values.spacerV),
             Text(
               name,
+              style: StringStyle.textLabil.copyWith(
+                color: ColorApp.textSecondryColor,
+              ),
+            ),
+            Spacer(),
+            Icon(Icons.arrow_forward_ios, color: ColorApp.textSecondryColor),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget itemWidgetFavorite() {
+    return InkWell(
+      borderRadius: BorderRadius.circular(Values.circle * .8),
+      onTap: () {
+        //
+        Get.toNamed(AppRoutes.favoritesScreen);
+      },
+      child: Container(
+        // margin: EdgeInsets.symmetric(vertical: Values.circle),
+        padding: EdgeInsets.symmetric(
+          horizontal: Values.spacerV,
+          vertical: Values.circle * 2,
+        ),
+        child: Row(
+          children: [
+            svgImage(
+              ImagesUrl.heartBorderIcon,
+              hi: 25,
+              color: ColorApp.textSecondryColor,
+              padingValue: 0,
+            ),
+            SizedBox(width: Values.spacerV),
+            Text(
+              'المفضلة',
               style: StringStyle.textLabil.copyWith(
                 color: ColorApp.textSecondryColor,
               ),

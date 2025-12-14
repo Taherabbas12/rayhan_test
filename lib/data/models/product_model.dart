@@ -1,3 +1,5 @@
+import 'favorite_product_model.dart';
+
 class Product {
   final int id;
   final String name;
@@ -23,7 +25,18 @@ class Product {
     this.price2 = 0,
     this.shopType = '',
   });
-
+  factory Product.fromFavorite(FavoriteProduct f) => Product(
+    id: f.id,
+    name: f.name,
+    descc: f.descc,
+    curncy: f.curncy,
+    active: f.active,
+    count: f.count,
+    image: f.image,
+    price1: f.price1,
+    price2: f.price2,
+    shopType: f.shopType,
+  );
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
       id: json['id'] ?? 0,

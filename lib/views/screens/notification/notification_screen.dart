@@ -145,7 +145,7 @@ class NotificationScreen extends StatelessWidget {
                             ),
                           ],
                         );
-                      }).toList(),
+                      }),
                     ],
                   );
                 }).toList(),

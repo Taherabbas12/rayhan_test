@@ -5,7 +5,6 @@ import 'package:get/get.dart';
 
 import '../routes/app_routes.dart';
 import '../services/api_service.dart';
-import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
@@ -23,7 +22,7 @@ class AuthController extends GetxController {
 
   void selectTaxi(Taxi taxi) {
     selectedTaxiAddress.value = null;
-       selectedTaxiRoofNo.value = null;
+    selectedTaxiRoofNo.value = null;
     selectedTaxiHomeNo.value = null;
     selectedTaxi.value = taxi;
   }
@@ -32,15 +31,13 @@ class AuthController extends GetxController {
     selectedTaxiRoofNo.value = null;
     selectedTaxiHomeNo.value = null;
     selectedTaxiAddress.value = address;
-    
-    
   }
+
   void selectTaxiRoofNo(String roofNo) {
     selectedTaxiHomeNo.value = null;
     selectedTaxiRoofNo.value = roofNo;
-   
-
   }
+
   void selectTaxiHomeNo(String homeNo) {
     selectedTaxiHomeNo.value = homeNo;
   }

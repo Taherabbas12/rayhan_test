@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import '../controllers/cart_item_controller.dart';
+import '../controllers/favorites_controller.dart';
 import '../controllers/home_controller.dart';
 import '../controllers/home_get_all_controller.dart';
 import '../controllers/market_controller.dart';
@@ -18,6 +19,7 @@ class HomeBinding extends Bindings {
       () => HomeGetAllController(),
       fenix: true,
     );
+
     Get.lazyPut<MyAddressController>(() => MyAddressController(), fenix: true);
     Get.lazyPut<HomeController>(() => HomeController(), fenix: true);
     Get.lazyPut<MarketController>(() => MarketController(), fenix: true);
@@ -37,5 +39,6 @@ class HomeBinding extends Bindings {
       () => RestaurantController(),
       fenix: true,
     );
+    Get.put<FavoritesController>(FavoritesController(), permanent: true);
   }
 }

@@ -46,8 +46,7 @@ class ApiService {
   static Future<StateReturnData> getData(String endpoint) async {
     try {
       final response = await _dio.get(endpoint);
-      print(endpoint);
-      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
+       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data);
       }
       return StateReturnData(2, response.data);

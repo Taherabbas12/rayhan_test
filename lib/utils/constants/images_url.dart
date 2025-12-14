@@ -25,6 +25,7 @@ class ImagesUrl {
   // static const iraqIcon = '${baseAssetSvg}Flag_of_Iraq.svg';
   static const iraqIcon = '${baseAssetSvg}iraq.svg';
   static const heartIcon = '${baseAssetSvg}Heart.svg';
+  static const heartBorderIcon = '${baseAssetSvg}Heart_border.svg';
   static const locationIcon = '${baseAssetSvg}Location.svg';
   static const infoSquareIcon = '${baseAssetSvg}Info_Square.svg';
   static const ticketIcon = '${baseAssetSvg}Ticket.svg';

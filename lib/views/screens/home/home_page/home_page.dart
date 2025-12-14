@@ -348,13 +348,13 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               // boxShadow: ShadowValues.shadowValuesBlur,
               color:
-                  restaurantController.selectFilterOption.value == category
+                  restaurantController.selectFilterOption.value.label == category.label
                       ? ColorApp.primaryColor
                       : ColorApp.backgroundColor,
               border: Border.all(
                 width: .5,
                 color:
-                    restaurantController.selectFilterOption.value == category
+                    restaurantController.selectFilterOption.value.label == category.label
                         ? ColorApp.primaryColor
                         : ColorApp.borderColor,
               ),
@@ -364,7 +364,7 @@ class HomePage extends StatelessWidget {
               category.label,
               style: StringStyle.textLabil.copyWith(
                 color:
-                    restaurantController.selectFilterOption.value == category
+                    restaurantController.selectFilterOption.value.label == category.label
                         ? ColorApp.whiteColor
                         : ColorApp.backgroundColorContent,
               ),

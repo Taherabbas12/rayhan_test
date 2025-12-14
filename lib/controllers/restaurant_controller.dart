@@ -1,6 +1,7 @@
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/controllers/favorites_controller.dart';
 import 'package:rayhan_test/data/models/product_model.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
 
@@ -28,10 +29,15 @@ class RestaurantController extends GetxController {
 
   void addToCart(
     Product product,
+
     String note,
     int quantity, {
     bool isBack = true,
+    VendorInfo? vendor,
   }) {
+    if (vendor != null) {
+      restaurantSelect.value = restaurants.firstWhere((e) => vendor.id == e.id);
+    }
     cartItemController.addToCart(
       CartItem(
         vendorName: restaurantSelect.value!.name,

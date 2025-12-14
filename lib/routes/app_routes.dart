@@ -21,6 +21,7 @@ import '../views/screens/auth/terms_and_conditions_page.dart';
 import '../views/screens/cart/cart_item_screen.dart';
 import '../views/screens/cart/order/service_order/order_screen_service.dart';
 import '../views/screens/cart/order/service_order/order_form_screen.dart';
+import '../views/screens/home/favorites/favorites_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/home/profile_page/edit_profile_page.dart';
 import '../views/screens/market/market_screen.dart';
@@ -28,7 +29,6 @@ import '../views/screens/market/view_category_details/category_details_screen.da
 import '../views/screens/my_address/my_address_screen.dart';
 import '../views/screens/notification/notification_screen.dart';
 import '../views/screens/cart/order/order_screen.dart';
-import '../views/screens/rayhan_welcome_screen.dart';
 import '../views/screens/restaurants/resturants_screen.dart';
 import '../views/screens/restaurants/restaurant/shop_screen.dart';
 import '../views/screens/services/services_screen.dart';
@@ -41,6 +41,7 @@ class AppRoutes {
   static const rayhanWelcomeScreen = '/Rayhan-Welcome-Screen';
   static const login = '/login';
   static const register = '/Register';
+  static const favoritesScreen = '/Favorites-Screen';
   static const registerComplete = '/Register-Complete';
   static const otp = '/otp';
   static const resturantsScreen = '/Resturants-Screen';
@@ -60,7 +61,7 @@ class AppRoutes {
   static const myAddressScreen = '/My-Address-Screen';
   static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
   static const String editProfile = '/edit-profile';
-  static const String termsAndConditionsPage ='/Terms-And-Conditions-Page';
+  static const String termsAndConditionsPage = '/Terms-And-Conditions-Page';
   // static const serviceOrderView = '/serviceOrder';
   static final routes = [
     // GetPage(
@@ -69,11 +70,9 @@ class AppRoutes {
     //   // binding: ServiceOrdersBinding(),
     // ),
     GetPage(name: editProfile, page: () => EditProfilePage()),
+    GetPage(name: favoritesScreen, page: () => FavoritesScreen()),
     GetPage(name: termsAndConditionsPage, page: () => TermsAndConditionsPage()),
-    GetPage(
-      name: AppRoutes.rayhanWelcomeScreen,
-      page: () => OnBoardingPage(),
-    ),
+    GetPage(name: AppRoutes.rayhanWelcomeScreen, page: () => OnBoardingPage()),
     GetPage(name: myAddressScreen, page: () => MyAddressesScreen()),
     GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
     GetPage(name: orderFormScreen, page: () => OrderFormScreen()),
