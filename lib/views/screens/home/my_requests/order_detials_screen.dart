@@ -83,7 +83,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                 ),
                                 padding: const EdgeInsets.symmetric(
                                   horizontal: 8,
-                                  vertical: 2,
+                                  vertical: 3,
                                 ),
                                 child: Text(
                                   'خصم\n%$discount',
