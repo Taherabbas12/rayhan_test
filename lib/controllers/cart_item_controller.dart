@@ -6,7 +6,6 @@ import 'package:image_picker/image_picker.dart';
 import 'package:rayhan_test/data/models/user_model.dart';
 import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
-import '../data/models/address_model.dart';
 import '../data/models/cart_item.dart';
 import '../data/models/restaurant.dart';
 import '../routes/app_routes.dart';
@@ -14,11 +13,12 @@ import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
 import '../views/widgets/message_snak.dart';
+import 'home_get_all_controller.dart';
 import 'my_address_controller.dart';
 import 'storage_controller.dart';
-import 'package:dio/dio.dart' as dio;
 
 class CartItemController extends GetxController {
+  HomeGetAllController homeGetAllController = Get.find<HomeGetAllController>();
   RxList<CartItem> cartItems = <CartItem>[].obs;
   String? currentVendorId;
   CartType? currentCartType;
@@ -84,22 +84,16 @@ class CartItemController extends GetxController {
     );
   }
 
-  /// ✅ التحقق قبل الإرسال
   bool validate() {
     if (selectedDay.isEmpty) {
-      Get.snackbar(
-        "تنبيه",
-        "يرجى اختيار يوم التواجد",
-        backgroundColor: Colors.red.shade50,
-      );
+      MessageSnak.message('يرجى اختيار يوم التواجد');
+      // ("تنبيه", "", backgroundColor: Colors.red.shade50);
       return false;
     }
     if (selectedTime.isEmpty) {
-      Get.snackbar(
-        "تنبيه",
-        "يرجى اختيار الوقت",
-        backgroundColor: Colors.red.shade50,
-      );
+      MessageSnak.message('يرجى اختيار الوقت');
+
+      // Get.snackbar("تنبيه", "", backgroundColor: Colors.red.shade50);
       return false;
     }
 
@@ -112,7 +106,6 @@ class CartItemController extends GetxController {
     if (picked != null) selectedImage.value = File(picked.path);
   }
 
-  // تنفيذ الطلب
   void submitOrder() {
     if (!validate()) return;
     Get.toNamed(AppRoutes.orderScreenService);
@@ -309,7 +302,10 @@ class CartItemController extends GetxController {
       2,
     ); // مثال على ضريبة 5%
     // final orderPriceValue = totalPriceValue.toStringAsFixed(2);
-    final deliveryPriceValue = restaurant?.deliveryPrice ?? 500;
+    final deliveryPriceValue =
+        selectedRestaurant.value?.deliveryPrice ??
+        homeGetAllController.deleveryPrice.value.toDouble();
+
     final totalWithOutDelivery = totalPriceValue;
 
     final itemsList =
@@ -404,7 +400,7 @@ class CartItemController extends GetxController {
 
     final totalPriceValue = total.value;
     final taxValue = (totalPriceValue * 0.05).toStringAsFixed(2);
-    final deliveryPriceValue = restaurant?.deliveryPrice ?? 500;
+    final deliveryPriceValue = restaurant?.deliveryPrice ?? 1000;
     final totalWithOutDelivery = totalPriceValue;
 
     final itemsList =

@@ -13,7 +13,6 @@ import '../../../widgets/more_widgets.dart';
 
 class OrderScreen extends StatelessWidget {
   OrderScreen({super.key});
-
   final CartItemController cartController = Get.find<CartItemController>();
   final MyAddressController myAddressController =
       Get.find<MyAddressController>();
@@ -227,7 +226,8 @@ class OrderScreen extends StatelessWidget {
     return Obx(() {
       double total = cartController.total.value;
       double delivery =
-          cartController.selectedRestaurant.value?.deliveryPrice ?? 0;
+          cartController.selectedRestaurant.value?.deliveryPrice ??
+          cartController.homeGetAllController.deleveryPrice.value.toDouble();
       // double discount = 1000; // خصم المطعم
       double pointsDiscount = usePoints.value ? 2000 : 0;
       // double coupon = 4000;

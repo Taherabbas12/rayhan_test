@@ -6,6 +6,7 @@ import '../../../../../utils/constants/color_app.dart';
 import '../../../../../utils/constants/style_app.dart';
 import '../../../../../utils/constants/values_constant.dart';
 import '../../../../widgets/actions_button.dart';
+import '../../../../widgets/message_snak.dart';
 import '../../../../widgets/more_widgets.dart';
 
 class OrderScreenService extends StatelessWidget {
@@ -208,11 +209,7 @@ class OrderScreenService extends StatelessWidget {
                 IconButton(
                   icon: Icon(icon, size: 18, color: ColorApp.primaryColor),
                   onPressed:
-                      () => Get.snackbar(
-                        "تم النسخ",
-                        "تم نسخ رقم العملية بنجاح",
-                        snackPosition: SnackPosition.BOTTOM,
-                      ),
+                      () => MessageSnak.message('تم نسخ رقم العملية بنجاح'),
                 ),
             ],
           ),
@@ -275,7 +272,8 @@ class OrderScreenService extends StatelessWidget {
   Widget _buildPaymentDetailsSection() {
     double total = cartController.total.value;
     double delivery =
-        cartController.selectedRestaurant.value?.deliveryPrice ?? 0;
+        cartController.selectedRestaurant.value?.deliveryPrice ??
+        cartController.homeGetAllController.deleveryPrice.value.toDouble();
     double totalFinal = total + delivery;
 
     return Column(

@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 import 'package:rayhan_test/views/widgets/more_widgets.dart';
-import '../../../../controllers/my_request_controller.dart';
-import '../../../../utils/constants/color_app.dart';
-import '../../../../utils/constants/style_app.dart';
-import '../../../../utils/constants/values_constant.dart';
+import '../../../../../controllers/my_request_controller.dart';
+import '../../../../../utils/constants/color_app.dart';
+import '../../../../../utils/constants/style_app.dart';
+import '../../../../../utils/constants/values_constant.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
-  OrderDetailsScreen({super.key});
+class OrderDetailsScreenServices extends StatelessWidget {
+  OrderDetailsScreenServices({super.key});
   MyRequestController myRequestController = Get.find<MyRequestController>();
   @override
   Widget build(BuildContext context) {
@@ -24,14 +24,14 @@ class OrderDetailsScreen extends StatelessWidget {
           if (myRequestController.isDetailsLoading.value) {
             return LoadingIndicator();
           }
-          if (myRequestController.orderItem.isEmpty) {
+          if (myRequestController.orderItemService.isEmpty) {
             return const Center(child: Text("فشل تحميل المنتجات"));
           }
 
           return ListView.builder(
-            itemCount: myRequestController.orderItem.length,
+            itemCount: myRequestController.orderItemService.length,
             itemBuilder: (context, index) {
-              final item = myRequestController.orderItem[index];
+              final item = myRequestController.orderItemService[index];
               final quantity = int.tryParse(item.comnt) ?? 1;
               final originalPrice =
                   double.tryParse(item.purchasePrice ?? "") ?? 0.0;

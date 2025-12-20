@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 import '../../../controllers/my_address_controller.dart';
 import '../../../controllers/taxi_controller.dart';
 import '../../../utils/constants/color_app.dart';
@@ -18,6 +19,7 @@ class AddAddressScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    controller.cleanData();
     return Scaffold(
       appBar: AppBar(title: const Text("إضافة عنوان جديد"), centerTitle: true),
       body: Padding(
@@ -85,6 +87,79 @@ class AddAddressScreen extends StatelessWidget {
                   }),
                 ],
               ),
+
+              SizedBox(height: Values.spacerV),
+              Row(
+                children: [
+                  Obx(() {
+                    final selectedTaxi = controller.selectedTaxiAddress.value;
+                    final selectedRoof = controller.selectedTaxiRoofNo.value;
+
+                    return selectedTaxi == null
+                        ? const Expanded(child: SizedBox())
+                        : Expanded(
+                          child: inputDropDown(
+                            hintText: 'اختر الطابق',
+                            labelText: 'الطابق',
+                            items:
+                                roofNo
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+
+                            /// ✔ حل المشكلة هنا
+                            initialValue:
+                                roofNo.contains(selectedRoof)
+                                    ? selectedRoof
+                                    : null,
+
+                            onChanged: (value) {
+                              controller.selectTaxiRoofNo(value);
+                            },
+                          ),
+                        );
+                  }),
+                  SizedBox(width: Values.circle * 2),
+                  Obx(() {
+                    final selectedRoof = controller.selectedTaxiRoofNo.value;
+                    final selectedHome = controller.selectedTaxiHomeNo.value;
+
+                    return selectedRoof == null
+                        ? const Expanded(child: SizedBox())
+                        : Expanded(
+                          child: inputDropDown(
+                            hintText: 'الشقة',
+                            labelText: 'رقم الشقة',
+                            items:
+                                homeNo
+                                    .map(
+                                      (e) => DropdownMenuItem(
+                                        value: e,
+                                        child: Text(e),
+                                      ),
+                                    )
+                                    .toList(),
+
+                            /// ✔ التصحيح هنا أيضاً
+                            initialValue:
+                                homeNo.contains(selectedHome)
+                                    ? selectedHome
+                                    : null,
+
+                            onChanged: (value) {
+                              controller.selectTaxiHomeNo(value as String);
+                            },
+                          ),
+                        );
+                  }),
+                ],
+              ),
+
+              //
             ],
           ),
         ),
@@ -92,16 +167,21 @@ class AddAddressScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Padding(
         padding: EdgeInsets.all(Values.spacerV),
-        child: BottonsC.action1(
-          elevation: 0,
-          'تأكيد',
-          () {
-            if (controller.formKeyRegister.currentState!.validate()) {
-              controller.addAddress();
-            }
-          },
-          color: ColorApp.primaryColor,
-          colorText: ColorApp.whiteColor,
+        child: Obx(
+          () =>
+              controller.isLoading.value
+                  ? LoadingIndicator()
+                  : BottonsC.action1(
+                    elevation: 0,
+                    'تأكيد',
+                    () {
+                      if (controller.formKeyRegister.currentState!.validate()) {
+                        controller.addAddress();
+                      }
+                    },
+                    color: ColorApp.primaryColor,
+                    colorText: ColorApp.whiteColor,
+                  ),
         ),
       ),
     );

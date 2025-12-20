@@ -6,6 +6,8 @@ class ApiConstants {
   static String updataUser(String idUser) => 'TbUsers/$idUser';
   static String smsSendWhats =
       'https://gateway.standingtech.com/api/v4/sms/send';
+  static const String tbOptions = 'TbOptions';
+  static String deleveryPrice(int deleveryId) => 'shippingprices/$deleveryId';
 
   // Market
   static const String marketCatagorys = 'TbCatagorys';
@@ -66,6 +68,7 @@ class ApiConstants {
       'ServiceOrder/ForUser?userId=1065&pageSize=1000&page=1&status=$status';
   static const String creatTaxiOrders = 'TaxiOrders';
   static const String tbAddresses = 'TbAddresses';
+  // static String tbAddresssDelete(int id) => 'TbAddresses/$id';
   static String tbAddressesById(String id) => 'TbAddresses/$id';
 
   // Notification

@@ -202,9 +202,10 @@ class ProfilePage extends StatelessWidget {
     return InkWell(
       borderRadius: BorderRadius.circular(Values.circle * .8),
       onTap: () {
-        StorageController.removeData();
-        ApiService.updateTokenLogin();
-        Get.offAllNamed(AppRoutes.login);
+        // StorageController.removeData();
+        // ApiService.updateTokenLogin();
+        // Get.offAllNamed(AppRoutes.login);
+        showLogoutConfirmSheet();
       },
       child: Container(
         // margin: EdgeInsets.symmetric(vertical: Values.circle),
@@ -223,6 +224,100 @@ class ProfilePage extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  void showLogoutConfirmSheet() {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // خط علوي
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // العنوان
+            Text(
+              "تسجيل الخروج",
+              style: StringStyle.titleApp.copyWith(
+                color: ColorApp.redColor,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // السؤال
+            Text(
+              "هل أنت متأكد من تسجيل الخروج من حسابك؟",
+              style: StringStyle.headerStyle,
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 24),
+
+            // الأزرار
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Get.back(),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade100,
+                      side: BorderSide.none,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text("إلغاء", style: StringStyle.textTable),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // إغلاق الـ BottomSheet
+                      Get.back();
+
+                      // تنفيذ تسجيل الخروج
+                      StorageController.removeData();
+                      ApiService.updateTokenLogin();
+                      Get.offAllNamed(AppRoutes.login);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorApp.redColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      "تأكيد الخروج",
+                      style: StringStyle.textTable.copyWith(
+                        color: ColorApp.whiteColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+      isScrollControlled: true,
     );
   }
 }

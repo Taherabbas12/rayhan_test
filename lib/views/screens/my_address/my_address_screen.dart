@@ -8,6 +8,7 @@ import '../../../utils/constants/color_app.dart';
 import '../../../utils/constants/style_app.dart';
 import '../../../utils/constants/values_constant.dart';
 import 'add_address_screen.dart';
+import 'edit_address_screen.dart';
 
 class MyAddressesScreen extends StatefulWidget {
   MyAddressesScreen({super.key});
@@ -133,43 +134,57 @@ class _MyAddressesScreenState extends State<MyAddressesScreen> {
                             style: const TextStyle(color: Colors.black54),
                           ),
                         ),
-                        // trailing: PopupMenuButton<String>(
-                        //   onSelected: (value) {
-                        //     if (value == 'edit') {
-                        //       // تعديل العنوان
-                        //       // يمكنك فتح شاشة تعديل
-                        //     } else if (value == 'delete') {
-                        //       controller.addresses.removeAt(index);
-                        //       // أو يمكنك استدعاء دالة حذف من الـ API
-                        //     }
-                        //   },
-                        //   itemBuilder:
-                        //       (context) => [
-                        //         const PopupMenuItem(
-                        //           value: 'edit',
-                        //           child: Row(
-                        //             children: [
-                        //               Icon(Icons.edit, color: Colors.black54),
-                        //               SizedBox(width: 8),
-                        //               Text('تعديل'),
-                        //             ],
-                        //           ),
-                        //         ),
-                        //         // const PopupMenuItem(
-                        //         //   value: 'delete',
-                        //         //   child: Row(
-                        //         //     children: [
-                        //         //       Icon(Icons.delete, color: Colors.red),
-                        //         //       SizedBox(width: 8),
-                        //         //       Text(
-                        //         //         'حذف',
-                        //         //         style: TextStyle(color: Colors.red),
-                        //         //       ),
-                        //         //     ],
-                        //         //   ),
-                        //         // ),
-                        //       ],
-                        // ),
+                        trailing: PopupMenuButton<String>(
+                          onSelected: (value) {
+                            if (value == 'edit') {
+                              // Get.to(() => EditAddressScreen(address: address));
+
+                              // تعديل العنوان
+                              // يمكنك فتح شاشة تعديل
+                            } else if (value == 'delete') {
+                              // controller.addresses.removeAt(index);
+                              // // أو يمكنك استدعاء دالة حذف من الـ API
+
+                              showDeleteAddressSheet(
+                                context: context,
+                                title: address.nickName,
+                                description: address.toString(),
+                                onConfirm: () async {
+                                  await controller.deleteAddress(
+                                    address.id,
+                                  ); // API أو محلي
+                                  controller.addresses.removeAt(index);
+                                },
+                              );
+                            }
+                          },
+                          itemBuilder:
+                              (context) => [
+                                const PopupMenuItem(
+                                  value: 'edit',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.edit, color: Colors.black54),
+                                      SizedBox(width: 8),
+                                      Text('تعديل'),
+                                    ],
+                                  ),
+                                ),
+                                const PopupMenuItem(
+                                  value: 'delete',
+                                  child: Row(
+                                    children: [
+                                      Icon(Icons.delete, color: Colors.red),
+                                      SizedBox(width: 8),
+                                      Text(
+                                        'حذف',
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                        ),
                       ),
                     );
                   },
@@ -203,6 +218,149 @@ class _MyAddressesScreenState extends State<MyAddressesScreen> {
           ],
         ),
       ),
+    );
+  }
+
+  void showDeleteAddressSheet({
+    required BuildContext context,
+    required String title,
+    required String description,
+    required VoidCallback onConfirm,
+  }) {
+    Get.bottomSheet(
+      Container(
+        padding: const EdgeInsets.all(20),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // الخط العلوي
+            Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: Colors.grey.shade300,
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // العنوان
+            Text(
+              "حذف العنوان",
+              style: StringStyle.titleApp.copyWith(
+                color: Colors.red,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // السؤال
+            Text(
+              "هل أنت متأكد من حذف هذا العنوان",
+              style: StringStyle.headerStyle,
+              textAlign: TextAlign.center,
+            ),
+
+            const SizedBox(height: 16),
+
+            // كرت العنوان
+            Container(
+              padding: const EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: ColorApp.borderColor),
+              ),
+              child: Row(
+                children: [
+                  Container(
+                    width: 42,
+                    height: 42,
+                    decoration: BoxDecoration(
+                      color: Colors.green.shade100,
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(Icons.location_on, color: Colors.green),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          description,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            color: Colors.black54,
+                            fontSize: 13,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            // الأزرار
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Get.back(),
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: Colors.grey.shade100,
+                      side: BorderSide.none,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text("إلغاء", style: StringStyle.textLabil),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Get.back();
+                      onConfirm();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFF2F6F4E),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: Text(
+                      "تأكيد الحذف",
+                      style: StringStyle.textLabil.copyWith(
+                        color: ColorApp.whiteColor,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+      isScrollControlled: true,
     );
   }
 }

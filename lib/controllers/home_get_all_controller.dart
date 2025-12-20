@@ -11,7 +11,9 @@ import 'storage_controller.dart';
 
 class HomeGetAllController extends GetxController {
   RxBool isLoading = false.obs;
-
+  RxInt minmumOrder = RxInt(0);
+  RxInt deleveryId = RxInt(0);
+  RxInt deleveryPrice = RxInt(0);
   // الأقسام
   HomeResponseModel allData = HomeResponseModel(
     forNow: <Restaurant>[].obs,
@@ -29,6 +31,7 @@ class HomeGetAllController extends GetxController {
   void onInit() {
     super.onInit();
     fetchHomeData();
+    getMinmumOrder();
   }
 
   Future<void> fetchHomeData() async {
@@ -82,9 +85,39 @@ class HomeGetAllController extends GetxController {
     if (response2.isStateSucess < 3) {
       adddress.value = null;
       adddress.value = AddressModel.fromJson(response2.data);
-      logger.w('_______ Address ${userModel.addressid} ________');
-      logger.w(adddress.value!.toJson());
+
       //
+    }
+  }
+
+  Future<void> getMinmumOrder() async {
+    final response2 = await ApiService.getData(ApiConstants.tbOptions);
+
+    if (response2.isStateSucess < 3) {
+      List data = response2.data;
+      Map<dynamic, dynamic> value = data.firstWhere(
+        (e) => e['name'] == 'minmumOrder',
+      );
+      minmumOrder(int.tryParse(value['value2']) ?? 0);
+      Map<dynamic, dynamic> value2 = data.firstWhere(
+        (e) => e['value1'] == 'delevery',
+      );
+      deleveryId(int.tryParse(value2['value2']) ?? 0);
+
+      getDeleveryPrice();
+    }
+  }
+
+  void getDeleveryPrice() async {
+    final response2 = await ApiService.getData(
+      ApiConstants.deleveryPrice(deleveryId.value),
+    );
+    logger.w(response2.data);
+
+    if (response2.isStateSucess < 3) {
+      deleveryPrice(int.tryParse(response2.data['price'] ?? 0) ?? 0);
+      // shippingprices/3
+      logger.w(deleveryPrice.value);
     }
   }
 }

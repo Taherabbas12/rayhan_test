@@ -14,6 +14,7 @@ class MyRequestController extends GetxController {
   RxBool isLoading = RxBool(false);
   RxBool isDetailsLoading = RxBool(false);
   RxList<OrderItem> orderItem = RxList<OrderItem>([]);
+  RxList<OrderItem> orderItemService = RxList<OrderItem>([]);
   List<String> orderTypes = ['الحالية', 'المكتملة'];
   RxString selectType = 'الحالية'.obs;
   void changeType(String type) {
@@ -74,6 +75,35 @@ class MyRequestController extends GetxController {
             OrderItem.fromJsonList(newVideosJson).reversed.toList();
 
         orderItem.addAll(newOrders);
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
+    }
+
+    isDetailsLoading.value = false;
+  }
+
+  Future<void> fetchOrderDetailsService(int id) async {
+    isDetailsLoading.value = true;
+
+    try {
+      orderItem.clear();
+      Get.toNamed(AppRoutes.orderDetailsScreenServices);
+
+      final StateReturnData response = await ApiService.getData(
+        ApiConstants.getOrderDetils(id, type: 'rayhan'),
+      );
+      logger.w('----------------_ A ------------');
+      logger.w(response.data);
+      logger.w('----------------_ B ------------');
+
+      if (response.isStateSucess < 3) {
+        List<dynamic> newVideosJson = response.data;
+
+        List<OrderItem> newOrders =
+            OrderItem.fromJsonList(newVideosJson).reversed.toList();
+
+        orderItemService.addAll(newOrders);
       }
     } catch (e) {
       logger.i("خطأ في تحميل البيانات: $e");

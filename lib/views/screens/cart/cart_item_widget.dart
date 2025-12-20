@@ -142,15 +142,16 @@ class CartItemWidget extends StatelessWidget {
                           children: [
                             Text(
                               '${(item.price2 > 0 ? item.price2 : item.price1).toStringAsFixed(0)} د.ع',
-                              style: StringStyle.textLabil.copyWith(
+                              style: StringStyle.textTable.copyWith(
                                 color: ColorApp.primaryColor,
                               ),
                             ),
-                            if (item.price2 > 0) SizedBox(width: Values.circle),
+                            if (item.price2 > 0)
+                              SizedBox(width: Values.circle * .1),
                             if (item.price2 > 0)
                               Text(
                                 '${item.price1.toStringAsFixed(0)} د.ع',
-                                style: StringStyle.textTable.copyWith(
+                                style: StringStyle.textTableSmi.copyWith(
                                   decoration: TextDecoration.lineThrough,
                                   color: Colors.grey,
                                 ),

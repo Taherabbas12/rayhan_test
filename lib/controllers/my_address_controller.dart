@@ -5,42 +5,81 @@ import '../data/models/user_model.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
+import '../utils/constants/color_app.dart';
 import '../utils/constants/values_constant.dart';
+import '../views/widgets/message_snak.dart';
 import 'storage_controller.dart';
 import 'taxi_controller.dart';
 
 class MyAddressController extends GetxController {
   RxBool isLoading = false.obs;
   RxBool isLoadingStart = true.obs;
-  Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
   Rx<String?> selectedTaxiAddress = Rx<String?>(null);
   final GlobalKey<FormState> formKeyRegister = GlobalKey<FormState>();
+  Rx<String?> selectedTaxiRoofNo = Rx<String?>(null);
+  Rx<String?> selectedTaxiHomeNo = Rx<String?>(null);
+  void fillForEdit(AddressModel address) {
+    nickName.text = address.nickName;
+
+    selectedTaxi.value = taxiAddresses.firstWhereOrNull(
+      (e) => e.name == address.blockNo,
+    );
+
+    selectedTaxiAddress.value =
+        address.buildingNo.isNotEmpty ? address.buildingNo : null;
+    logger.w(address.roofNo);
+    logger.w(address.roofNo.isNotEmpty);
+    logger.w('---a');
+    selectedTaxiRoofNo.value =
+        address.roofNo.isNotEmpty ? address.roofNo : null;
+    selectedTaxiHomeNo.value =
+        address.homeNo.isNotEmpty ? address.homeNo : null;
+  }
 
   void selectTaxi(Taxi taxi) {
     selectedTaxiAddress.value = null;
+    selectedTaxiRoofNo.value = null;
+    selectedTaxiHomeNo.value = null;
     selectedTaxi.value = taxi;
   }
 
   void selectTaxiAddress(String address) {
+    selectedTaxiRoofNo.value = null;
+    selectedTaxiHomeNo.value = null;
     selectedTaxiAddress.value = address;
+  }
+
+  void selectTaxiRoofNo(String roofNo) {
+    selectedTaxiHomeNo.value = null;
+    selectedTaxiRoofNo.value = roofNo;
+  }
+
+  void selectTaxiHomeNo(String homeNo) {
+    selectedTaxiHomeNo.value = homeNo;
   }
 
   RxBool isCompleteForm = false.obs;
 
-  final TextEditingController homeNo = TextEditingController();
-
-  final TextEditingController roofNo = TextEditingController();
-  final TextEditingController blockNo = TextEditingController();
   final TextEditingController nickName = TextEditingController();
+  Rx<Taxi?> selectedTaxi = Rx<Taxi?>(null);
+  void cleanData() {
+    selectedTaxiAddress.value = null;
+    selectedTaxi.value = null;
+    selectedTaxiRoofNo.value = null;
+    selectedTaxiHomeNo.value = null;
+    nickName.text = '';
+  }
 
   // ✅ دالة إضافة عنوان جديد
   Future<void> addAddress() async {
     try {
-      // ✅ التحقق من أن الحقول مملوءة (اختياري لكن موصى به)
       if (selectedTaxiAddress.value == null ||
           selectedTaxi.value == null ||
+          selectedTaxiRoofNo.value == null ||
+          selectedTaxiHomeNo.value == null ||
           nickName.text.isEmpty) {
-        Get.snackbar("تنبيه", "يرجى ملء جميع الحقول المطلوبة");
+        MessageSnak.message('يرجى ملء جميع الحقول المطلوبة');
+
         return;
       }
 
@@ -50,46 +89,35 @@ class MyAddressController extends GetxController {
 
       // ✅ بناء جسم الطلب حسب المطلوب
       final Map<String, dynamic> addressData = {
-        "homeNo": homeNo.text.trim(),
+        "homeNo": selectedTaxiHomeNo.value,
         "buildingNo": selectedTaxiAddress.value!.trim(),
-        "roofNo": roofNo.text.trim(),
-        "blockNo": selectedTaxi.value!.name.trim(),
+        "roofNo": selectedTaxiRoofNo.value,
+        "blockNo": selectedTaxi.value!.name,
         "nickName": nickName.text.trim(),
         "inBasmaya": true,
         "userid": userModel.id.toString(),
       };
-
+      logger.w(addressData);
       final StateReturnData response = await ApiService.postData(
         ApiConstants.tbAddresses,
         addressData, // 👈 هنا نمرر البيانات الفعلية
       );
+      logger.w(response.data);
 
       if (response.isStateSucess < 3) {
         // ✅ نجاح الإضافة
         await fetchAddresses(); // تحديث القائمة
         Get.back(); // العودة إلى الشاشة السابقة
-        Get.snackbar(
-          "نجاح",
-          "تمت إضافة العنوان بنجاح ✅",
-          backgroundColor: Colors.green.shade100,
-          colorText: Colors.green,
+        MessageSnak.message(
+          'تمت إضافة العنوان بنجاح ✅',
+          color: ColorApp.greenColor,
         );
       } else {
+        MessageSnak.message('فشل في إضافة العنوان');
         // ❌ فشل الإضافة
-        Get.snackbar(
-          "خطأ",
-          "فشل في إضافة العنوان",
-          backgroundColor: Colors.red.shade100,
-          colorText: Colors.red,
-        );
       }
     } catch (e) {
-      Get.snackbar(
-        "خطأ",
-        "حدث خطأ أثناء الإضافة: $e",
-        backgroundColor: Colors.red.shade100,
-        colorText: Colors.red,
-      );
+      MessageSnak.message('حدث خطأ أثناء الإضافة: $e');
     } finally {
       isLoading.value = false;
     }
@@ -113,7 +141,6 @@ class MyAddressController extends GetxController {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.tbAddresses,
       );
-
       if (response.isStateSucess < 3 && response.data != null) {
         List<dynamic> newJson = response.data;
         final allAddresses = AddressModel.fromJsonList(newJson);
@@ -139,5 +166,111 @@ class MyAddressController extends GetxController {
     }
     isLoadingStart(false);
     isLoading.value = false;
+  }
+
+  //
+  Future<void> deleteAddress(int id) async {
+    try {
+      isLoading(true);
+
+      final StateReturnData response = await ApiService.deleteData(
+        ApiConstants.tbAddressesById(id.toString()),
+      );
+      logger.w(response.data);
+      if (response.isStateSucess < 3 && response.data != null) {
+        MessageSnak.message('تم حذف العنوان بنجاح', color: ColorApp.greenColor);
+
+        fetchAddresses();
+      }
+    } catch (e) {
+      MessageSnak.message('فشل حذف العنوان');
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  // Future<void> updateAddress(int id) async {
+  //   try {
+  //     isLoading(true);
+
+  //     final body = {
+  //       "homeNo": selectedTaxiHomeNo.value,
+  //       "buildingNo": selectedTaxiAddress.value,
+  //       "roofNo": selectedTaxiRoofNo.value,
+  //       "blockNo": selectedTaxi.value?.name,
+  //       "nickName": nickName.text.trim(),
+  //       "inBasmaya": true,
+  //     };
+
+  //     final StateReturnData response = await ApiService.putData(
+  //       ApiConstants.tbAddressesById(id.toString()),
+  //       body,
+  //     );
+  //     logger.w(response.data);
+  //     if (response.isStateSucess < 3 && response.data != null) {
+  //       MessageSnak.message(
+  //         'تم تعديل العنوان بنجاح',
+  //         color: ColorApp.greenColor,
+  //       );
+
+  //       fetchAddresses();
+
+  //       Get.back();
+  //     }
+  //   } catch (e) {
+  //     MessageSnak.message('فشل تعديل العنوان');
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
+
+  Future<void> updateAddress(int addressId) async {
+    try {
+      if (selectedTaxiAddress.value == null ||
+          selectedTaxi.value == null ||
+          selectedTaxiRoofNo.value == null ||
+          selectedTaxiHomeNo.value == null ||
+          nickName.text.isEmpty) {
+        MessageSnak.message('يرجى ملء جميع الحقول المطلوبة');
+        return;
+      }
+
+      isLoading.value = true;
+
+      final Map<String, dynamic> addressData = {
+        "id": addressId,
+        "homeNo": selectedTaxiHomeNo.value,
+        "buildingNo": selectedTaxiAddress.value!.trim(),
+        "roofNo": selectedTaxiRoofNo.value,
+        "blockNo": selectedTaxi.value!.name,
+        "nickName": nickName.text.trim(),
+        "inBasmaya": true,
+        "userid":
+            UserModel.fromJson(StorageController.getAllData()).id.toString(),
+      };
+
+      final StateReturnData response = await ApiService.putData(
+        ApiConstants.tbAddressesById(addressId.toString()),
+        addressData,
+      );
+      logger.w('00------000');
+      logger.w(response.data);
+      logger.w('11------111');
+
+      if (response.isStateSucess < 3) {
+        await fetchAddresses(); // تحديث القائمة
+        Get.back(); // العودة
+        MessageSnak.message(
+          'تم تحديث العنوان بنجاح ✅',
+          color: ColorApp.greenColor,
+        );
+      } else {
+        MessageSnak.message('فشل تحديث العنوان');
+      }
+    } catch (e) {
+      MessageSnak.message('خطأ: $e');
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

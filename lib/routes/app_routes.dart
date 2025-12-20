@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:rayhan_test/views/screens/home/my_requests/services/order_detials_screen_service.dart';
 
 import '../bindings/auth_binding.dart';
 
@@ -60,6 +61,7 @@ class AppRoutes {
   static const shopShopsScreen = '/shop-Shops-Screen';
   static const orderFormScreen = '/Order-Form-Screen';
   static const orderDetailsScreen = '/Order-Details-Screen';
+  static const orderDetailsScreenServices = '/Order-Details-Screen-Services';
   static const myAddressScreen = '/My-Address-Screen';
   static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
   static const String editProfile = '/edit-profile';
@@ -78,6 +80,10 @@ class AppRoutes {
     GetPage(name: myAddressScreen, page: () => MyAddressesScreen()),
     GetPage(name: shopShopsScreen, page: () => ShopsDetailsScreen()),
     GetPage(name: orderDetailsScreen, page: () => OrderDetailsScreen()),
+    GetPage(
+      name: orderDetailsScreenServices,
+      page: () => OrderDetailsScreenServices(),
+    ),
     GetPage(name: orderFormScreen, page: () => OrderFormScreen()),
     GetPage(
       name: checkTripInformaition,

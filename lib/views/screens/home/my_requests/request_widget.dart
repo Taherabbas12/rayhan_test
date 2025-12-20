@@ -19,19 +19,19 @@ class RequestWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: Values.spacerV),
-      padding: EdgeInsets.all(Values.spacerV),
-      decoration: BoxDecoration(
-        border: Border.all(color: ColorApp.borderColor),
-        borderRadius: BorderRadius.circular(Values.circle),
-      ),
-      child: InkWell(
-        onTap: () {
-          if (orderModel.id != null) {
-            myRequestController.fetchOrderDetails(orderModel.id!);
-          }
-        },
+    return GestureDetector(
+      onTap: () {
+        if (orderModel.id != null) {
+          myRequestController.fetchOrderDetails(orderModel.id!);
+        }
+      },
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: Values.spacerV),
+        padding: EdgeInsets.all(Values.spacerV),
+        decoration: BoxDecoration(
+          border: Border.all(color: ColorApp.borderColor),
+          borderRadius: BorderRadius.circular(Values.circle),
+        ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

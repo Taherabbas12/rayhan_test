@@ -14,6 +14,10 @@ class StringStyle {
     fontSize: (14 * fontSize),
     color: ColorApp.textPrimaryColor,
   );
+  static TextStyle textTableSmi = TextStyle(
+    fontSize: (12 * fontSize),
+    color: ColorApp.textPrimaryColor,
+  );
 
   static TextStyle textLabil = TextStyle(
     fontSize: (16 * fontSize),

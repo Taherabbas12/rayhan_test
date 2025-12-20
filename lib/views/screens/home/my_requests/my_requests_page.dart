@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:rayhan_test/views/widgets/common/loading_indicator.dart';
 
 import '../../../../controllers/my_request_controller.dart';
+import '../../../../data/models/order_model.dart';
 import '../../../../utils/constants/color_app.dart' show ColorApp;
 import '../../../../utils/constants/style_app.dart';
 import '../../../../utils/constants/values_constant.dart';
@@ -43,37 +44,47 @@ class MyRequestsPage extends StatelessWidget {
 
         CategoresOrders(),
         Expanded(
-          child: Obx(
-            () =>
-                myRequestController.isLoading.value
-                    ? LoadingIndicator()
-                    : RefreshIndicator(
-                      onRefresh:
-                          () =>
-                              myRequestController
-                                  .fetchOrders(), // تأكد أن هذه الدالة موجودة في الكنترولر وتقوم بجلب البيانات
-                      child:
-                          myRequestController.orders.isEmpty
-                              ? ListView(
-                                physics: const AlwaysScrollableScrollPhysics(),
-                                children: const [
-                                  SizedBox(height: 100),
-                                  Center(child: Text('لا يوجد طلبات بعد')),
-                                ],
-                              )
-                              : ListView.separated(
-                                separatorBuilder:
-                                    (context, index) =>
-                                        SizedBox(height: Values.circle),
-                                itemCount: myRequestController.orders.length,
-                                itemBuilder:
-                                    (context, index) => RequestWidget(
-                                      orderModel:
-                                          myRequestController.orders[index],
-                                    ),
-                              ),
-                    ),
-          ),
+          child: Obx(() {
+            List<OrderModel> orders = [];
+            if (myRequestController.selectType.value ==
+                myRequestController.orderTypes[0]) {
+              orders =
+                  myRequestController.orders
+                      .where((e) => e.status != 'done')
+                      .toList();
+            } else {
+              orders =
+                  myRequestController.orders
+                      .where((e) => e.status == 'done')
+                      .toList();
+            }
+            return myRequestController.isLoading.value
+                ? LoadingIndicator()
+                : RefreshIndicator(
+                  onRefresh:
+                      () =>
+                          myRequestController
+                              .fetchOrders(), // تأكد أن هذه الدالة موجودة في الكنترولر وتقوم بجلب البيانات
+                  child:
+                      orders.isEmpty
+                          ? ListView(
+                            physics: const AlwaysScrollableScrollPhysics(),
+                            children: const [
+                              SizedBox(height: 100),
+                              Center(child: Text('لا يوجد طلبات بعد')),
+                            ],
+                          )
+                          : ListView.separated(
+                            separatorBuilder:
+                                (context, index) =>
+                                    SizedBox(height: Values.circle),
+                            itemCount: orders.length,
+                            itemBuilder:
+                                (context, index) =>
+                                    RequestWidget(orderModel: orders[index]),
+                          ),
+                );
+          }),
         ),
       ],
     );

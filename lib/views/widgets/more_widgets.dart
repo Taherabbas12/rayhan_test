@@ -14,6 +14,7 @@ import '../../utils/constants/images_url.dart';
 import '../../utils/constants/style_app.dart';
 import '../../utils/constants/values_constant.dart';
 import '../screens/my_address/add_address_screen.dart';
+
 getStatusName(v) {
   if (v == 'new') {
     return 'طلب جديد';
@@ -37,6 +38,7 @@ getStatusName(v) {
     return '';
   }
 }
+
 String calculateTimeDifference(String storedDateString) {
   try {
     // Define the format of the stored date
@@ -386,7 +388,11 @@ void showAddressPicker() {
                       onTap: () {
                         // ✅ اختيار العنوان
                         controller.addressSelect(address);
-                        Get.back(); // إغلاق الـ BottomSheet
+                        try {
+                          Get.back(); // إغلاق الـ BottomSheet
+                        } catch (e) {
+                          //
+                        }
                       },
                       selected:
                           controller.addressSelect.value?.id == address.id,
