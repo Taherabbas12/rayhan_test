@@ -83,6 +83,9 @@ class CartDb {
       where: 'type = ?',
       whereArgs: [restaurant.type],
     );
+    logger.w('---------selected_restaurant------------');
+    logger.w(result);
+    logger.w('---------selected_restaurant- E -----------');
 
     if (result.isEmpty) return false; // لا يوجد مطعم مخزن
 

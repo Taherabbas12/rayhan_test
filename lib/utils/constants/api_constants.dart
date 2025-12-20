@@ -3,7 +3,7 @@ class ApiConstants {
   static String baseUrlImage = 'https://rayhan.shop/api/storage/';
   // Auth User
   static String login(String phone) => 'Login/loginWithOtp?phone=$phone';
-  static String updateUser(String id) => "/user/update/$id";
+  static String updataUser(String idUser) => 'TbUsers/$idUser';
   static String smsSendWhats =
       'https://gateway.standingtech.com/api/v4/sms/send';
 
@@ -59,6 +59,9 @@ class ApiConstants {
   static const String creatOrder = 'PlaysorderController1';
 
   static String getOrders(int id) => 'TbOrders/OrdersForUser?id=$id';
+  static String getOrderDetils(int id, {String type = 'shop'}) =>
+      'TbOrderitems/orderx/$id?type=$type';
+
   static String getOrdersServices(int id, String status) =>
       'ServiceOrder/ForUser?userId=1065&pageSize=1000&page=1&status=$status';
   static const String creatTaxiOrders = 'TaxiOrders';

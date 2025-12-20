@@ -15,15 +15,16 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(title: Text("المفضلة", style: StringStyle.titleApp)),
       backgroundColor: ColorApp.backgroundColor, // لو عندك أبيض/رمادي حسب الثيم
       body: SafeArea(
         child: Column(
           children: [
-            _TopBar(
-              title: "المفضلة",
-              onBack: () => Get.back(),
-              onSearch: () {},
-            ),
+            // _TopBar(
+            //   title: "المفضلة",
+            //   onBack: () => Get.back(),
+            //   onSearch: () {},
+            // ),
             const SizedBox(height: 8),
 
             _Tabs(tabIndex: controller.tabIndex, onChanged: controller.setTab),
@@ -240,31 +241,11 @@ class _EmptyState extends StatelessWidget {
             ),
             SizedBox(height: Values.spacerV),
             Text(
-              "هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص",
+              "لم يتم الاضافة الى المفضلة بعد تصفح وابحث عن المنتجات المميزة واضفها الى المفضلة",
               textAlign: TextAlign.center,
               style: StringStyle.textTable.copyWith(height: 1.7),
             ),
             SizedBox(height: Values.spacerV * 2),
-            SizedBox(
-              width: 220,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: onBrowseFood,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: ColorApp.primaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Values.spacerV * 2),
-                  ),
-                  elevation: 0,
-                ),
-                child: Text(
-                  "تصفح الطعام",
-                  style: StringStyle.textLabilBold.copyWith(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
           ],
         ),
       ),

@@ -80,3 +80,94 @@ class OrderModel {
     };
   }
 }
+
+//
+
+class OrderItem {
+  final int id;
+  final String prod;
+  final int orderx;
+  final DateTime date;
+  final String? k1;
+  final String? k2;
+  final String? varField; // 'var' كلمة محجوزة، لذا غيّرنا الاسم
+  final String comnt;
+  final String price;
+  final String? purchasePrice;
+  final bool supplierAccountComplete;
+  final String curncy;
+  final String? shop;
+  final String prodname;
+  final String? img;
+  final String note;
+  final String type;
+  static List<OrderItem> fromJsonList(List<dynamic> jsonList) {
+    return jsonList.map((json) => OrderItem.fromJson(json)).toList();
+  }
+
+  OrderItem({
+    required this.id,
+    required this.prod,
+    required this.orderx,
+    required this.date,
+    this.k1,
+    this.k2,
+    this.varField,
+    required this.comnt,
+    required this.price,
+    this.purchasePrice,
+    required this.supplierAccountComplete,
+    required this.curncy,
+    this.shop,
+    required this.prodname,
+    this.img,
+    required this.note,
+    required this.type,
+  });
+
+  // من JSON إلى كائن Dart
+  factory OrderItem.fromJson(Map<String, dynamic> json) {
+    return OrderItem(
+      id: json['id'] as int,
+      prod: json['prod'] as String,
+      orderx: json['orderx'] as int,
+      date: DateTime.parse(json['date'] as String),
+      k1: json['k1'] as String?,
+      k2: json['k2'] as String?,
+      varField: json['var'] as String?, // استخدم 'var' في الـ JSON
+      comnt: json['comnt'] as String,
+      price: json['price'] as String,
+      purchasePrice: json['purchasePrice'] as String?,
+      supplierAccountComplete: json['supplierAccountComplete'] as bool,
+      curncy: json['curncy'] as String,
+      shop: json['shop'] as String?,
+      prodname: json['prodname'] as String,
+      img: json['img'] as String?,
+      note: json['note'] as String,
+      type: json['type'] as String,
+    );
+  }
+
+  // من كائن Dart إلى JSON (مفيد للـ PATCH أو POST)
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'prod': prod,
+      'orderx': orderx,
+      'date': date.toIso8601String(),
+      'k1': k1,
+      'k2': k2,
+      'var': varField, // نُخرِجها كـ "var" في JSON
+      'comnt': comnt,
+      'price': price,
+      'purchasePrice': purchasePrice,
+      'supplierAccountComplete': supplierAccountComplete,
+      'curncy': curncy,
+      'shop': shop,
+      'prodname': prodname,
+      'img': img,
+      'note': note,
+      'type': type,
+    };
+  }
+}

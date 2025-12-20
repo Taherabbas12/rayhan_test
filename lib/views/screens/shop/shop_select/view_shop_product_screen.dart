@@ -13,8 +13,9 @@ import '../../../widgets/more_widgets.dart';
 
 class ViewShopProductScreen extends StatefulWidget {
   final Product product;
+  final VendorInfo? vendor;
 
-  const ViewShopProductScreen({super.key, required this.product});
+  const ViewShopProductScreen({super.key, required this.product, this.vendor});
 
   @override
   State<ViewShopProductScreen> createState() => _ProductDetailsScreenState();
@@ -262,6 +263,7 @@ class _ProductDetailsScreenState extends State<ViewShopProductScreen> {
                   product,
                   noteController.text,
                   quantity,
+                  vendor: widget.vendor,
                 );
               }),
             ),

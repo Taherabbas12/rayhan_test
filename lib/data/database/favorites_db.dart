@@ -11,7 +11,7 @@ class FavoritesDb {
 
   Future<Database> get database async {
     if (_database != null) return _database!;
-    _database = await _initDB('favorites3.db');
+    _database = await _initDB('favorites4.db');
     return _database!;
   }
 

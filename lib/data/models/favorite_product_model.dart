@@ -57,7 +57,7 @@ class FavoriteProduct {
       price1: map['price1'],
       price2: map['price2'],
       shopType: map['shopType'],
-      vendorId: map['vendorId'],
+      vendorId: int.tryParse(map['vendorId'].toString()) ?? 0,
       vendorName: map['vendorName'],
     );
   }

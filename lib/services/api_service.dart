@@ -46,7 +46,7 @@ class ApiService {
   static Future<StateReturnData> getData(String endpoint) async {
     try {
       final response = await _dio.get(endpoint);
-       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
+      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data);
       }
       return StateReturnData(2, response.data);
@@ -84,7 +84,7 @@ class ApiService {
 
   static Future<StateReturnData> putData(String endpoint, dynamic data) async {
     try {
-      final response = await _dio.put(endpoint, data: data);
+      final response = await _dio.patch(endpoint, data: data);
 
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         return StateReturnData(1, response.data); // إرجاع البيانات كـ Map

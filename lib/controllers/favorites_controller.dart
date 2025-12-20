@@ -106,20 +106,31 @@ class FavoritesController extends GetxController {
 
   /* ================= NAVIGATION ================= */
 
-  void openProduct(Product product) {
+  void openProduct(FavoriteProduct product) {
     final type = product.shopType;
+    Product pr = Product.fromFavorite(product);
 
     if (type == 'restaurant') {
-      Get.to(() => resturant.ViewProductScreen(product: product));
+      Get.to(
+        () => resturant.ViewProductScreen(
+          product: pr,
+          vendor: VendorInfo(id: product.vendorId, name: product.vendorName),
+        ),
+      );
       return;
     }
 
     if (type == 'shop') {
-      Get.to(() => ViewShopProductScreen(product: product));
+      Get.to(
+        () => ViewShopProductScreen(
+          product: pr,
+          vendor: VendorInfo(id: product.vendorId, name: product.vendorName),
+        ),
+      );
       return;
     }
 
-    Get.to(() => market.ViewProductScreen(product: product));
+    Get.to(() => market.ViewProductScreen(product: pr));
   }
 
   /* ================= ADD TO CART ================= */
@@ -128,12 +139,24 @@ class FavoritesController extends GetxController {
     final p = Product.fromFavorite(product);
 
     if (product.shopType == 'restaurant') {
-      restaurantController.addToCart(p, '', 1, isBack: false);
+      restaurantController.addToCart(
+        p,
+        '',
+        1,
+        isBack: false,
+        vendor: VendorInfo(id: product.vendorId, name: product.vendorName),
+      );
       return;
     }
 
     if (product.shopType == 'shop') {
-      shopsController.addToCart(p, '', 1, isBack: false);
+      shopsController.addToCart(
+        p,
+        '',
+        1,
+        isBack: false,
+        vendor: VendorInfo(id: product.vendorId, name: product.vendorName),
+      );
       return;
     }
 

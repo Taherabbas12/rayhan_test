@@ -35,6 +35,9 @@ class ShopsController extends GetxController {
     if (vendor != null) {
       restaurantSelect.value = restaurants.firstWhere((e) => vendor.id == e.id);
     }
+    logger.e('------------AA------------');
+    logger.e(restaurantSelect.value!.toJson());
+    logger.e('------------AA------------');
     cartItemController.addToCart(
       CartItem(
         vendorName: restaurantSelect.value!.name,

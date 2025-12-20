@@ -8,7 +8,7 @@ import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/input_text.dart';
 
 class EditProfilePage extends StatelessWidget {
-  final ProfileEditController controller = Get.put(ProfileEditController());
+  final ProfileEditController controller = Get.find<ProfileEditController>();
 
   EditProfilePage({super.key});
 

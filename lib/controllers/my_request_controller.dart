@@ -1,5 +1,6 @@
 // OrdersForUser?id=1087
 import 'package:get/get.dart';
+import 'package:rayhan_test/routes/app_routes.dart';
 
 import '../data/models/order_model.dart';
 import '../data/models/user_model.dart';
@@ -11,6 +12,8 @@ import 'storage_controller.dart';
 class MyRequestController extends GetxController {
   RxList<OrderModel> orders = RxList([]);
   RxBool isLoading = RxBool(false);
+  RxBool isDetailsLoading = RxBool(false);
+  RxList<OrderItem> orderItem = RxList<OrderItem>([]);
   List<String> orderTypes = ['الحالية', 'المكتملة'];
   RxString selectType = 'الحالية'.obs;
   void changeType(String type) {
@@ -46,5 +49,36 @@ class MyRequestController extends GetxController {
     }
 
     isLoading.value = false;
+  }
+
+  //
+
+  Future<void> fetchOrderDetails(int id) async {
+    isDetailsLoading.value = true;
+
+    try {
+      orderItem.clear();
+      Get.toNamed(AppRoutes.orderDetailsScreen);
+
+      final StateReturnData response = await ApiService.getData(
+        ApiConstants.getOrderDetils(id),
+      );
+      logger.w('----------------_ A ------------');
+      logger.w(response.data);
+      logger.w('----------------_ B ------------');
+
+      if (response.isStateSucess < 3) {
+        List<dynamic> newVideosJson = response.data;
+
+        List<OrderItem> newOrders =
+            OrderItem.fromJsonList(newVideosJson).reversed.toList();
+
+        orderItem.addAll(newOrders);
+      }
+    } catch (e) {
+      logger.i("خطأ في تحميل البيانات: $e");
+    }
+
+    isDetailsLoading.value = false;
   }
 }

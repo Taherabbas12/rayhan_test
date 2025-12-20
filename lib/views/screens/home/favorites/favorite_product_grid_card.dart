@@ -112,9 +112,7 @@ class _FavoriteProductGridCardState extends State<FavoriteProductGridCard>
                   onTapCancel: () => _pressed.value = false,
                   onTap: () {
                     _pressed.value = false;
-                    favoritesController.openProduct(
-                      Product.fromFavorite(product),
-                    );
+                    favoritesController.openProduct(product);
                     // Get.to(() => market.ViewProductScreen(product: product));
                     // Get.to(() => resturant.ViewProductScreen(product: product));
                     // Get.to(() => ViewShopProductScreen(product: product));

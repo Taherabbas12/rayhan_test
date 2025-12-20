@@ -34,10 +34,18 @@ class RestaurantController extends GetxController {
     int quantity, {
     bool isBack = true,
     VendorInfo? vendor,
-  }) {
+  }) async {
     if (vendor != null) {
+      if (restaurants.isEmpty) {
+        await fetchRestaurant();
+      }
+
       restaurantSelect.value = restaurants.firstWhere((e) => vendor.id == e.id);
     }
+    // logger.e('------------AA------------');
+    // logger.e(restaurantSelect.value!.toJson());
+    // logger.e('------------AA------------');
+
     cartItemController.addToCart(
       CartItem(
         vendorName: restaurantSelect.value!.name,
