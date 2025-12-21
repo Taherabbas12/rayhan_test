@@ -238,20 +238,30 @@ class MyAddressController extends GetxController {
       isLoading.value = true;
 
       final Map<String, dynamic> addressData = {
-        "id": addressId,
         "homeNo": selectedTaxiHomeNo.value,
         "buildingNo": selectedTaxiAddress.value!.trim(),
         "roofNo": selectedTaxiRoofNo.value,
         "blockNo": selectedTaxi.value!.name,
         "nickName": nickName.text.trim(),
-        "inBasmaya": true,
-        "userid":
-            UserModel.fromJson(StorageController.getAllData()).id.toString(),
       };
+
+      final patchData =
+          addressData.entries
+              .where(
+                (entry) => entry.value.trim().isNotEmpty,
+              ) // يستثني القيم الفارغة أو التي تحتوي على مسافات فقط
+              .map(
+                (entry) => {
+                  "path": "/${entry.key}",
+                  "op": "replace",
+                  "value": entry.value,
+                },
+              )
+              .toList();
 
       final StateReturnData response = await ApiService.putData(
         ApiConstants.tbAddressesById(addressId.toString()),
-        addressData,
+        patchData,
       );
       logger.w('00------000');
       logger.w(response.data);
@@ -268,6 +278,7 @@ class MyAddressController extends GetxController {
         MessageSnak.message('فشل تحديث العنوان');
       }
     } catch (e) {
+      logger.w(e);
       MessageSnak.message('خطأ: $e');
     } finally {
       isLoading.value = false;

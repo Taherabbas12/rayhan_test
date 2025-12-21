@@ -137,7 +137,7 @@ class _MyAddressesScreenState extends State<MyAddressesScreen> {
                         trailing: PopupMenuButton<String>(
                           onSelected: (value) {
                             if (value == 'edit') {
-                              // Get.to(() => EditAddressScreen(address: address));
+                              Get.to(() => EditAddressScreen(address: address));
 
                               // تعديل العنوان
                               // يمكنك فتح شاشة تعديل

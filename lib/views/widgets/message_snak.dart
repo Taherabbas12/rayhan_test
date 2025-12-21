@@ -64,12 +64,14 @@ class MessageSnak {
                 const SizedBox(width: 12),
 
                 // Texts
-                Text(
-                  message,
-                  style: StringStyle.textTable.copyWith(
-                    color: Colors.white,
-                    height: 1.3,
-                    fontSize: 13.8,
+                Expanded(
+                  child: Text(
+                    message,
+                    style: StringStyle.textTable.copyWith(
+                      color: Colors.white,
+                      height: 1.3,
+                      fontSize: 13.8,
+                    ),
                   ),
                 ),
               ],
