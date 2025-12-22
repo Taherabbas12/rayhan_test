@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:rayhan_test/controllers/market_product_controller.dart';
 import 'package:rayhan_test/routes/app_routes.dart';
 
 import '../data/models/product_model.dart';
@@ -7,7 +8,6 @@ import '../data/models/restaurant.dart';
 import '../data/models/category.dart';
 import '../data/models/slider_image_model.dart';
 import '../services/api_service.dart';
-import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/values_constant.dart';
 
@@ -36,6 +36,8 @@ class MarketController extends GetxController {
 
   void selectCategory(Category category) {
     selectCategories(category);
+    Get.find<MarketProductController>().productsMarket.clear();
+
     Get.toNamed(AppRoutes.categoryDetailsScreen);
   }
 

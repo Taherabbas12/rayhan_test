@@ -23,6 +23,9 @@ class MarketProductController extends GetxController {
   void onInit() {
     super.onInit();
     if (marketController.selectCategories.value != null) {
+      logger.w(
+        '---------------a.   ${marketController.selectCategories.value}      ------------',
+      );
       fetchSubCategores(marketController.selectCategories.value!.id);
     }
   }
@@ -66,6 +69,7 @@ class MarketProductController extends GetxController {
 
   Future<void> fetchSubCategores(int id) async {
     isLoading.value = true;
+    isLoadingProduct.value = true;
 
     try {
       final StateReturnData response = await ApiService.postData(
@@ -104,8 +108,6 @@ class MarketProductController extends GetxController {
     required int idCategores,
     int subCategorie = 0,
   }) async {
-    isLoadingProduct.value = true;
-
     try {
       final StateReturnData response = await ApiService.getData(
         ApiConstants.marketProduct(idCategores, subCategory: subCategorie),

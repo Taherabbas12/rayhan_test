@@ -22,6 +22,10 @@ class CategoryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    marketProductController.fetchSubCategores(
+      marketController.selectCategories.value!.id,
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: Obx(
