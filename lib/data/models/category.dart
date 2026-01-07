@@ -3,12 +3,14 @@ class Category {
   final String name;
   final String image;
   final String type;
+  final String? sort;
 
   Category({
     required this.id,
     required this.name,
     required this.image,
     required this.type,
+    this.sort,
   });
 
   factory Category.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class Category {
       name: json['name'] ?? '',
       image: json['image'] ?? json['img'] ?? '',
       type: json['type'] ?? '',
+      sort: json['sort'] ?? '',
     );
   }
 

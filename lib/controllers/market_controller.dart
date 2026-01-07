@@ -8,6 +8,7 @@ import '../data/models/restaurant.dart';
 import '../data/models/category.dart';
 import '../data/models/slider_image_model.dart';
 import '../services/api_service.dart';
+import '../services/error_message.dart';
 import '../utils/constants/api_constants.dart';
 import '../utils/constants/values_constant.dart';
 
@@ -59,10 +60,11 @@ class MarketController extends GetxController {
       );
       // logger.e('Market categories response: ${response.data}');
       if (response.isStateSucess < 3) {
-        List<dynamic> newVideosJson = response.data;
-
+        List<dynamic> newCategoresJson = response.data;
+        logger.w('----- market ---- ');
+        logger.w(newCategoresJson);
         List<Category> newRestaurantCategory = Category.fromJsonList(
-          newVideosJson,
+          newCategoresJson,
         );
         marketCategories.clear();
         // marketCategories.add(
@@ -74,6 +76,9 @@ class MarketController extends GetxController {
         //   ),
         // );
         marketCategories.addAll(newRestaurantCategory);
+        marketCategories.sort(
+          (a, b) => int.parse(a.sort!).compareTo(int.parse(b.sort!)),
+        );
         selectCategories(marketCategories[0]);
       }
     } catch (e) {

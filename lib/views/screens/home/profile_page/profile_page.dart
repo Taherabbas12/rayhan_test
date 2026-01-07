@@ -95,8 +95,8 @@ class ProfilePage extends StatelessWidget {
                   child: Column(
                     children: [
                       itemWidget(
-                        'اعمل معنا',
-                        CupertinoIcons.person_add,
+                        'لاسئلة الشائعة',
+                        CupertinoIcons.question,
                         onTap: () {},
                       ),
                       itemWidget(
