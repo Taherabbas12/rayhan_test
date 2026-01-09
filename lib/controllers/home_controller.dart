@@ -21,7 +21,10 @@ class HomeController extends GetxController {
 
   void changeIndex(int index) {
     currentIndex(index);
-    pageController.jumpToPage(index); // ← الانتقال عند التغيير
+    // التحقق من أن الـ PageController مرتبط بـ PageView قبل الانتقال
+    if (pageController.hasClients) {
+      pageController.jumpToPage(index);
+    }
   }
 
   void changeIndexPage(int index) {

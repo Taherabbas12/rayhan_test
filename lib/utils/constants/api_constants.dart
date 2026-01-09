@@ -59,6 +59,7 @@ class ApiConstants {
       'ServiceProduct/BySubCategory?pageSize=100&page=1&categoryId=$id&userType=customer';
   // Order
   static const String creatOrder = 'PlaysorderController1';
+  static const String checkOrder = 'PlaysorderController1/CheckOrder';
 
   static String getOrders(int id) => 'TbOrders/OrdersForUser?id=$id';
   static String getOrderDetils(int id, {String type = 'shop'}) =>

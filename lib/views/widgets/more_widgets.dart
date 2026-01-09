@@ -346,89 +346,290 @@ void showAddressPicker() {
 
   showModalBottomSheet(
     context: Get.context!,
+    isScrollControlled: true,
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
     ),
     builder: (context) {
-      return Obx(() {
-        if (controller.addresses.isEmpty) {
-          return const Padding(
-            padding: EdgeInsets.all(20),
-            child: Text("لا توجد عناوين محفوظة"),
-          );
-        }
+      int? selectedAddressId = controller.addressSelect.value?.id;
 
-        return SizedBox(
-          height: Get.height * 0.6,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(16),
-                child: Text(
-                  "اختر عنوانًا",
+      return StatefulBuilder(
+        builder: (context, setState) {
+          if (controller.addresses.isEmpty) {
+            return Container(
+              padding: const EdgeInsets.all(20),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // الخط العلوي
+                  Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  const Text("لا توجد عناوين محفوظة"),
+                  const SizedBox(height: 20),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlinedButton.icon(
+                      onPressed: () => Get.to(() => AddAddressScreen()),
+                      icon: const Icon(Icons.add, color: Colors.green),
+                      label: const Text(
+                        "إضافة عنوان جديد",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                      ),
+                      style: OutlinedButton.styleFrom(
+                        side: const BorderSide(color: Colors.green),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
+            );
+          }
+
+          return Container(
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // الخط العلوي
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // العنوان
+                Text(
+                  "اختار عنوان التوصيل",
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: controller.addresses.length,
-                  itemBuilder: (context, index) {
-                    final address = controller.addresses[index];
-                    return ListTile(
-                      title: Text(
-                        address.nickName.isNotEmpty
-                            ? address.nickName
-                            : "عنوان بدون اسم",
-                      ),
-                      subtitle: Text(
-                        "بلوك ${address.blockNo}، بناية ${address.buildingNo}، منزل ${address.homeNo}",
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      onTap: () {
-                        // ✅ اختيار العنوان
-                        controller.addressSelect(address);
-                        try {
-                          Get.back(); // إغلاق الـ BottomSheet
-                        } catch (e) {
-                          //
-                        }
-                      },
-                      selected:
-                          controller.addressSelect.value?.id == address.id,
-                      selectedTileColor: Colors.green.shade50,
-                    );
-                  },
+                const SizedBox(height: 20),
+
+                // قائمة العناوين
+                ConstrainedBox(
+                  constraints: BoxConstraints(maxHeight: Get.height * 0.4),
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: controller.addresses.length,
+                    separatorBuilder:
+                        (context, index) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final address = controller.addresses[index];
+                      final isSelected = selectedAddressId == address.id;
+                      final isDefault =
+                          controller.addressSelect.value?.id == address.id;
+
+                      return InkWell(
+                        onTap: () {
+                          setState(() {
+                            selectedAddressId = address.id;
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(Values.circle),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 16,
+                            vertical: 14,
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Values.circle),
+                            border: Border.all(
+                              color:
+                                  isSelected
+                                      ? ColorApp.primaryColor
+                                      : ColorApp.borderColor,
+                              width: isSelected ? 2 : 1,
+                            ),
+                          ),
+                          child: Row(
+                            children: [
+                              // أيقونة الاختيار
+                              Container(
+                                width: 24,
+                                height: 24,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color:
+                                        isSelected
+                                            ? ColorApp.primaryColor
+                                            : Colors.grey.shade400,
+                                    width: 2,
+                                  ),
+                                  color:
+                                      isSelected
+                                          ? ColorApp.primaryColor
+                                          : Colors.transparent,
+                                ),
+                                child:
+                                    isSelected
+                                        ? const Icon(
+                                          Icons.check,
+                                          size: 16,
+                                          color: Colors.white,
+                                        )
+                                        : null,
+                              ),
+                              const SizedBox(width: 12),
+
+                              // تفاصيل العنوان
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          address.nickName.isNotEmpty
+                                              ? address.nickName
+                                              : "عنوان بدون اسم",
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 15,
+                                          ),
+                                        ),
+                                        if (isDefault) ...[
+                                          const SizedBox(width: 8),
+                                          Container(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 8,
+                                              vertical: 4,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Colors.grey.shade200,
+                                              borderRadius:
+                                                  BorderRadius.circular(6),
+                                            ),
+                                            child: const Text(
+                                              "الإفتراضي",
+                                              style: TextStyle(
+                                                fontSize: 11,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      address.toString(),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: const TextStyle(
+                                        color: Colors.black54,
+                                        fontSize: 13,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+
+                              // أيقونة الموقع
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: ColorApp.primaryColor,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.location_on,
+                                  color: Colors.white,
+                                  size: 20,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-              Container(
-                margin: EdgeInsets.all(Values.circle),
-                width: double.infinity,
-                height: 50,
-                child: OutlinedButton.icon(
-                  onPressed: () => Get.to(() => AddAddressScreen()),
-                  icon: const Icon(Icons.add, color: Colors.green),
-                  label: const Text(
-                    "إضافة عنوان جديد",
-                    style: TextStyle(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
+
+                const SizedBox(height: 16),
+
+                // زر إضافة عنوان جديد
+                SizedBox(
+                  width: double.infinity,
+                  height: 50,
+                  child: OutlinedButton.icon(
+                    onPressed: () => Get.to(() => AddAddressScreen()),
+                    icon: const Icon(Icons.add, color: Colors.green),
+                    label: const Text(
+                      "إضافة عنوان جديد",
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(color: Colors.green),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
+                      ),
                     ),
                   ),
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Colors.green),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
+                ),
+
+                const SizedBox(height: 16),
+
+                // زر التأكيد
+                SizedBox(
+                  width: double.infinity,
+                  height: 55,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // تحديث العنوان المختار
+                      final selected = controller.addresses.firstWhereOrNull(
+                        (a) => a.id == selectedAddressId,
+                      );
+                      if (selected != null) {
+                        controller.addressSelect(selected);
+                      }
+                      Get.back();
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorApp.primaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: const Text(
+                      "تأكيد",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 50),
-            ],
-          ),
-        );
-      });
+                const SizedBox(height: 10),
+              ],
+            ),
+          );
+        },
+      );
     },
   );
 }

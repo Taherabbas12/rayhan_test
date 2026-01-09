@@ -15,6 +15,10 @@ class MyRequestController extends GetxController {
   RxBool isDetailsLoading = RxBool(false);
   RxList<OrderItem> orderItem = RxList<OrderItem>([]);
   RxList<OrderItem> orderItemService = RxList<OrderItem>([]);
+
+  // الطلب الحالي المحدد
+  Rx<OrderModel?> selectedOrder = Rx<OrderModel?>(null);
+
   List<String> orderTypes = ['الحالية', 'المكتملة'];
   RxString selectType = 'الحالية'.obs;
   void changeType(String type) {
@@ -54,8 +58,9 @@ class MyRequestController extends GetxController {
 
   //
 
-  Future<void> fetchOrderDetails(int id) async {
+  Future<void> fetchOrderDetails(int id, {OrderModel? order}) async {
     isDetailsLoading.value = true;
+    selectedOrder.value = order; // تخزين الطلب المحدد
 
     try {
       orderItem.clear();

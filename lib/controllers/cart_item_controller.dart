@@ -7,12 +7,15 @@ import 'package:rayhan_test/data/models/user_model.dart';
 import 'package:rayhan_test/utils/constants/api_constants.dart';
 import '../data/database/cart_db.dart';
 import '../data/models/cart_item.dart';
+import '../data/models/check_order_response.dart';
 import '../data/models/restaurant.dart';
 import '../routes/app_routes.dart';
 import '../services/api_service.dart';
 import '../services/error_message.dart';
 import '../utils/constants/color_app.dart';
+import '../views/screens/cart/order/order_loading_dialog.dart';
 import '../views/widgets/message_snak.dart';
+import 'home_controller.dart';
 import 'home_get_all_controller.dart';
 import 'my_address_controller.dart';
 import 'storage_controller.dart';
@@ -283,15 +286,107 @@ class CartItemController extends GetxController {
 
   // -----------------
   RxBool isLoadingOrder = false.obs;
+  RxBool isLoadingCheckOrder = false.obs;
   final TextEditingController noteController = TextEditingController();
   final TextEditingController couponController = TextEditingController();
+
+  // نتيجة التحقق من الطلب
+  Rx<CheckOrderResponse?> checkOrderResult = Rx<CheckOrderResponse?>(null);
+  RxString couponError = ''.obs;
+  RxBool isCouponApplied = false.obs;
+
+  /// التحقق من الطلب والكوبون
+  Future<void> checkOrder({String? couponCode}) async {
+    if (cartItems.isEmpty) {
+      MessageSnak.message('السلة فارغة');
+      return;
+    }
+
+    isLoadingCheckOrder(true);
+    couponError.value = '';
+
+    try {
+      Restaurant? restaurant = selectedRestaurant.value;
+      final totalPriceValue = total.value;
+      final taxValue = (totalPriceValue * 0.05);
+      final deliveryPriceValue =
+          restaurant?.deliveryPrice ??
+          homeGetAllController.deleveryPrice.value.toDouble();
+
+      UserModel userModel = UserModel.fromJson(StorageController.getAllData());
+      final controller = Get.find<MyAddressController>();
+
+      final itemsList =
+          cartItems.map((item) {
+            return {
+              "price": (item.price2 > 0 ? item.price2 : item.price1),
+              "count": item.quantity,
+              "productId": int.tryParse(item.productId) ?? 0,
+              "note": item.note,
+            };
+          }).toList();
+
+      final body = {
+        "branch": restaurant != null ? restaurant.id : 0,
+        "tax": taxValue,
+        "orderPrice": totalPriceValue,
+        "userId": userModel.id,
+        "coponName": couponCode ?? couponController.text.trim(),
+        "addressId": controller.addressSelect.value?.id ?? "",
+        "totalPrice": totalPriceValue + taxValue,
+        "deliveryPrice": deliveryPriceValue,
+        "mainCategoryId": 2,
+        "orderType": "Found",
+        "orderNote": noteController.text.trim(),
+        "items": itemsList,
+      };
+
+      final StateReturnData response = await ApiService.postData(
+        ApiConstants.checkOrder,
+        body,
+      );
+
+      if (response.isStateSucess < 3 && response.data != null) {
+        checkOrderResult.value = CheckOrderResponse.fromJson(response.data);
+        if (couponCode != null && couponCode.isNotEmpty) {
+          if (checkOrderResult.value!.hasCouponDiscount) {
+            isCouponApplied.value = true;
+            MessageSnak.message(
+              'تم تطبيق الكوبون بنجاح',
+              color: ColorApp.greenColor,
+            );
+          } else {
+            couponError.value = 'الكوبون غير صالح أو لا يوجد خصم';
+            isCouponApplied.value = false;
+          }
+        }
+      } else {
+        couponError.value = 'فشل التحقق من الطلب';
+      }
+    } catch (e) {
+      couponError.value = 'حدث خطأ: $e';
+    } finally {
+      isLoadingCheckOrder(false);
+    }
+  }
+
+  /// إزالة الكوبون
+  void removeCoupon() {
+    couponController.clear();
+    isCouponApplied.value = false;
+    couponError.value = '';
+    checkOrderResult.value = null;
+  }
 
   Future<void> submitOrderFromCart() async {
     if (cartItems.isEmpty) {
       MessageSnak.message('السلة فارغة أو المطعم غير محدد');
       return;
     }
-    isLoadingOrder(true);
+
+    // عرض دايلوج التحميل
+    OrderLoadingDialog.show(message: 'جاري تنفيذ العملية ...');
+
     Restaurant? restaurant;
     if (selectedRestaurant.value != null) {
       restaurant = selectedRestaurant.value!;
@@ -337,6 +432,16 @@ class CartItemController extends GetxController {
 
     UserModel userModel = UserModel.fromJson(StorageController.getAllData());
 
+    // استخدام نتائج التحقق من الطلب إذا كانت متوفرة
+    final finalDeliveryPrice =
+        checkOrderResult.value?.newDeliveryPrice ?? deliveryPriceValue;
+    final finalTotalPrice =
+        checkOrderResult.value?.finalPrice ??
+        (totalWithOutDelivery + deliveryPriceValue);
+    final appliedCoupon =
+        isCouponApplied.value ? couponController.text.trim() : '';
+    final couponDiscount = checkOrderResult.value?.coponDiscount ?? 0;
+
     final body = createOrderBody(
       branchId: restaurant != null ? restaurant.id.toString() : '0',
       tax: taxValue,
@@ -344,10 +449,10 @@ class CartItemController extends GetxController {
       userId: userModel.id.toString(),
 
       total: totalWithOutDelivery.toString(),
-      deliveryPrice: deliveryPriceValue.toString(),
+      deliveryPrice: finalDeliveryPrice.toString(),
 
       shopId: restaurant != null ? restaurant.id.toString() : '',
-      finalPrice: (totalWithOutDelivery + deliveryPriceValue).toString(),
+      finalPrice: finalTotalPrice.toString(),
 
       // orderType: "Found",
       shopType: selectedCartType.value == 'المطاعم' ? "restaurant" : '',
@@ -358,8 +463,8 @@ class CartItemController extends GetxController {
       deviceId: '-----',
       orderNote: noteController.text.trim(),
       items: itemsList,
-      promoCode: '',
-      promoCodeName: '',
+      promoCode: couponDiscount.toString(),
+      promoCodeName: appliedCoupon,
     );
     // .e(body);
 
@@ -374,16 +479,30 @@ class CartItemController extends GetxController {
       if (response.isStateSucess < 3) {
         await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
 
-        Get.offAllNamed(AppRoutes.home);
+        // إغلاق دايلوج التحميل
+        OrderLoadingDialog.hide();
 
-        MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
+        // عرض شاشة النجاح
+        OrderSuccessDialog.show(
+          title: 'تم إتمام الطلب',
+          onGoHome: () {
+            Get.offAllNamed(AppRoutes.home);
+          },
+          onViewOrders: () {
+            Get.offAllNamed(AppRoutes.home);
+            // الانتقال لصفحة الطلبات
+            Future.delayed(const Duration(milliseconds: 300), () {
+              Get.find<HomeController>().changeIndex(1);
+            });
+          },
+        );
       } else {
+        OrderLoadingDialog.hide();
         MessageSnak.message('فشل إرسال الطلب');
       }
     } catch (e) {
+      OrderLoadingDialog.hide();
       MessageSnak.message('حدث خطأ أثناء إرسال الطلب: $e');
-    } finally {
-      isLoadingOrder(false);
     }
   }
 
@@ -392,7 +511,10 @@ class CartItemController extends GetxController {
       MessageSnak.message('السلة فارغة');
       return;
     }
-    isLoadingOrder(true);
+
+    // عرض دايلوج التحميل
+    OrderLoadingDialog.show(message: 'جاري تنفيذ العملية ...');
+
     Restaurant? restaurant;
     if (selectedRestaurant.value != null) {
       restaurant = selectedRestaurant.value!;
@@ -449,16 +571,30 @@ class CartItemController extends GetxController {
         print('clear cart');
         await clearCart(currentCartType!.name, type: restaurant?.type ?? '');
         print('clear cart');
-        Get.offAllNamed(AppRoutes.home);
 
-        MessageSnak.message('تم إرسال الطلب بنجاح', color: ColorApp.greenColor);
+        // إغلاق دايلوج التحميل
+        OrderLoadingDialog.hide();
+
+        // عرض شاشة النجاح
+        OrderSuccessDialog.show(
+          title: 'تم إتمام الطلب',
+          onGoHome: () {
+            Get.offAllNamed(AppRoutes.home);
+          },
+          onViewOrders: () {
+            Get.offAllNamed(AppRoutes.home);
+            Future.delayed(const Duration(milliseconds: 300), () {
+              Get.find<HomeController>().changeIndex(1);
+            });
+          },
+        );
       } else {
+        OrderLoadingDialog.hide();
         MessageSnak.message('فشل إرسال الطلب');
       }
     } catch (e) {
+      OrderLoadingDialog.hide();
       MessageSnak.message('حدث خطأ أثناء إرسال الطلب: $e');
-    } finally {
-      isLoadingOrder(false);
     }
   }
 }
@@ -501,7 +637,7 @@ Map<String, dynamic> createOrderBody({
     "date": DateTime.now().toIso8601String(),
     "orderno": DateTime.now().millisecondsSinceEpoch.toString(),
     "tax": tax,
-    "addressId": controller.addressSelect.value!.id,
+    "addressId": controller.addressSelect.value?.id ?? "",
     "city": city,
     "location": location,
     "shopType": shopType,
@@ -538,7 +674,7 @@ Map<String, dynamic> createOrderServiceBody({
     "tax": tax,
     "orderPrice": orderPrice,
     "userId": userId,
-    "addressId": controller.addressSelect.value!.id,
+    "addressId": controller.addressSelect.value?.id ?? "",
     "totalPrice": totalPrice,
     "deliveryPrice": deliveryPrice,
     "mainCategoryId": mainCategoryId,

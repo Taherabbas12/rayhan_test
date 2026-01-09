@@ -6,6 +6,7 @@ import '../../../../utils/constants/color_app.dart';
 import '../../../../utils/constants/style_app.dart';
 import '../../../../utils/constants/values_constant.dart';
 import '../../../widgets/input_text.dart';
+import '../../auth/phone_field_widget.dart';
 
 class EditProfilePage extends StatelessWidget {
   final ProfileEditController controller = Get.find<ProfileEditController>();
@@ -28,73 +29,91 @@ class EditProfilePage extends StatelessWidget {
                 ? Center(child: CircularProgressIndicator())
                 : Form(
                   key: controller.formKey,
-                  child: SingleChildScrollView(
-                    child: Padding(
-                      padding: EdgeInsets.all(Values.spacerV * 2),
-                      child: Column(
-                        children: [
-                          /// الاسم
-                          InputText.inputStringValidator(
-                            "الاسم الكامل",
-                            controller.nameController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "يرجى إدخال الاسم";
-                              }
-                              return null;
-                            },
-                            w: double.infinity,
-                          ),
-
-                          /// رقم الهاتف
-                          InputText.inputStringValidator(
-                            "رقم الهاتف",
-                            controller.phoneController,
-                            isNumber: 11, // ← يدعم دخول أرقام فقط + حد أقصى
-                            validator: (value) {
-                              if (value == null || value.length < 10) {
-                                return "رقم الهاتف غير صحيح";
-                              }
-                              return null;
-                            },
-                            w: double.infinity,
-                          ),
-
-                          /// تاريخ الميلاد
-                          InputText.inputStringValidator(
-                            "تاريخ الميلاد",
-                            controller.birthController,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return "يرجى إدخال تاريخ الميلاد";
-                              }
-                              return null;
-                            },
-                            w: double.infinity,
-                          ),
-
-                          SizedBox(height: Values.spacerV * 3),
-
-                          ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorApp.primaryColor,
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 40,
-                                vertical: 14,
-                              ),
-                            ),
-                            onPressed: controller.updateProfile,
-                            child: Text(
-                              "حفظ التعديلات",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                  child: ListView(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: Values.circle * 2,
+                      vertical: Values.circle,
                     ),
+                    children: [
+                      // العنوان الرئيسي
+                      Text(
+                        'تحديث بياناتك الشخصية 👤',
+                        style: StringStyle.headLineStyle,
+                      ),
+                      SizedBox(height: Values.circle),
+                      Text(
+                        'يمكنك تعديل معلوماتك الشخصية من هنا.',
+                        style: StringStyle.textTitle.copyWith(
+                          color: ColorApp.textSecondryColor,
+                        ),
+                      ),
+                      SizedBox(height: Values.spacerV * 2),
+
+                      // الاسم الكامل
+                      Text('الاسم الكامل', style: StringStyle.headerStyle),
+                      SizedBox(height: Values.circle),
+                      InputText.inputStringValidator(
+                        h: 60,
+                        'اكتب اسمك الكامل',
+                        controller.nameController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'الرجاء إدخال اسمك الكامل';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: Values.spacerV),
+
+                      // رقم الهاتف
+                      Text('رقم الهاتف', style: StringStyle.headerStyle),
+                      SizedBox(height: Values.circle),
+                      PhoneFieldWidget(
+                        w: 50,
+                        controller: controller.phoneController,
+                        enabled: true,
+                      ),
+                      SizedBox(height: Values.spacerV),
+
+                      // تاريخ الميلاد
+                      Text('تاريخ الميلاد', style: StringStyle.headerStyle),
+                      SizedBox(height: Values.circle),
+                      InputText.inputDatePicker(
+                        name: 'اختر تاريخ ميلادك',
+                        context: context,
+                        controller: controller.birthController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'الرجاء إدخال تاريخ ميلادك';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: Values.spacerV * 3),
+
+                      // زر حفظ التعديلات
+                      SizedBox(
+                        width: double.infinity,
+                        height: 50,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ColorApp.primaryColor,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          onPressed: controller.updateProfile,
+                          child: Text(
+                            "حفظ التعديلات",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
       ),

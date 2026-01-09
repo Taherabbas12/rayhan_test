@@ -81,9 +81,10 @@ class SearchPage extends StatelessWidget {
 
                     // توزيع جميع التابات بالتساوي
                     tabs: [
-                      Tab(text: 'المتاجر'),
-                      Tab(text: 'الطعام'),
                       Tab(text: 'الماركت'),
+                      Tab(text: 'الطعام'),
+
+                      Tab(text: 'المتاجر'),
                     ],
 
                     // لون التاب المحدد

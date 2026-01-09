@@ -25,6 +25,7 @@ import '../views/screens/cart/order/service_order/order_form_screen.dart';
 import '../views/screens/home/favorites/favorites_screen.dart';
 import '../views/screens/home/home_screen.dart';
 import '../views/screens/home/my_requests/order_detials_screen.dart';
+import '../views/screens/home/my_requests/order_tracking_screen.dart';
 import '../views/screens/home/profile_page/edit_profile_page.dart';
 import '../views/screens/market/market_screen.dart';
 import '../views/screens/market/view_category_details/category_details_screen.dart';
@@ -62,6 +63,7 @@ class AppRoutes {
   static const orderFormScreen = '/Order-Form-Screen';
   static const orderDetailsScreen = '/Order-Details-Screen';
   static const orderDetailsScreenServices = '/Order-Details-Screen-Services';
+  static const orderTrackingScreen = '/Order-Tracking-Screen';
   static const myAddressScreen = '/My-Address-Screen';
   static const checkTripInformaition = '/Check-Trip-Informaition-Screen';
   static const String editProfile = '/edit-profile';
@@ -84,6 +86,7 @@ class AppRoutes {
       name: orderDetailsScreenServices,
       page: () => OrderDetailsScreenServices(),
     ),
+    GetPage(name: orderTrackingScreen, page: () => OrderTrackingScreen()),
     GetPage(name: orderFormScreen, page: () => OrderFormScreen()),
     GetPage(
       name: checkTripInformaition,
